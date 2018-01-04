@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="视频播放," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言更多代码，请查看我的github：https://github.com/shuaijia/JsPlayer ，喜欢的话就给个star！^_^也可以关注我的公众号，搜索  安卓干货营 现在越来越多的视频网站或者客户端支持弹幕功能，弹幕功能似乎也成了很多人的爱好，发弹幕，看弹幕成了大家吐槽、搞笑、发表看法的一种方式。 而国内弹幕的鼻祖应该就算A站和B站了。  弹幕（barrage），中文流行词语，">
+<meta name="keywords" content="视频播放">
+<meta property="og:type" content="article">
+<meta property="og:title" content="轻松又酷炫地实现弹幕效果——手把手教学">
+<meta property="og:url" content="http://shuaijia.github.io/2018/01/04/轻松又酷炫地实现弹幕效果——手把手教学/index.html">
+<meta property="og:site_name" content="Android机动车">
+<meta property="og:description" content="前言更多代码，请查看我的github：https://github.com/shuaijia/JsPlayer ，喜欢的话就给个star！^_^也可以关注我的公众号，搜索  安卓干货营 现在越来越多的视频网站或者客户端支持弹幕功能，弹幕功能似乎也成了很多人的爱好，发弹幕，看弹幕成了大家吐槽、搞笑、发表看法的一种方式。 而国内弹幕的鼻祖应该就算A站和B站了。  弹幕（barrage），中文流行词语，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.blog.csdn.net/20170930152359232?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170930170626454?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-01-04T01:39:23.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="轻松又酷炫地实现弹幕效果——手把手教学">
+<meta name="twitter:description" content="前言更多代码，请查看我的github：https://github.com/shuaijia/JsPlayer ，喜欢的话就给个star！^_^也可以关注我的公众号，搜索  安卓干货营 现在越来越多的视频网站或者客户端支持弹幕功能，弹幕功能似乎也成了很多人的爱好，发弹幕，看弹幕成了大家吐槽、搞笑、发表看法的一种方式。 而国内弹幕的鼻祖应该就算A站和B站了。  弹幕（barrage），中文流行词语，">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170930152359232?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shuaijia.github.io/2018/01/04/轻松又酷炫地实现弹幕效果——手把手教学/"/>
+
+
+
+
+
+  <title>轻松又酷炫地实现弹幕效果——手把手教学 | Android机动车</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Android机动车</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人之所以能，是相信能</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/04/轻松又酷炫地实现弹幕效果——手把手教学/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">轻松又酷炫地实现弹幕效果——手把手教学</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">
+                2018-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>更多代码，请查看我的github：<a href="https://github.com/shuaijia/JsPlayer" target="_blank" rel="noopener">https://github.com/shuaijia/JsPlayer</a> ，喜欢的话就给个star！^_^<br>也可以关注我的公众号，搜索  <strong>安卓干货营</strong></p>
+<p>现在越来越多的视频网站或者客户端支持弹幕功能，弹幕功能似乎也成了很多人的爱好，发弹幕，看弹幕成了大家吐槽、搞笑、发表看法的一种方式。</p>
+<p>而国内弹幕的鼻祖应该就算A站和B站了。</p>
+<blockquote>
+<p>弹幕（barrage），中文流行词语，原意指用大量或少量火炮提供密集炮击。而弹幕，顾名思义是指子弹多而形成的幕布，大量吐槽评论从屏幕飘过时效果看上去像是飞行射击游戏里的弹幕。</p>
+</blockquote>
+<p>最近一直在写视频播放器，那弹幕怎么能少得了呢！所以把自己开发弹幕功能的思路写出来与大家分享。</p>
+<p>依旧还是先上效果图：</p>
+<p><img src="http://img.blog.csdn.net/20170930152359232?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="大体思路"><a href="#大体思路" class="headerlink" title="大体思路"></a>大体思路</h3><p>我们的目标是将各式各样的itemView展示到播放器上方，并且使之滚动起来，itemView支持自定义，这样看起来和<strong>ListView的功能很相像</strong>，但与之不一样的是，<strong>弹幕是多行多列，需要计算每个itemView的位置，且一直在滚动</strong>。</p>
+<p>所以，我采用适配器模式，仿ListView的Adapter来实现弹幕功能。<br>想到这里，很多人就会觉得这不典型的横向瀑布流嘛，用RecyclerView或者flexbox很轻松就实现了。</p>
+<p>但我想自己从设计模式、实现原理来考虑、设计，从而也可以更深刻地理解适配器模式和ListView的原理，如果您想使用RecyclerView来实现，可以自己试试。</p>
+<h3 id="关键："><a href="#关键：" class="headerlink" title="关键："></a>关键：</h3><ul>
+<li>使用适配器模式将各式各样的itemView进行适配、处理、展示</li>
+<li>使用hadler定时发送消息使itemView滚动</li>
+<li>itemView最佳位置的计算</li>
+<li>滚动区域的设置</li>
+</ul>
+<hr>
+<p>接下来就一起来实现：</p>
+<h3 id="1、实体类"><a href="#1、实体类" class="headerlink" title="1、实体类"></a>1、实体类</h3><p>实体类当然不能少了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 弹幕实体类</span><br><span class="line"> * Created by jia on 2017/9/25.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class DanmuModel &#123;</span><br><span class="line"></span><br><span class="line">    private int type;</span><br><span class="line"></span><br><span class="line">    public int getType() &#123;</span><br><span class="line">        return type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setType(int type) &#123;</span><br><span class="line">        this.type = type;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中的type是model实体类的类型，因为弹幕的itemView中会有多种类型，对应不同type的实体类。</p>
+<p>使用时可以自己定义实体类，继承自DanmuModel ，也可以不继承，只要能区分不同类型就可以：<strong>因为自己稍后的adapter中没有像ListView的Adapter一样定义了获取item类型的方法，所以就在getView方法中依据type选择不同的itemView即可</strong>。</p>
+<hr>
+<h3 id="2、BaseAdapter"><a href="#2、BaseAdapter" class="headerlink" title="2、BaseAdapter"></a>2、BaseAdapter</h3><p><img src="http://img.blog.csdn.net/20170930170626454?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>首先Adapter定义为抽象类，且设置泛型M，M就是对应的实体类。</p>
+<p>在Adapter中定义三个抽象方法：</p>
+<ol>
+<li><strong>getViewTypeArray ：获取itemView的类型type组成的数组</strong></li>
+<li><strong>getSingleLineHeight ：获取单行itemView的高度</strong></li>
+<li><strong>getView ：获取itemView，功能类似于ListView的Adapter中getView方法</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public abstract class DanmuAdapter&lt;M&gt; &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 获取类型数组</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public abstract int[] getViewTypeArray();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取单行弹幕 高度</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public abstract int getSingleLineHeight();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取itemView</span><br><span class="line">     *</span><br><span class="line">     * @param entry</span><br><span class="line">     * @param convertView</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public abstract View getView(M entry, View convertView);</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">这样适配器抽象类就定义好了嘛？不是的！</span><br><span class="line"></span><br><span class="line">**在显示弹幕的时候会，会创建大量的View对象，如果不做处理，很容易造成内存溢出，所以我们要进行缓存优化**：</span><br><span class="line"></span><br><span class="line">**A、首先创建了map集合**</span><br></pre></td></tr></table></figure>
+<p>// 使用HashMap，以类型和对应view的栈为key-value存储，实现缓存<br>private HashMap<integer, stack<view="">&gt; cacheViews;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">以view的类型为key，对应的view存入栈中，以栈为value。</span><br><span class="line"></span><br><span class="line">**B、构造中**</span><br></pre></td></tr></table></figure></integer,></p>
+<p>public DanmuAdapter() {<br>    cacheViews = new HashMap&lt;&gt;();<br>    typeArray = getViewTypeArray();<br>    for (int i = 0; i &lt; typeArray.length; i++) {<br>        Stack<view> stack = new Stack&lt;&gt;();<br>        cacheViews.put(typeArray[i], stack);<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">获取itemView类型数组，循环创建对应type的栈。</span><br><span class="line"></span><br><span class="line">**C、itemView加入缓存**</span><br></pre></td></tr></table></figure></view></p>
+<p>/**</p>
+<ul>
+<li>将弹幕itemView加入缓存（压栈）<br>*</li>
+<li>@param type</li>
+<li>@param view<br>*/<br>synchronized public void addViewToCache(int type, View view) {<br>if (cacheViews.containsKey(type)) {<pre><code>cacheViews.get(type).push(view);
+</code></pre>} else {<pre><code>throw new Error(&quot;your cache has not this type&quot;);
+</code></pre>}<br>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**D、将itemView移出缓存**</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>将itemView移出缓存（弹栈）<br>*</li>
+<li>@param type</li>
+<li>@return<br>*/<br>synchronized public View removeViewFromCache(int type) {<br>  if (cacheViews.containsKey(type) &amp;&amp; cacheViews.get(type).size() &gt; 0)<pre><code>return cacheViews.get(type).pop();
+</code></pre>  else<pre><code>return null;
+</code></pre>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**E、减小缓存大小**</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>减小缓存大小<br>*/<br>public void shrinkCacheSize() {<br>  int[] typeArray = getViewTypeArray();<br>  for (int i = 0; i &lt; typeArray.length; i++) {<pre><code>if (cacheViews.containsKey(typeArray[i])) {
+    Stack&lt;View&gt; typeStack = cacheViews.get(typeArray[i]);
+    int length = typeStack.size();
+    // 循环弹栈，直到大小变为原来一半
+    while (typeStack.size() &gt; (int) (length / 2.0 + 0.5)) {
+        typeStack.pop();
+    }
+    cacheViews.put(typeArray[i], typeStack);
+}
+</code></pre>  }<br>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**F、获取缓存大小**</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>获取缓存大小<br>*</li>
+<li>@return<br>*/<br>public int getCacheSize() {<br>  int size = 0;<br>  int[] types = getViewTypeArray();<br>  for (int i = 0; i &lt; types.length; i++) {<pre><code>size = size + cacheViews.get(types[i]).size();
+</code></pre>  }<br>  return size;<br>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ok，到这里BaseAdapter就封装完成了</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------</span><br><span class="line">### 3、DanmuView</span><br><span class="line">继承自ViewGroup，重写其三个构造方法是必然的。不再累赘</span><br><span class="line"></span><br><span class="line">**A、变量、以及get/set方法**</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>// 移动速度<br>public static final int LOWER_SPEED = 1;<br>public static final int NORMAL_SPEED = 4;<br>public static final int HIGH_SPEED = 8;</p>
+<p>// 出现位置<br>public final static int GRAVITY_TOP = 1;    //001<br>public final static int GRAVITY_CENTER = 2;  //010<br>public final static int GRAVITY_BOTTOM = 4;  //100<br>public final static int GRAVITY_FULL = 7;   //111</p>
+<p>private int gravity = GRAVITY_FULL;</p>
+<p>private int speed = 4;</p>
+<p>private int spanCount = 6;</p>
+<p>private int WIDTH, HEIGHT;</p>
+<p>private int singltLineHeight;</p>
+<p>private DanmuAdapter adapter;</p>
+<p>public List<view> spanList;</view></p>
+<p>private OnItemClickListener onItemClickListener;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**首先要有这样一个思路，在适配器中抽取出方法，返回itemView的高度，在弹幕View中根据弹幕绘制区域高度，除以itemView的高度，算出合理的弹幕行数（这里大家也理解了为什么在写适配器的时候要定义getSingleLineHeight()方法了）。**</span><br><span class="line"></span><br><span class="line">**B、再次封装实体类**</span><br><span class="line"></span><br><span class="line">这里只是简单得将传进来的实体类DanmuModel与计算出的对应的最佳行数进行封装。</span><br></pre></td></tr></table></figure></p>
+<p>class InnerEntity {<br>    public int bestLine;<br>    public DanmuModel model;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**C、设置Adapter**</span><br></pre></td></tr></table></figure></p>
+<p>public void setAdapter(DanmuAdapter adapter) {<br>    this.adapter = adapter;<br>    singltLineHeight = adapter.getSingleLineHeight();<br>    // 开线程使弹幕滚动起来，稍后会介绍<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**D、计算最佳位置**</span><br><span class="line"></span><br><span class="line">关键的来了，先上代码</span><br></pre></td></tr></table></figure></p>
+<pre><code>/**
+ * 计算最佳位置
+ *
+ * @return
+ */
+private int getBestLine() {
+    // 转换为2进制
+    int gewei = gravity % 2;
+    int temp = gravity / 2;
+    int shiwei = temp % 2;
+    temp = temp / 2;
+    int baiwei = temp % 2;
+
+    // 将所有的行分为三份,前两份行数相同,将第一份的行数四舍五入
+    int firstLine = (int) (spanCount / 3.0 + 0.5);
+
+    List&lt;Integer&gt; legalLines = new ArrayList&lt;&gt;();
+    if (gewei == 1) {
+        for (int i = 0; i &lt; firstLine; i++) {
+            legalLines.add(i);
+        }
+    }
+    if (shiwei == 1) {
+        for (int i = firstLine; i &lt; firstLine * 2; i++) {
+            legalLines.add(i);
+        }
+    }
+    if (baiwei == 1) {
+        for (int i = firstLine * 2; i &lt; spanCount; i++) {
+            legalLines.add(i);
+        }
+    }
+
+    int bestLine = 0;
+    // 如果有空行,将空行返回
+    for (int i = 0; i &lt; spanCount; i++) {
+        if (spanList.get(i) == null) {
+            bestLine = i;
+            if (legalLines.contains(bestLine))
+                return bestLine;
+        }
+    }
+
+    float minSpace = Integer.MAX_VALUE;
+    // 没有空行，就找最大空间的
+    for (int i = spanCount - 1; i &gt;= 0; i--) {
+        if (legalLines.contains(i)) {
+            if (spanList.get(i).getX() + spanList.get(i).getWidth() &lt;= minSpace) {
+                minSpace = spanList.get(i).getX() + spanList.get(i).getWidth();
+                bestLine = i;
+            }
+        }
+    }
+
+    return bestLine;
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">不知是否有注意到，在定义显示位置的常亮的时候，只用了1，2，4，7，因为它们转化为二进制数为001，010，100，111，这里用了一个巧妙的思路，**三位数代表屏幕三个位置，0表示不显示弹幕，1表示显示弹幕**（有没有豁然开朗）</span><br><span class="line"></span><br><span class="line">大家可以参照代码来看，计算最佳位置的思路是这样的：</span><br><span class="line"></span><br><span class="line"> 1. 将设置的位置转为二进制数，判断显示位置</span><br><span class="line"> 2. 将所有的行分为三份,前两份行数相同,将第一份的行数四舍五入，将所有要显示弹幕的行数放入一集合中</span><br><span class="line"> 3. **由上至下循环判断是否有空行，有空行则直接返回，此行就是这个itemView的最佳位置**</span><br><span class="line"> 4. **没有空行的话，由下至上寻找最大空间返回，就是该itemView的最佳位置**</span><br><span class="line"></span><br><span class="line">**E、根据类型设置View**</span><br></pre></td></tr></table></figure>
+<pre><code>/**
+ * 添加view
+ */
+public void addTypeView(DanmuModel model, View child, boolean isReused) {
+    super.addView(child);
+    child.measure(0, 0);
+    //把宽高拿到，宽高都是包含ItemDecorate的尺寸
+    int width = child.getMeasuredWidth();
+    int height = child.getMeasuredHeight();
+
+    //获取最佳行数
+    int bestLine = getBestLine();
+    // 设置子view位置
+    child.layout(WIDTH, singltLineHeight * bestLine, WIDTH + width, singltLineHeight * bestLine + height);
+
+    InnerEntity innerEntity = null;
+    innerEntity = (InnerEntity) child.getTag(R.id.tag_inner_entity);
+    if (!isReused || innerEntity == null) {
+        innerEntity = new InnerEntity();
+    }
+    innerEntity.model = model;
+    innerEntity.bestLine = bestLine;
+    child.setTag(R.id.tag_inner_entity, innerEntity);
+
+    spanList.set(bestLine, child);
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这里就不多说了，将itemView的**model与最佳位置对应起来并设置位置**；</span><br><span class="line"></span><br><span class="line">然后将spanList（itemView集合）对应view设置进去。</span><br><span class="line"></span><br><span class="line">一定要注意：super.addView(child); child.measure(0, 0); 这两句话不能少！</span><br><span class="line"></span><br><span class="line">**F、添加弹幕**</span><br></pre></td></tr></table></figure>
+<pre><code>/**
+ * 添加弹幕view
+ *
+ * @param model
+ */
+public void addDanmu(final DanmuModel model) {
+    if (adapter == null) {
+        throw new Error(&quot;DanmuAdapter(an interface need to be implemented) can&apos;t be null,you should call setAdapter firstly&quot;);
+    }
+
+    View dmView = null;
+    if (adapter.getCacheSize() &gt;= 1) {
+        dmView = adapter.getView(model, adapter.removeViewFromCache(model.getType()));
+        if (dmView == null)
+            addTypeView(model, dmView, false);
+        else
+            addTypeView(model, dmView, true);
+    } else {
+        dmView = adapter.getView(model, null);
+        addTypeView(model, dmView, false);
+    }
+
+    //添加监听
+    dmView.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(onItemClickListener != null)
+                onItemClickListener.onItemClick(model);
+        }
+    });
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">此方法则是暴露外部的设置弹幕view的方法，这里注意一下，itemView有缓存就复用，没缓存就不复用，就ok了。</span><br><span class="line"></span><br><span class="line">**G、子线程计算时间，发送消息，handler处理view平移**</span><br></pre></td></tr></table></figure>
+<pre><code>private class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        int count = 0;
+        Message msg = null;
+        while(true){
+            if(count &lt; 7500){
+                count ++;
+            }
+            else{
+                count = 0;
+                if(DanmuView.this.getChildCount() &lt; adapter.getCacheSize() / 2){
+                    adapter.shrinkCacheSize();
+                    System.gc();
+                }
+            }
+            if(DanmuView.this.getChildCount() &gt;= 0){
+                msg = new Message();
+                msg.what = 1; //移动view
+                handler.sendMessage(msg);
+            }
+
+            try {
+                Thread.sleep(16);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这里注意：</span><br><span class="line">	Adapter缓存过大要及时清理；</span><br><span class="line">	每隔16毫秒让itemView位置刷新一次，这样视觉效果好一些；</span><br><span class="line">	在setAdapter中开启线程 new Thread(new MyRunnable()).start();</span><br></pre></td></tr></table></figure>
+<pre><code>Handler handler = new Handler() {
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        if (msg.what == 1) {
+            for(int i=0;i&lt;DanmuView.this.getChildCount();i++){
+                View view = DanmuView.this.getChildAt(i);
+                if(view.getX()+view.getWidth() &gt;= 0)
+                    // 向左滑动
+                    view.offsetLeftAndRight(0 - speed);
+                else{
+                    //添加到缓存中
+                    int type = ((InnerEntity)view.getTag(R.id.tag_inner_entity)).model.getType();
+                    adapter.addViewToCache(type,view);
+                    DanmuView.this.removeView(view);
+
+                }
+            }
+        }
+
+    }
+};
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">不再累赘，如果阅读完整代码，可以到我github查看源码和issue我^_^[https://github.com/shuaijia/JsPlayer](https://github.com/shuaijia/JsPlayer)	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------</span><br><span class="line">## 使用举例：</span><br><span class="line">### 1、实体类</span><br></pre></td></tr></table></figure>
+<p>/**</p>
+<ul>
+<li>Description:弹幕实体类</li>
+<li>Created by jia on 2017/9/25.</li>
+<li><p>人之所以能，是相信能<br>*/<br>public class MyDanmuModel extends DanmuModel {</p>
+<p> public String content;<br> public int textColor;<br> public String time;</p>
+<p> public String getTime() {</p>
+<pre><code>return time;
+</code></pre><p> }</p>
+<p> public void setTime(String time) {</p>
+<pre><code>this.time = time;
+</code></pre><p> }</p>
+<p> public String getContent() {</p>
+<pre><code>return content;
+</code></pre><p> }</p>
+<p> public void setContent(String content) {</p>
+<pre><code>this.content = content;
+</code></pre><p> }</p>
+<p> public int getTextColor() {</p>
+<pre><code>return textColor;
+</code></pre><p> }</p>
+<p> public void setTextColor(int textColor) {</p>
+<pre><code>this.textColor = textColor;
+</code></pre><p> }<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2、适配器</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>Description: 弹幕适配器</li>
+<li>Created by jia on 2017/9/25.</li>
+<li><p>人之所以能，是相信能<br>*/<br>public class MyDanmuAdapter extends DanmuAdapter<mydanmumodel> {</mydanmumodel></p>
+<p> private Context context;</p>
+<p> public MyDanmuAdapter(Context c){</p>
+<pre><code>super();
+context = c;
+</code></pre><p> }</p>
+<p> @Override<br> public int[] getViewTypeArray() {</p>
+<pre><code>int type[] = {0};
+return type;
+</code></pre><p> }</p>
+<p> @Override<br> public int getSingleLineHeight() {</p>
+<pre><code>View view = LayoutInflater.from(context).inflate(R.layout.item_danmu, null);
+//指定行高
+view.measure(0, 0);
+
+return view.getMeasuredHeight();
+</code></pre><p> }</p>
+<p> @Override<br> public View getView(MyDanmuModel entry, View convertView) {</p>
+<pre><code>ViewHolder vh=null;
+if(convertView==null){
+    convertView= LayoutInflater.from(context).inflate(R.layout.item_danmu,null);
+    vh=new ViewHolder();
+    vh.tv=convertView.findViewById(R.id.tv_danmu);
+    convertView.setTag(vh);
+}else{
+    vh= (ViewHolder) convertView.getTag();
+}
+
+vh.tv.setText(entry.getContent());
+vh.tv.setTextColor(entry.getTextColor());
+
+return convertView;
+</code></pre><p> }</p>
+<p> class ViewHolder{</p>
+<pre><code>TextView tv;
+</code></pre><p> }<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">有木有很像ListView的Adapter！</span><br><span class="line">相信大家一看就能明白，就不再多说。</span><br><span class="line"></span><br><span class="line">### 3、配置基本信息</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>jsplayer_danmu.setDanMuAdapter(new MyDanmuAdapter(this));<br>jsplayer_danmu.setDanMuGravity(3);<br>jsplayer_danmu.setDanMuSpeed(DanmuView.NORMAL_SPEED);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 4、创建实体类并设置给DanmuView</span><br></pre></td></tr></table></figure></p>
+<p>MyDanmuModel danmuEntity = new MyDanmuModel();<br>danmuEntity.setType(0);<br>danmuEntity.setContent(DANMU[random.nextInt(8)]);<br>danmuEntity.setTextColor(COLOR[random.nextInt(4)]);<br>jsplayer_danmu.addDanmu(danmuEntity);<br>```</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/upload/wxqr.jpg" alt="Jia Shuai wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您关注的我的微信公众号Android机动车</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章有用，就赏一杯咖啡钱，谢谢^_^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/upload/wxpay.jpg" alt="Jia Shuai WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/视频播放/" rel="tag"># 视频播放</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/03/Espresso—Android自动化测试框架/" rel="next" title="Espresso——Android自动化测试框架">
+                <i class="fa fa-chevron-left"></i> Espresso——Android自动化测试框架
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jia Shuai</p>
+              <p class="site-description motion-element" itemprop="description">贾帅的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shuaijia" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/jiashuai94" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大体思路"><span class="nav-number">2.</span> <span class="nav-text">大体思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键："><span class="nav-number">3.</span> <span class="nav-text">关键：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、实体类"><span class="nav-number">4.</span> <span class="nav-text">1、实体类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、BaseAdapter"><span class="nav-number">5.</span> <span class="nav-text">2、BaseAdapter</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jia Shuai</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
