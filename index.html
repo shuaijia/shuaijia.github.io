@@ -146,7 +146,7 @@
   <div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
-
+<a href="https://github.com/shuaijia"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -218,6 +218,298 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/05/SurfaceView-MediaPlayer封装之路/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/05/SurfaceView-MediaPlayer封装之路/" itemprop="url">SurfaceView+MediaPlayer封装之路</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-05T00:00:00+08:00">
+                2018-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="SurfaceView-MediaPlayer封装之路"><a href="#SurfaceView-MediaPlayer封装之路" class="headerlink" title="SurfaceView+MediaPlayer封装之路"></a>SurfaceView+MediaPlayer封装之路</h2><p><strong>我的播放器叫做JsPlayer，喜欢的话，就给个star喽^_^<a href="https://github.com/shuaijia/JsPlayer" target="_blank" rel="noopener">https://github.com/shuaijia/JsPlayer</a></strong></p>
+<p>这里我只介绍播放器封装思路，会贴出部分代码，如果大家想查看完整代码，可以去github查看，有不清楚或错误或改进的地方，可以issues 我！</p>
+<h2 id="写在之前"><a href="#写在之前" class="headerlink" title="写在之前"></a>写在之前</h2><p>先上效果图：（<strong>1.5版本新增弹幕功能</strong>）</p>
+<p><img src="http://img.blog.csdn.net/20170919140145619?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170919140242276?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170925163230227?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="为什么要用SurfaceView"><a href="#为什么要用SurfaceView" class="headerlink" title="为什么要用SurfaceView"></a>为什么要用SurfaceView</h3><p>它继承自类View，因此它本质上是一个View。但与普通View不同的是，它有自己的Surface。而SurfaceView自带一个Surface，这个Surface在WMS中有自己对应的WindowState，在SF中也会有自己的Layer。虽然在App端它仍在View hierachy中，但在Server端（WMS和SF）中，它与宿主窗口是分离的。这样的好处是对这个<strong>Surface的渲染可以放到单独线程</strong>去做，渲染时可以有自己的GL context。这对于一些游戏、视频等性能相关的应用非常有益，因为它不会影响主线程对事件的响应。</p>
+<p>SurfaceView内部自己持有surface，surface 创建、销毁、大小改变时系统来处理的，通过surfaceHolder 的callback回调通知。当画布创建好时，可以将surface绑定到MediaPlayer中。SurfaceView如果为用户可见的时候，创建SurfaceView的SurfaceHolder用于显示视频流解析的帧图片，如果发现SurfaceView变为用户不可见的时候，则立即销毁SurfaceView的SurfaceHolder，以达到节约系统资源的目的。</p>
+<p>关于更多SurfaceView的介绍，可参考我写的另一片文章：<a href="http://blog.csdn.net/jiashuai94/article/details/77882644" target="_blank" rel="noopener">http://blog.csdn.net/jiashuai94/article/details/77882644</a></p>
+<h3 id="MediaPlayer"><a href="#MediaPlayer" class="headerlink" title="MediaPlayer"></a>MediaPlayer</h3><p>MediaPlayer其实是一个封装的很好的音频、视频流媒体操作类，如果查看其源码，会发现其内部是调用的native方法，所以它其实是有C++实现的。既然是一个流媒体操作类，那么必然涉及到，播放、暂停、停止等操作，实际上MediaPlayer也为我们提供了相应的方法来直接操作流媒体。</p>
+<ul>
+<li>void statr()：开始或恢复播放。</li>
+<li>void stop()：停止播放。</li>
+<li>void pause()：暂停播放。　</li>
+<li>void setDataSource(String path)：通过一个媒体资源的地址指定MediaPlayer的数据源，这里的path可以是一个本地路径，也可以是网络路径。</li>
+</ul>
+<p>当然还有其他很多的方法，例如获取视频时长、获取当前位置、定位到某个位置等等方法，就不再一一列举，阅读<strong>JsPlayer</strong>的源码便会有所了解。</p>
+<h3 id="播放器结构"><a href="#播放器结构" class="headerlink" title="播放器结构"></a>播放器结构</h3><p><img src="http://img.blog.csdn.net/20170919142258355?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="UML图"><a href="#UML图" class="headerlink" title="UML图"></a>UML图</h3><p><img src="http://img.blog.csdn.net/20170918165320040?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<p>已经对SurfaceView+MediaPlayer封装视屏播放器有了大致的了解，接下来就开始视屏播放器的封装之旅吧！</p>
+<h2 id="1、工具类"><a href="#1、工具类" class="headerlink" title="1、工具类"></a>1、工具类</h2><p>工欲善其事，必先利其器！</p>
+<p>想封装结构清晰，使用方便的视频播放器，工具类是少不了的！JsPlayer主要用了以下几个工具类：</p>
+<ul>
+<li>DisplayUtils</li>
+<li>NetworkUtils</li>
+<li>StringUtils</li>
+</ul>
+<p><strong>DisplayUtils</strong>：负责界面展示相关工具，例如px、dp、sp的相互转换；获取屏幕宽高度；切换横屏、竖屏等；</p>
+<p><strong>NetworkUtils</strong>：判断手机是否联网；是否为wifi；是否是流量；网络状态等；</p>
+<p><strong>StringUtils</strong>：主要将long型毫秒转换为时间格式的字符串。<br>代码就不贴了，很简单。大家想了解，去github中查看吧。</p>
+<hr>
+<h2 id="2、实体类"><a href="#2、实体类" class="headerlink" title="2、实体类"></a>2、实体类</h2><p>为了在使用视频播放器时规范传入的数据，同时也方便使用者调用和封装，故定义了视频详情的接口：其包含两个抽象方法，分别返回视频地址和视频标题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 视频数据类</span><br><span class="line"> * 请实现本接口</span><br><span class="line"> */</span><br><span class="line">public interface IVideoInfo extends Serializable &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 视频标题</span><br><span class="line">     */</span><br><span class="line">    String getVideoTitle();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 视频播放路径（本地或网络）</span><br><span class="line">     */</span><br><span class="line">    String getVideoPath();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用户可根据项目实际情况对其进行扩展（<strong>需实现此接口即可</strong>），比如默认图地址，点赞数，是否购买，弹幕信息等等。但<strong>视频标题和视频地址必须返回</strong>！</p>
+<hr>
+<h2 id="3、回调相关"><a href="#3、回调相关" class="headerlink" title="3、回调相关"></a>3、回调相关</h2><p>大家都知道，VideoView或其他视频播放器在使用时，有准备好监听、播放完成监听、错误监听等等，可供开发者在对应情况进行对应处理；而且我们有时也需要在用户点击播放暂停、全屏、拖动进度条等情况下获得操作回调。因此，我们封装了两个回调接口：</p>
+<ul>
+<li>OnVideoControlListener：视频控制回调</li>
+<li>OnPlayerCallback：视频状态回调</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 视频控制监听</span><br><span class="line"> */</span><br><span class="line">public interface OnVideoControlListener &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 开始播放按钮</span><br><span class="line">     */</span><br><span class="line">    void onStartPlay();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回</span><br><span class="line">     */</span><br><span class="line">    void onBack();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 全屏</span><br><span class="line">     */</span><br><span class="line">    void onFullScreen();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 错误后的重试</span><br><span class="line">     */</span><br><span class="line">    void onRetry(int errorStatus);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 视频操作回调，是将系统MediaPlayer的常见回调封装</span><br><span class="line"> */</span><br><span class="line">public interface OnPlayerCallback &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 准备好</span><br><span class="line">     */</span><br><span class="line">    void onPrepared(MediaPlayer mp);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 视频size变化</span><br><span class="line">     */</span><br><span class="line">    void onVideoSizeChanged(MediaPlayer mp, int width, int height);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 缓存更新变化</span><br><span class="line">     *</span><br><span class="line">     * @param percent 缓冲百分比</span><br><span class="line">     */</span><br><span class="line">    void onBufferingUpdate(MediaPlayer mp, int percent);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 播放完成</span><br><span class="line">     */</span><br><span class="line">    void onCompletion(MediaPlayer mp);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 视频错误</span><br><span class="line">     * @param what  错误类型</span><br><span class="line">     * @param extra 特殊错误码</span><br><span class="line">     */</span><br><span class="line">    void onError(MediaPlayer mp, int what, int extra);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 视频加载状态变化</span><br><span class="line">     *</span><br><span class="line">     * @param isShow 是否显示loading</span><br><span class="line">     */</span><br><span class="line">    void onLoadingChanged(boolean isShow);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 视频状态变化</span><br><span class="line">     */</span><br><span class="line">    void onStateChanged(int curState);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然了，各位使用上述两个回调时，必须先实现、再使用，当然也可以基于它拓展了！</p>
+<hr>
+<h2 id="4、自定义view"><a href="#4、自定义view" class="headerlink" title="4、自定义view"></a>4、自定义view</h2><p>关于播放器中涉及到的、需要自定义的view主要有手势调节进度、音量、亮度时的弹框、控制器界面、错误界面。</p>
+<p><em>当然我们的JsPlayer视频播放器也是一自定义view，其手势控制也封装了一个view，这些我们稍后会详细介绍。</em></p>
+<ul>
+<li>JsVideoProgressOverlay：  调节进度 框</li>
+<li>JsVideoSystemOverlay：   调节音量、亮度 框</li>
+<li>JsVideoErrorView：  错误界面</li>
+<li>JsVideoControllerView：  控制器</li>
+</ul>
+<p>我的思路是这样的：将错误界面JsVideoErrorView再封装到控制器中JsVideoControllerView，这样便于在出错时的处理；而调节进度等弹框、控制器，当然还有SurfaceView，加载中等，它们会一同封装到视频播放器JsPlayer的自定义View中。</p>
+<h3 id="JsVideoProgressOverlay"><a href="#JsVideoProgressOverlay" class="headerlink" title="JsVideoProgressOverlay"></a><strong>JsVideoProgressOverlay</strong></h3><p><img src="http://img.blog.csdn.net/20170920141437268?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 滑动快进快退进度框</span><br><span class="line"> */</span><br><span class="line">public class JsVideoProgressOverlay extends FrameLayout &#123;</span><br><span class="line"></span><br><span class="line">    private ImageView mSeekIcon;</span><br><span class="line">    private TextView mSeekCurProgress;</span><br><span class="line">    private TextView mSeekDuration;</span><br><span class="line"></span><br><span class="line">    private int mDuration = -1;</span><br><span class="line">    private int mDelSeekDialogProgress = -1;</span><br><span class="line">    private int mSeekDialogStartProgress = -1;</span><br><span class="line"></span><br><span class="line">    public JsVideoProgressOverlay(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public JsVideoProgressOverlay(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public JsVideoProgressOverlay(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">        super(context, attrs, defStyleAttr);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void init() &#123;</span><br><span class="line">        LayoutInflater.from(getContext()).inflate(R.layout.video_overlay_progress, this);</span><br><span class="line"></span><br><span class="line">        mSeekIcon = (ImageView) findViewById(R.id.iv_seek_direction);</span><br><span class="line">        mSeekCurProgress = (TextView) findViewById(R.id.tv_seek_current_progress);</span><br><span class="line">        mSeekDuration = (TextView) findViewById(R.id.tv_seek_duration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 显示进度框</span><br><span class="line">     *</span><br><span class="line">     * @param delProgress 进度变化值</span><br><span class="line">     * @param curPosition player当前进度</span><br><span class="line">     * @param duration    player总长度</span><br><span class="line">     */</span><br><span class="line">    public void show(int delProgress, int curPosition, int duration) &#123;</span><br><span class="line">        if (duration &lt;= 0) return;</span><br><span class="line"></span><br><span class="line">        // 获取第一次显示时的开始进度</span><br><span class="line">        if (mSeekDialogStartProgress == -1) &#123;</span><br><span class="line">            Log.i(&quot;DDD&quot;, &quot;show: start seek = &quot; + mSeekDialogStartProgress);</span><br><span class="line">            mSeekDialogStartProgress = curPosition;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (getVisibility() != View.VISIBLE) &#123;</span><br><span class="line">            setVisibility(View.VISIBLE);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mDuration = duration;</span><br><span class="line">        mDelSeekDialogProgress -= delProgress;</span><br><span class="line">        int targetProgress = getTargetProgress();</span><br><span class="line"></span><br><span class="line">        if (delProgress &gt; 0) &#123;</span><br><span class="line">            // 回退</span><br><span class="line">            mSeekIcon.setImageResource(R.mipmap.ic_video_back);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 前进</span><br><span class="line">            mSeekIcon.setImageResource(R.mipmap.ic_video_speed);</span><br><span class="line">        &#125;</span><br><span class="line">        mSeekCurProgress.setText(StringUtils.stringForTime(targetProgress));</span><br><span class="line">        mSeekDuration.setText(StringUtils.stringForTime(mDuration));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取滑动结束后的目标进度</span><br><span class="line">     */</span><br><span class="line">    public int getTargetProgress() &#123;</span><br><span class="line">        if (mDuration == -1) &#123;</span><br><span class="line">            return -1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int newSeekProgress = mSeekDialogStartProgress + mDelSeekDialogProgress;</span><br><span class="line">        if (newSeekProgress &lt;= 0) newSeekProgress = 0;</span><br><span class="line">        if (newSeekProgress &gt;= mDuration) newSeekProgress = mDuration;</span><br><span class="line">        return newSeekProgress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void hide() &#123;</span><br><span class="line">        mDuration = -1;</span><br><span class="line">        mSeekDialogStartProgress = -1;</span><br><span class="line">        mDelSeekDialogProgress = -1;</span><br><span class="line">        setVisibility(GONE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调节系统属性弹框JsVideoSystemOverlay就不再贴出代码了，与上类似，这里我们只分享设计思路。</p>
+<p>注意：</p>
+<ul>
+<li>mDelSeekDialogProgress -= delProgress，因为向右滑动时传进来的delProgress是负数、向左滑动是正数，所以这里计算变化时是在自减。</li>
+<li>if (newSeekProgress &lt;= 0) newSeekProgress = 0;<pre><code>if (newSeekProgress &gt;= mDuration) newSeekProgress = mDuration;
+做了边界控制，防止计算出的数据超出范围而导致出错。
+</code></pre></li>
+</ul>
+<h3 id="JsVideoErrorView"><a href="#JsVideoErrorView" class="headerlink" title="JsVideoErrorView"></a><strong>JsVideoErrorView</strong></h3><p><img src="http://img.blog.csdn.net/20170920142641012?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>从界面来看很简单了！</p>
+<p>定义所有错误码常量（可换为枚举）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 正常状态</span><br><span class="line">public static final int STATUS_NORMAL = 0;</span><br><span class="line">// 普通一场</span><br><span class="line">public static final int STATUS_VIDEO_DETAIL_ERROR = 1;</span><br><span class="line">// 资源错误</span><br><span class="line">public static final int STATUS_VIDEO_SRC_ERROR = 2;</span><br><span class="line">// 无WIFI</span><br><span class="line">public static final int STATUS_UN_WIFI_ERROR = 3;</span><br><span class="line">// 无网络</span><br><span class="line">public static final int STATUS_NO_NETWORK_ERROR = 4;</span><br></pre></td></tr></table></figure></p>
+<p>另外就是显示的控制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">switch (status) &#123;</span><br><span class="line">	case STATUS_VIDEO_DETAIL_ERROR:</span><br><span class="line">		video_error_info.setText(&quot;视频加载失败&quot;);</span><br><span class="line">		video_error_retry.setText(&quot;点此重试&quot;);</span><br><span class="line">		break;</span><br><span class="line">	case STATUS_VIDEO_SRC_ERROR:</span><br><span class="line">		video_error_info.setText(&quot;视频加载失败&quot;);</span><br><span class="line">		video_error_retry.setText(&quot;点此重试&quot;);</span><br><span class="line">		break;</span><br><span class="line">	case STATUS_NO_NETWORK_ERROR:</span><br><span class="line">		video_error_info.setText(&quot;网络连接异常，请检查网络设置后重试&quot;);</span><br><span class="line">		video_error_retry.setText(&quot;重试&quot;);</span><br><span class="line">		break;</span><br><span class="line">	case STATUS_UN_WIFI_ERROR:</span><br><span class="line">		video_error_info.setText(&quot;温馨提示：您正在使用非WiFi网络，播放将产生流量费用&quot;);</span><br><span class="line">		video_error_retry.setText(&quot;继续播放&quot;);</span><br><span class="line">		break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：对重试按钮的点击事件：错误view内置了视频控制回调OnVideoControlListener，点击重试时执行回调的重试按钮。</p>
+<h3 id="JsVideoControllerView"><a href="#JsVideoControllerView" class="headerlink" title="JsVideoControllerView"></a><strong>JsVideoControllerView</strong></h3><p>先看布局：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;include</span><br><span class="line">        android:id=&quot;@+id/video_controller_bottom&quot;</span><br><span class="line">        layout=&quot;@layout/video_controller_bottom&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView</span><br><span class="line">        android:id=&quot;@+id/player_lock_screen&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_centerVertical=&quot;true&quot;</span><br><span class="line">        android:layout_marginLeft=&quot;10dp&quot;</span><br><span class="line">        android:src=&quot;@mipmap/video_unlock&quot;</span><br><span class="line">        android:visibility=&quot;gone&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.jia.jsplayer.view.JsVideoErrorView</span><br><span class="line">        android:id=&quot;@+id/video_controller_error&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;include</span><br><span class="line">        android:id=&quot;@+id/video_controller_title&quot;</span><br><span class="line">        layout=&quot;@layout/video_controller_title&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView</span><br><span class="line">        android:id=&quot;@+id/video_back&quot;</span><br><span class="line">        android:layout_width=&quot;32dp&quot;</span><br><span class="line">        android:layout_height=&quot;44dp&quot;</span><br><span class="line">        android:layout_alignTop=&quot;@id/video_controller_title&quot;</span><br><span class="line">        android:padding=&quot;12dp&quot;</span><br><span class="line">        android:scaleType=&quot;fitCenter&quot;</span><br><span class="line">        android:src=&quot;@mipmap/ic_back_white&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;RelativeLayout</span><br><span class="line">        android:id=&quot;@+id/rl_pre&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:background=&quot;#000&quot;</span><br><span class="line">        android:visibility=&quot;gone&quot;&gt;</span><br><span class="line">        &lt;ImageView</span><br><span class="line">            android:id=&quot;@+id/iv_pre_play&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:src=&quot;@mipmap/ic_video_play&quot;</span><br><span class="line">            android:layout_centerInParent=&quot;true&quot;/&gt;</span><br><span class="line">    &lt;/RelativeLayout&gt;</span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>能够看出：主要分为底部控制部分（播放按钮、当前位置、总时长、进度条），头部控制部分（返回键、标题），出错界面、锁屏按钮和填充全屏的默认图。</p>
+<p>对控制器来说，我们应该关心这些：<br><img src="http://img.blog.csdn.net/20170920144950780?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>首先我们必须传入MediaPlayer对象（关于它的封装稍后会详细介绍），因为我们各点击事件和拖动事件都在控制MediaPlayer，如播放按钮的点击事件，在控制视频的播放与暂停，进度条拖动完时，应控制视频定位 等。</p>
+<p>注意：</p>
+<ul>
+<li>对UI的更新全部提出方法，方便其他地方调用</li>
+<li>是否锁屏、控制器显示时长等都应有默认值</li>
+<li>显示控制器时，视频当前位置和更新的精度</li>
+<li>对全屏按钮、重试按钮的点击交给OnVideoControlListener来做</li>
+</ul>
+<p>我想着重讲一下<strong>控制器的隐藏和显示</strong>：</p>
+<h4 id="1、控制器一显示，就获取MediaPlayer的当前位置，更新UI（进度条，当前播放位置），并将当前位置返回："><a href="#1、控制器一显示，就获取MediaPlayer的当前位置，更新UI（进度条，当前播放位置），并将当前位置返回：" class="headerlink" title="1、控制器一显示，就获取MediaPlayer的当前位置，更新UI（进度条，当前播放位置），并将当前位置返回："></a>1、控制器一显示，就获取MediaPlayer的当前位置，更新UI（进度条，当前播放位置），并将当前位置返回：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置进度，同时也返回进度</span><br><span class="line"> *</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private int setProgress() &#123;</span><br><span class="line">    if (mPlayer == null || mDragging) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    int position = mPlayer.getCurrentPosition();</span><br><span class="line">    int duration = mPlayer.getDuration();</span><br><span class="line">    if (mPlayerSeekBar != null) &#123;</span><br><span class="line">        if (duration &gt; 0) &#123;</span><br><span class="line">            // use long to avoid overflow</span><br><span class="line">            long pos = 1000L * position / duration;</span><br><span class="line">            mPlayerSeekBar.setProgress((int) pos);</span><br><span class="line">        &#125;</span><br><span class="line">        // 设置缓冲进度</span><br><span class="line">        int percent = mPlayer.getBufferPercentage();</span><br><span class="line">        mPlayerSeekBar.setSecondaryProgress(percent * 10);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mVideoProgress.setText(StringUtils.stringForTime(position));</span><br><span class="line">    mVideoDuration.setText(StringUtils.stringForTime(duration));</span><br><span class="line"></span><br><span class="line">    return position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、控制各UI布局显示，开始发送消息"><a href="#2、控制各UI布局显示，开始发送消息" class="headerlink" title="2、控制各UI布局显示，开始发送消息"></a>2、控制各UI布局显示，开始发送消息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 显示控制器</span><br><span class="line"> *</span><br><span class="line"> * @param timeout 显示时长</span><br><span class="line"> */</span><br><span class="line">public void show(int timeout) &#123;</span><br><span class="line">    setProgress();</span><br><span class="line"></span><br><span class="line">    if (!isScreenLock) &#123;</span><br><span class="line">        mControllerBack.setVisibility(VISIBLE);</span><br><span class="line">        mControllerTitle.setVisibility(VISIBLE);</span><br><span class="line">        mControllerBottom.setVisibility(VISIBLE);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        if (!DisplayUtils.isPortrait(getContext())) &#123;</span><br><span class="line">            mControllerBack.setVisibility(GONE);</span><br><span class="line">        &#125;</span><br><span class="line">        mControllerTitle.setVisibility(GONE);</span><br><span class="line">        mControllerBottom.setVisibility(GONE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (!DisplayUtils.isPortrait(getContext())) &#123;</span><br><span class="line">        mScreenLock.setVisibility(VISIBLE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mShowing = true;</span><br><span class="line"></span><br><span class="line">    updatePausePlay();</span><br><span class="line"></span><br><span class="line">    // 开始显示</span><br><span class="line">    post(mShowProgress);</span><br><span class="line"></span><br><span class="line">    if (timeout &gt; 0) &#123;</span><br><span class="line">        // 先移除之前的隐藏异步操作</span><br><span class="line">        removeCallbacks(mFadeOut);</span><br><span class="line">        //timeout后隐藏</span><br><span class="line">        postDelayed(mFadeOut, timeout);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 异步操作隐藏</span><br><span class="line"> */</span><br><span class="line">private final Runnable mFadeOut = new Runnable() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        hide();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 异步操作显示</span><br><span class="line"> */</span><br><span class="line">private final Runnable mShowProgress = new Runnable() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        int pos = setProgress();</span><br><span class="line">        if (!mDragging &amp;&amp; mShowing &amp;&amp; mPlayer.isPlaying()) &#123;</span><br><span class="line">            // 解决1秒之内的误差，使得发送消息正好卡在整秒</span><br><span class="line">            Log.e(&quot;TAG&quot;, &quot;run: &quot; + (1000 - (pos % 1000)));</span><br><span class="line">            postDelayed(mShowProgress, 1000 - (pos % 1000));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>首先注意，每当开始发送消息，都应强制将之前的消息全部移除；</strong></li>
+<li><strong>发送两个消息：一个是计时的消息，每隔大约一秒获取当前位置并且更新UI，另一个是延迟显示时长后隐藏控制器；</strong></li>
+<li><strong>为什么每隔大约1秒更新一次UI呢，postDelayed(mShowProgress, 1000 - (pos % 1000)); 我做了一个修正操作，因为各消息可能会互相影响，其次就是发送消息时没有卡在视频的整秒位置上，而我们确实整1秒发送一条消息，会导致误差！</strong></li>
+</ul>
+<p>如果大家还想了解其他功能，可以去github阅读我的源码<a href="https://github.com/shuaijia/JsPlayer" target="_blank" rel="noopener">https://github.com/shuaijia/JsPlayer</a></p>
+<hr>
+<h2 id="5、MediaPlayer封装"><a href="#5、MediaPlayer封装" class="headerlink" title="5、MediaPlayer封装"></a>5、MediaPlayer封装</h2><p>主要封装了</p>
+<ul>
+<li>openVideo：播放视频，处理各回调</li>
+<li>start：开始播放</li>
+<li>pause：暂停播放</li>
+<li>seekTo：定位到</li>
+<li>reset：视频重置</li>
+<li>stop：停止播放</li>
+<li>isPlaying：是否正在播放</li>
+<li>getDuration：获取总时长</li>
+<li>getCurrentPosition：获取当前进度</li>
+<li>getBufferPercentage：获取缓冲进度 等</li>
+</ul>
+<p>定义了视频播放的所用状态值常量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//出错状态</span><br><span class="line">public static final int STATE_ERROR = -1;</span><br><span class="line">//通常状态</span><br><span class="line">public static final int STATE_IDLE = 0;</span><br><span class="line">//视频正在准备</span><br><span class="line">public static final int STATE_PREPARING = 1;</span><br><span class="line">//视频已经准备好</span><br><span class="line">public static final int STATE_PREPARED = 2;</span><br><span class="line">//视频正在播放</span><br><span class="line">public static final int STATE_PLAYING = 3;</span><br><span class="line">//视频暂停</span><br><span class="line">public static final int STATE_PAUSED = 4;</span><br><span class="line">//视频播放完成</span><br><span class="line">public static final int STATE_PLAYBACK_COMPLETED = 5;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 播放核心使用MediaPlayer</span><br><span class="line">private MediaPlayer player;</span><br><span class="line">// 当前状态</span><br><span class="line">private int curState = STATE_IDLE;</span><br><span class="line">// 当前缓冲进度</span><br><span class="line">private int currentBufferPercentage;</span><br><span class="line">// *视频路径</span><br><span class="line">private String path;</span><br><span class="line"></span><br><span class="line">// 播放监听</span><br><span class="line">private OnPlayerCallback onPlayerListener;</span><br><span class="line">// 播放视频承载的view</span><br><span class="line">private SurfaceHolder surfaceHolder;</span><br></pre></td></tr></table></figure>
+<p>封装了视频播放状态的判断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public boolean isInPlaybackState() &#123;</span><br><span class="line">    return (player != null &amp;&amp;</span><br><span class="line">            curState != STATE_ERROR &amp;&amp;</span><br><span class="line">            curState != STATE_IDLE &amp;&amp;</span><br><span class="line">            curState != STATE_PREPARING);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此方法会在其他的所有方法执行之前判断，如果返回false，则不进行开始播放、重新播放、拖动定位等操作。</p>
+<p>同时这些操作执行完后都会更新当前播放状态，防止视频不能播的情况下操作报错。如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 开始播放</span><br><span class="line"> */</span><br><span class="line">public void start() &#123;</span><br><span class="line">    if (isInPlaybackState()) &#123;</span><br><span class="line">        player.start();</span><br><span class="line">        setCurrentState(STATE_PLAYING);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在openVideo中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">public void openVideo() &#123;</span><br><span class="line">    if (path == null || surfaceHolder == null) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    reset();</span><br><span class="line"></span><br><span class="line">    player = new MediaPlayer();</span><br><span class="line"></span><br><span class="line">    // 准备好的监听</span><br><span class="line">    player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onPrepared(MediaPlayer mp) &#123;</span><br><span class="line">            //因为后面播放时要判断当前视频状态，所以在此一定要先将状态改变为STATE_PREPARED</span><br><span class="line">            //即已经准备好，否则在第一次打开视频时无法自动播放</span><br><span class="line">            setCurrentState(STATE_PREPARED);</span><br><span class="line">            if (onPlayerListener != null) &#123;</span><br><span class="line">                onPlayerListener.onPrepared(mp);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    // 缓冲监听</span><br><span class="line">    player.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onBufferingUpdate(MediaPlayer mp, int percent) &#123;</span><br><span class="line">            if (onPlayerListener != null) &#123;</span><br><span class="line">                onPlayerListener.onBufferingUpdate(mp, percent);</span><br><span class="line">            &#125;</span><br><span class="line">            currentBufferPercentage = percent;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    // 播放完成监听</span><br><span class="line">    player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onCompletion(MediaPlayer mp) &#123;</span><br><span class="line">            if (onPlayerListener != null) &#123;</span><br><span class="line">                onPlayerListener.onCompletion(mp);</span><br><span class="line">            &#125;</span><br><span class="line">            setCurrentState(STATE_PLAYBACK_COMPLETED);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    // 信息监听</span><br><span class="line">    player.setOnInfoListener(new MediaPlayer.OnInfoListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean onInfo(MediaPlayer mp, int what, int extra) &#123;</span><br><span class="line">            if (onPlayerListener != null) &#123;</span><br><span class="line">                // 701 加载中</span><br><span class="line">                if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) &#123;</span><br><span class="line">                    onPlayerListener.onLoadingChanged(true);</span><br><span class="line">                    // 702 加载完成</span><br><span class="line">                &#125; else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) &#123;</span><br><span class="line">                    onPlayerListener.onLoadingChanged(false);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    // 出错监听</span><br><span class="line">    player.setOnErrorListener(onErrorListener);</span><br><span class="line">    // 视频大小切换监听</span><br><span class="line">    player.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onVideoSizeChanged(MediaPlayer mp, int width, int height) &#123;</span><br><span class="line">            if (onPlayerListener != null) &#123;</span><br><span class="line">                onPlayerListener.onVideoSizeChanged(mp, width, height);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    currentBufferPercentage = 0;</span><br><span class="line">    try &#123;</span><br><span class="line">        /**</span><br><span class="line">         * 在这里开始真正的播放</span><br><span class="line">         */</span><br><span class="line">        player.setDataSource(path);</span><br><span class="line">        player.setDisplay(surfaceHolder);</span><br><span class="line">        player.setAudioStreamType(AudioManager.STREAM_MUSIC);</span><br><span class="line">        player.setScreenOnWhilePlaying(true);</span><br><span class="line">        player.prepareAsync();</span><br><span class="line">        Log.e(TAG, &quot;openVideo: &quot; );</span><br><span class="line">        setCurrentState(STATE_PREPARING);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        Log.e(TAG, &quot;openVideo: &quot; + e.toString());</span><br><span class="line">        setCurrentState(STATE_ERROR);</span><br><span class="line">        onErrorListener.onError(player, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>openVideo就是播放视频的核心方法：新建MediaPlayer对象；将视频播放的各回调交给OnPlayerCallback处理；将外部传进来的SurfaceHolder设置给MediaPlayer，并且prepareAsync之后就可以播放了，当然，不要忘了更新状态！</p>
+<blockquote>
+<p>SurfaceHolder是surface的抽象接口，使你可以控制surface的大小和格式， 以及在surface上编辑像素，和监视surace的改变。<br>SurfaceHolder用于显示视频流解析的帧图片，如果发现SurfaceView变为用户不可见的时候，则立即销毁SurfaceView的SurfaceHolder，以达到节约系统资源的目的。</p>
+</blockquote>
+<hr>
+<h2 id="6、手势控制"><a href="#6、手势控制" class="headerlink" title="6、手势控制"></a>6、手势控制</h2><p>说到手势控制，主要是手势控制视频进度，手势控制音量和屏幕亮度。</p>
+<p>对于手势控制，我自定义了BehaviorView：让其实现GestureDetector的OnGestureListener</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class VideoBehaviorView extends FrameLayout implements GestureDetector.OnGestureListener&#123;</span><br></pre></td></tr></table></figure>
+<p>在此view中定义以下方法，<strong>实现更新UI，交由子类去复写</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 更新进度UI，由子类重写</span><br><span class="line">protected void updateSeekUI(int delProgress) &#123;</span><br><span class="line">    // sub</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 更新音量UI，由子类重写</span><br><span class="line">protected void updateVolumeUI(int max, int progress) &#123;</span><br><span class="line">    // sub</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 更新亮度UI，由子类重写</span><br><span class="line">protected void updateLightUI(int max, int progress) &#123;</span><br><span class="line">    // sub</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我的思路是将view的<strong>触摸事件全部交给GestureDetector处理</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">    mGestureDetector.onTouchEvent(event);</span><br><span class="line">    switch (event.getAction() &amp; MotionEvent.ACTION_MASK) &#123;</span><br><span class="line">        case MotionEvent.ACTION_UP:</span><br><span class="line">        case MotionEvent.ACTION_OUTSIDE:</span><br><span class="line">        case MotionEvent.ACTION_CANCEL:</span><br><span class="line">            endGesture(mFingerBehavior);</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当手指按下时，重置手指行为，获取当前音量、亮度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onDown(MotionEvent e) &#123;</span><br><span class="line">    //重置 手指行为</span><br><span class="line">    mFingerBehavior = -1;</span><br><span class="line">    mCurrentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);</span><br><span class="line">    try &#123;</span><br><span class="line">        mCurrentBrightness = (int) (activity.getWindow().getAttributes().screenBrightness * mMaxBrightness);</span><br><span class="line">    &#125; catch (Exception exception) &#123;</span><br><span class="line">        exception.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在onScroll方法中:</p>
+<p>判断决定当前为何种类型手势：左右滑动为调节进度，左半屏上下滑动为调节亮度，右半屏上下滑动为调节音量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 根据手势起始2个点断言 后续行为. 规则如下:</span><br><span class="line"> *  屏幕切分为:</span><br><span class="line"> *  1.左右扇形区域为视频进度调节</span><br><span class="line"> *  2.上下扇形区域 左半屏亮度调节 后半屏音量调节.</span><br><span class="line"> */</span><br><span class="line">if (mFingerBehavior &lt; 0) &#123;</span><br><span class="line">    float moveX = e2.getX() - e1.getX();</span><br><span class="line">    float moveY = e2.getY() - e1.getY();</span><br><span class="line">    // 如果横向滑动距离大于纵向滑动距离，则认为在调节进度</span><br><span class="line">    if (Math.abs(moveX) &gt;= Math.abs(moveY))</span><br><span class="line">        mFingerBehavior = FINGER_BEHAVIOR_PROGRESS;</span><br><span class="line">        // 否则为调节音量或亮度</span><br><span class="line">        // 按下位置在屏幕左半边，则是调节亮度</span><br><span class="line">    else if (e1.getX() &lt;= width / 2) mFingerBehavior = FINGER_BEHAVIOR_BRIGHTNESS;</span><br><span class="line">        // 按下位置在屏幕右半边，则是在调节音量</span><br><span class="line">    else mFingerBehavior = FINGER_BEHAVIOR_VOLUME;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>手势处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">switch (mFingerBehavior) &#123;</span><br><span class="line">    case FINGER_BEHAVIOR_PROGRESS: &#123; // 进度变化</span><br><span class="line">        // 默认滑动一个屏幕 视频移动八分钟.</span><br><span class="line">        int delProgress = (int) (1.0f * distanceX / width * 480 * 1000);</span><br><span class="line">        // 更新快进弹框</span><br><span class="line">        updateSeekUI(delProgress);</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    case FINGER_BEHAVIOR_VOLUME: &#123; // 音量变化</span><br><span class="line">        float progress = mMaxVolume * (distanceY / height) + mCurrentVolume;</span><br><span class="line"></span><br><span class="line">        // 控制调节临界范围</span><br><span class="line">        if (progress &lt;= 0) progress = 0;</span><br><span class="line">        if (progress &gt;= mMaxVolume) progress = mMaxVolume;</span><br><span class="line"></span><br><span class="line">        am.setStreamVolume(AudioManager.STREAM_MUSIC, Math.round(progress), 0);</span><br><span class="line">        updateVolumeUI(mMaxVolume, Math.round(progress));</span><br><span class="line">        // 更新当前值</span><br><span class="line">        mCurrentVolume = progress;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    case FINGER_BEHAVIOR_BRIGHTNESS: &#123; // 亮度变化</span><br><span class="line">        try &#123;</span><br><span class="line">            // 如果系统亮度为自动调节，则改为手动调节</span><br><span class="line">            if (Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE)</span><br><span class="line">                    == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) &#123;</span><br><span class="line">                Settings.System.putInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE,</span><br><span class="line">                        Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            int progress = (int) (mMaxBrightness * (distanceY / height) + mCurrentBrightness);</span><br><span class="line"></span><br><span class="line">            // 控制调节临界范围</span><br><span class="line">            if (progress &lt;= 0) progress = 0;</span><br><span class="line">            if (progress &gt;= mMaxBrightness) progress = mMaxBrightness;</span><br><span class="line"></span><br><span class="line">            Window window = activity.getWindow();</span><br><span class="line">            WindowManager.LayoutParams params = window.getAttributes();</span><br><span class="line">            params.screenBrightness = progress / (float) mMaxBrightness;</span><br><span class="line">            window.setAttributes(params);</span><br><span class="line"></span><br><span class="line">            updateLightUI(mMaxBrightness, progress);</span><br><span class="line">            // 更新当前值</span><br><span class="line">            mCurrentBrightness = progress;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li><strong>所有的更新UI操作全部交由子类实现</strong></li>
+<li><strong>注意临界范围的控制</strong></li>
+<li><strong>控制进度时，百分比最后乘以8分钟，以达到较为适中的用户体验</strong>，防止视频时长过大或太小情况下，拖动调节进度变化太过明显或效果不明显。</li>
+</ul>
+<hr>
+<h2 id="7、播放器JsPlayer封装"><a href="#7、播放器JsPlayer封装" class="headerlink" title="7、播放器JsPlayer封装"></a>7、播放器JsPlayer封装</h2><p>先来看看布局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;SurfaceView</span><br><span class="line">        android:id=&quot;@+id/video_surface&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.jia.jsplayer.view.JsVideoControllerView</span><br><span class="line">        android:id=&quot;@+id/video_controller&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;include</span><br><span class="line">        android:id=&quot;@+id/video_loading&quot;</span><br><span class="line">        layout=&quot;@layout/video_controller_loading&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.jia.jsplayer.view.JsVideoSystemOverlay</span><br><span class="line">        android:id=&quot;@+id/video_system_overlay&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">        android:visibility=&quot;gone&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.jia.jsplayer.view.JsVideoProgressOverlay</span><br><span class="line">        android:id=&quot;@+id/video_progress_overlay&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">        android:visibility=&quot;gone&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>JsPlayer视频播放器集成自上一步中的VideoBehaviorView，注意复写VideoBehaviorView的更新UI方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private SurfaceView surfaceView;</span><br><span class="line">private View loadingView;</span><br><span class="line">private JsVideoProgressOverlay progressView;</span><br><span class="line">private JsVideoSystemOverlay systemView;</span><br><span class="line">private JsVideoControllerView mediaController;</span><br><span class="line"></span><br><span class="line">private JsMediaPlayer mMediaPlayer;</span><br></pre></td></tr></table></figure>
+<p>内置封装过得JsMediaPlayer 对象，控制器、和SurfaceView，还有网络状态广播接收器。</p>
+<p>初始化player，创建JsMediaPlayer对象，设置视频播放回调处理，然后将其设置给ControllerView。</p>
+<p>注意：</p>
+<ul>
+<li>在准备好的监听中，mediaPlayer执行开始播放，控制器展示，错误界面隐藏。</li>
+<li>在播放出错时控制器检查错误类型并展示</li>
+<li>在加载状态发生改变时隐藏和展示加载中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">private void initPlayer() &#123;</span><br><span class="line">    mMediaPlayer = new JsMediaPlayer();</span><br><span class="line"></span><br><span class="line">    // todo 这里可以优化，将这些回调全部暴露出去</span><br><span class="line">    mMediaPlayer.setOnPlayerListener(new OnPlayerCallback() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onPrepared(MediaPlayer mp) &#123;</span><br><span class="line">            Log.e(TAG, &quot;onPrepared: &quot; );</span><br><span class="line">            mMediaPlayer.start();</span><br><span class="line">            mediaController.show();</span><br><span class="line">            mediaController.hideErrorView();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onVideoSizeChanged(MediaPlayer mp, int width, int height) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onBufferingUpdate(MediaPlayer mp, int percent) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onCompletion(MediaPlayer mp) &#123;</span><br><span class="line">            mediaController.updatePausePlay();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onError(MediaPlayer mp, int what, int extra) &#123;</span><br><span class="line">            mediaController.checkShowError(false);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onLoadingChanged(boolean isShow) &#123;</span><br><span class="line">            if (isShow) showLoading();</span><br><span class="line">            else hideLoading();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onStateChanged(int curState) &#123;</span><br><span class="line">            switch (curState) &#123;</span><br><span class="line">                case JsMediaPlayer.STATE_IDLE:</span><br><span class="line">                    am.abandonAudioFocus(null);</span><br><span class="line">                    break;</span><br><span class="line">                case JsMediaPlayer.STATE_PREPARING:</span><br><span class="line">                    am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    mediaController.setMediaPlayer(mMediaPlayer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>给SurfaceView设置Callback，返回SurfaceHolder后设置给JsMediaPlayer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void surfaceCreated(SurfaceHolder holder) &#123;</span><br><span class="line">        Log.e(TAG, &quot;surfaceCreated: &quot; );</span><br><span class="line">        initWidth = getWidth();</span><br><span class="line">        initHeight = getHeight();</span><br><span class="line"></span><br><span class="line">        if (mMediaPlayer != null) &#123;</span><br><span class="line">            mMediaPlayer.setSurfaceHolder(holder);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void surfaceDestroyed(SurfaceHolder holder) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>设置路径，开始播放</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public void setPath(final IVideoInfo video) &#123;</span><br><span class="line">    if (video == null) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mMediaPlayer.reset();</span><br><span class="line"></span><br><span class="line">    String videoPath = video.getVideoPath();</span><br><span class="line">    mediaController.setVideoInfo(video);</span><br><span class="line">    mMediaPlayer.setPath(videoPath);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void startPlay()&#123;</span><br><span class="line">    mMediaPlayer.openVideo();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更新UI</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void updateSeekUI(int delProgress) &#123;</span><br><span class="line">    progressView.show(delProgress, mMediaPlayer.getCurrentPosition(), mMediaPlayer.getDuration());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">protected void updateVolumeUI(int max, int progress) &#123;</span><br><span class="line">    systemView.show(JsVideoSystemOverlay.SystemType.VOLUME, max, progress);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">protected void updateLightUI(int max, int progress) &#123;</span><br><span class="line">    systemView.show(JsVideoSystemOverlay.SystemType.BRIGHTNESS, max, progress);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然不会忘记封装播放、暂停、停止、定位、获取总时长等等的基本方法，这里就不再累赘。</p>
+<hr>
+<h2 id="8、使用"><a href="#8、使用" class="headerlink" title="8、使用"></a>8、使用</h2><h3 id="涉及到播放网路视频，权限少不了"><a href="#涉及到播放网路视频，权限少不了" class="headerlink" title="涉及到播放网路视频，权限少不了"></a>涉及到播放网路视频，权限少不了</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.READ_EXTERNAL_STORAGE&quot; /&gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>播放本地视频别忘了6.0权限适配</strong></p>
+<h3 id="布局中添加"><a href="#布局中添加" class="headerlink" title="布局中添加"></a>布局中添加</h3><h3 id="代码中"><a href="#代码中" class="headerlink" title="代码中"></a>代码中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">player = (JsPlayer) findViewById(R.id.player);</span><br><span class="line"></span><br><span class="line">player.setOnVideoControlListener(new OnVideoControlListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onStartPlay() &#123;</span><br><span class="line">        player.startPlay();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onBack() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onFullScreen() &#123;</span><br><span class="line">        DisplayUtils.toggleScreenOrientation(MainActivity.this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onRetry(int errorStatus) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">player.setPath(new VideoInfo(&quot;艺术人生&quot;, path));</span><br></pre></td></tr></table></figure>
+<h3 id="生命周期绑定"><a href="#生命周期绑定" class="headerlink" title="生命周期绑定"></a>生命周期绑定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onStop() &#123;</span><br><span class="line">    super.onStop();</span><br><span class="line">    player.onStop();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">protected void onDestroy() &#123;</span><br><span class="line">    super.onDestroy();</span><br><span class="line">    player.onDestroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="全屏操作"><a href="#全屏操作" class="headerlink" title="全屏操作"></a>全屏操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onConfigurationChanged(Configuration newConfig) &#123;</span><br><span class="line">    super.onConfigurationChanged(newConfig);</span><br><span class="line">    if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) &#123;</span><br><span class="line">        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);</span><br><span class="line">    &#125; else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) &#123;</span><br><span class="line">        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onBackPressed() &#123;</span><br><span class="line">    if (!DisplayUtils.isPortrait(this)) &#123;</span><br><span class="line">        if (!player.isLock()) &#123;</span><br><span class="line">            DisplayUtils.toggleScreenOrientation(this);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        super.onBackPressed();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意所在Activity在清单文件中应设置<strong>android:configChanges=”orientation|keyboardHidden|screenSize”</strong></p>
+<h3 id="这样就ok了，播放器封装完美完成！"><a href="#这样就ok了，播放器封装完美完成！" class="headerlink" title="这样就ok了，播放器封装完美完成！"></a>这样就ok了，播放器封装完美完成！</h3><p>###希望对大家有所帮助！</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+	<div>
+  
+</div>
+	
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -261,7 +553,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">
                 2018-01-04
@@ -408,6 +700,219 @@
 
     
 
+	<div>
+  
+</div>
+	
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/03/用三阶贝塞尔曲线实现直播中点赞效果/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/03/用三阶贝塞尔曲线实现直播中点赞效果/" itemprop="url">用三阶贝塞尔曲线实现直播中点赞效果</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
+                2018-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>完整代码，请查看我的github：<a href="https://github.com/shuaijia/LiveLike" target="_blank" rel="noopener">https://github.com/shuaijia/LiveLike</a>，喜欢的话就给点个赞喽^_^</p>
+<p>视频直播想必大家都不谋生，从2015年左右开始，视频直播开始大量普及，市面上的大中型APP基本上都有直播功能，比如专做直播的斗鱼、花椒等。大家都可能看过别人直播甚至参与过直播，那么对精彩的内容总忍不住点赞、送礼物！</p>
+<p>那作为开发的我们，总是以技术的角度看待世界，看到酷炫的点赞效果，当然也免不了自己实现一下子。</p>
+<p>先看效果：<br><img src="http://img.blog.csdn.net/20171013164532553?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>根据效果先分析一波：</p>
+<p><img src="http://img.blog.csdn.net/20171013164837343?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>根据效果，确定解决思路和关键技术：</p>
+<p><img src="http://img.blog.csdn.net/20171013165107682?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<ul>
+<li><strong>自定义View当然少不了，这是基础</strong></li>
+<li><strong>多种爱心随机出现、路径也都不同，所以随机数也是必要的</strong></li>
+<li><strong>每个爱心的运动速度、变化快慢是不同的，所以用到了插值器</strong></li>
+<li><strong>爱心的运动轨迹是平滑的曲线，而且曲线都不一样，所以我们想到了使用贝塞尔函数</strong></li>
+<li><strong>应用贝塞尔函数计算运动中点的位置，就需要使用估值器来实现平滑的动画效果</strong></li>
+</ul>
+<p><strong>这些很重要！</strong></p>
+<p>有了实现思路，那么接下来我们根据分析的它的特点，一步步得来实现：</p>
+<hr>
+<h3 id="一、创建基础View，爱心出现在底部并居中"><a href="#一、创建基础View，爱心出现在底部并居中" class="headerlink" title="一、创建基础View，爱心出现在底部并居中"></a>一、创建基础View，爱心出现在底部并居中</h3><p>这样使用RelativeLayout最为合适，所以自定义View需继承RelativeLayout：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class FavorLayout extends RelativeLayout &#123;</span><br><span class="line"></span><br><span class="line">    private static final String TAG = &quot;FavorLayout&quot;;</span><br><span class="line"></span><br><span class="line">    // 实现随机效果</span><br><span class="line">    private Random random = new Random();</span><br><span class="line"></span><br><span class="line">    // 爱心高度</span><br><span class="line">    private int iHeight = 120;</span><br><span class="line">    // 爱心宽度</span><br><span class="line">    private int iWidth = 120;</span><br><span class="line">    // FavorLayout高度</span><br><span class="line">    private int mHeight;</span><br><span class="line">    // FavorLayout宽度</span><br><span class="line">    private int mWidth;</span><br><span class="line"></span><br><span class="line">    // 来控制子view的位置</span><br><span class="line">    private LayoutParams lp;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然了，构造也少不了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public FavorLayout(Context context) &#123;</span><br><span class="line">	super(context);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public FavorLayout(Context context, AttributeSet attrs) &#123;</span><br><span class="line">	super(context, attrs);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public FavorLayout(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">	super(context, attrs, defStyleAttr);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中init()方法进行一些初始化，接下来的过程中我们会慢慢讲解和一步步完善init方法。</p>
+<p>首先<strong>在init方法中设置子View的LayoutParams，使其能够实现底部居中。</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//底部 并且 水平居中</span><br><span class="line">lp = new LayoutParams(iWidth, iHeight);</span><br><span class="line">lp.addRule(CENTER_HORIZONTAL, TRUE); //这里的TRUE 要注意 不是true</span><br><span class="line">lp.addRule(ALIGN_PARENT_BOTTOM, TRUE);</span><br></pre></td></tr></table></figure>
+<p>注意：<br>控件的宽度高度应在onMeasure方法中获取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">	super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">	// 获取控件宽高（应在onMeasure方法中获取）</span><br><span class="line">	mWidth = getMeasuredWidth();</span><br><span class="line">	mHeight = getMeasuredHeight();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="二、爱心类型实现随机"><a href="#二、爱心类型实现随机" class="headerlink" title="二、爱心类型实现随机"></a>二、爱心类型实现随机</h3><p>在自定义的View中创建 爱心 Drawable对象和数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private Drawable aLove;</span><br><span class="line">private Drawable bLove;</span><br><span class="line">private Drawable cLove;</span><br><span class="line">private Drawable dLove;</span><br><span class="line">private Drawable eLove;</span><br><span class="line"></span><br><span class="line">private Drawable[] loves;</span><br></pre></td></tr></table></figure>
+<p>在init方法中，将爱心创建并存入数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//初始化显示的图片</span><br><span class="line">loves = new Drawable[5];</span><br><span class="line">aLove = getResources().getDrawable(R.mipmap.love_a);</span><br><span class="line">bLove = getResources().getDrawable(R.mipmap.love_b);</span><br><span class="line">cLove = getResources().getDrawable(R.mipmap.love_c);</span><br><span class="line">dLove = getResources().getDrawable(R.mipmap.love_d);</span><br><span class="line">eLove = getResources().getDrawable(R.mipmap.love_e);</span><br><span class="line"></span><br><span class="line">//赋值给loves</span><br><span class="line">loves[0] = aLove;</span><br><span class="line">loves[1] = bLove;</span><br><span class="line">loves[2] = cLove;</span><br><span class="line">loves[3] = dLove;</span><br><span class="line">loves[4] = eLove;</span><br></pre></td></tr></table></figure>
+<p>默认提供了五种不同颜色的爱心，当然，爱心数组可有开发者由外部设置，进行拓展。</p>
+<hr>
+<h3 id="三、爱心进入时候有一个缩放并渐变的动画"><a href="#三、爱心进入时候有一个缩放并渐变的动画" class="headerlink" title="三、爱心进入时候有一个缩放并渐变的动画"></a>三、爱心进入时候有一个缩放并渐变的动画</h3><p> 先看效果：<br> <img src="http://img.blog.csdn.net/20171013171139379?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"> </p>
+<p>说到Android动画，我们以前常用Animation，它通常情况下能满足我们的需求，但是它的功能比较弱，并不是很好用。好在3.0后,强大的属性动画的出现,让动画在Android中实现起来变得非常容易。如果你还不知道属性动画怎么使用，赶紧去了解一下吧！</p>
+<p>上代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置初始动画</span><br><span class="line"> * 渐变 并且横纵向放大</span><br><span class="line"> *</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private AnimatorSet getEnterAnimtor(final View target) &#123;</span><br><span class="line"></span><br><span class="line">	ObjectAnimator alpha = ObjectAnimator.ofFloat(target, View.ALPHA, 0.2f, 1f);</span><br><span class="line">	ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, View.SCALE_X, 0.2f, 1f);</span><br><span class="line">	ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, View.SCALE_Y, 0.2f, 1f);</span><br><span class="line">	AnimatorSet enter = new AnimatorSet();</span><br><span class="line">	enter.setDuration(500);</span><br><span class="line">	enter.setInterpolator(new LinearInterpolator());</span><br><span class="line">	enter.playTogether(alpha, scaleX, scaleY);</span><br><span class="line">	enter.setTarget(target);</span><br><span class="line">	return enter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>给传进来的target（就是爱心的ImageView）设置属性动画集，渐变的同时横纵向放大。</p>
+<p><strong>对外提供点赞的方法（其实是创建爱心ImageView并添加）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 点赞</span><br><span class="line"> * 对外暴露的方法</span><br><span class="line"> */</span><br><span class="line">public void addFavor() &#123;</span><br><span class="line">    ImageView imageView = new ImageView(getContext());</span><br><span class="line">    // 随机选一个</span><br><span class="line">    imageView.setImageDrawable(loves[random.nextInt(loves.length)]);</span><br><span class="line">    // 设置底部 水平居中</span><br><span class="line">    imageView.setLayoutParams(lp);</span><br><span class="line"></span><br><span class="line">    addView(imageView);</span><br><span class="line">    Log.e(TAG, &quot;addFavor: &quot; + &quot;add后子view数:&quot; + getChildCount());</span><br><span class="line"></span><br><span class="line">    Animator set = getAnimator(imageView);</span><br><span class="line">    set.addListener(new AnimEndListener(imageView));</span><br><span class="line">    set.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>点赞其实就是：在爱心数组中随机抽取一个创建ImageView，添加给付控件并设置渐变和放大动画。</p>
+<p>那么这样我们在按钮的点击事件中调用addFavor方法就可以实现如上图的爱心效果了。</p>
+<hr>
+<h3 id="四、使用贝塞尔函数实现曲线运动轨迹"><a href="#四、使用贝塞尔函数实现曲线运动轨迹" class="headerlink" title="四、使用贝塞尔函数实现曲线运动轨迹"></a>四、使用贝塞尔函数实现曲线运动轨迹</h3><p>我们怎么让爱心按照曲线移动?而且还有随机呢?</p>
+<p>接下来就是本文的主角贝塞尔曲线登场的时刻啦，这也是我实现这个效果学到的最重要的知识。不了解贝塞尔曲线的可以阅读我写的另一篇文章<a href="https://mp.weixin.qq.com/s?__biz=MzI3ODg5NTkwMA==&amp;tempkey=OTI2X2JWV0ZvbHFrcFpHR0J5VVhyV3B1cUNrVzJDODhZR0piVFhzUnd4ZzVYX0Z1YVAtNkhIbmw5VXc2bVpPUU5iNlhfTExVVEVfWnhFR1dqZllXQ2dVdTFVWXpaZ1prR2FWX0dTcnBQN2tRZ3ZCcFZlN0hXcUE3RWxYbU1vWGhBdEpDakhLRXQtaFBDZGRNLXg5cFltUzE5X0lCN2ZvaFRpMkFVNEhqc2d%2bfg==&amp;chksm=6b514de15c26c4f71d5178cefbe15a738b58d50a1d6243db47f5983ed88d8ba2ed4246278f0f#rd" target="_blank" rel="noopener">开发中的动效设计与实现 —— 贝塞尔曲线动画的插值法</a></p>
+<p><strong>简单来说：就是给定一个起点，一个终点，一个及一个以上的控制点，计算出一个曲线.</strong></p>
+<p>简单了解贝塞尔曲线后，发现 <strong>三次方贝塞尔曲线</strong> 符合我们的要求。</p>
+<p>公式:<br><img src="http://img.blog.csdn.net/20171013172604979?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>公式中需要四个P、P0是我们的起点，P3是终点，P1、P2是曲线的两个控制点。而t是一个因子，取值范围是0-1，熟悉动画的同学应该就明白，0-1，对动画的作用有多么重大。</p>
+<p>因为需要自己实现贝塞尔，所以想到了属性动画中的<strong>TypeEvaluator</strong>，它就是我们需要的。</p>
+<p>上代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 动画估值器，以实现平滑动画</span><br><span class="line"> * Created by jia on 2017/10/13.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class BezierEvaluator implements TypeEvaluator&lt;PointF&gt; &#123;</span><br><span class="line"></span><br><span class="line">    // 两个控制点</span><br><span class="line">    private PointF pointF1;</span><br><span class="line">    private PointF pointF2;</span><br><span class="line"></span><br><span class="line">    public BezierEvaluator(PointF pointF1,PointF pointF2)&#123;</span><br><span class="line">        this.pointF1 = pointF1;</span><br><span class="line">        this.pointF2 = pointF2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public PointF evaluate(float time, PointF startValue, PointF endValue) &#123;</span><br><span class="line">        float timeLeft = 1.0f - time;</span><br><span class="line"></span><br><span class="line">        //结果</span><br><span class="line">        PointF point = new PointF();</span><br><span class="line"></span><br><span class="line">        PointF point0 = (PointF)startValue;//起点</span><br><span class="line">        PointF point3 = (PointF)endValue;//终点</span><br><span class="line"></span><br><span class="line">        // 贝塞尔公式</span><br><span class="line">        point.x = timeLeft * timeLeft * timeLeft * (point0.x)</span><br><span class="line">                + 3 * timeLeft * timeLeft * time * (pointF1.x)</span><br><span class="line">                + 3 * timeLeft * time * time * (pointF2.x)</span><br><span class="line">                + time * time * time * (point3.x);</span><br><span class="line"></span><br><span class="line">        point.y = timeLeft * timeLeft * timeLeft * (point0.y)</span><br><span class="line">                + 3 * timeLeft * timeLeft * time * (pointF1.y)</span><br><span class="line">                + 3 * timeLeft * time * time * (pointF2.y)</span><br><span class="line">                + time * time * time * (point3.y);</span><br><span class="line"></span><br><span class="line">        return point;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先认识一下两个类：</p>
+<ul>
+<li>TypeEvaluator：在获取动画对象时只需要传入起始和结束值系统就会自动完成值的平滑过渡,这个平滑过渡的完成就是靠TypeEvaluator这个类</li>
+<li>PointF：点类，与Point一样，区别是其x和y值是float类型</li>
+</ul>
+<p><strong>由于我们view的移动需要控制x y 所以就传入PointF 作为参数。</strong></p>
+<p><strong>核心就是在动画变化过程中，实时根据贝塞尔三阶方程计算点的位置并返回。</strong></p>
+<p>到这一步，只要我们传入两个PonitF就能得到一个贝塞尔曲线了。</p>
+<p>接下来我们在FavorLayout中定义获取一个贝塞尔动画的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取一条路径的两个控制点</span><br><span class="line"> * @param scale</span><br><span class="line"> */</span><br><span class="line">private PointF getPointF(int scale) &#123;</span><br><span class="line"></span><br><span class="line">    PointF pointF = new PointF();</span><br><span class="line">    //减去100 是为了控制 x轴活动范围</span><br><span class="line">    pointF.x = random.nextInt((mWidth - 100));</span><br><span class="line">    //再Y轴上 为了确保第二个控制点 在第一个点之上,我把Y分成了上下两半</span><br><span class="line">    pointF.y = random.nextInt((mHeight - 100)) / scale;</span><br><span class="line">    return pointF;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据贝塞尔曲线方程可知：两个控制点才是真正控制曲线路径的关键！为了使爱心的运动轨迹不同，所以我们<strong>随机生成两个控制点，就可以使得曲线轨迹随机</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取贝塞尔曲线动画</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private ValueAnimator getBezierValueAnimator(View target) &#123;</span><br><span class="line"></span><br><span class="line">    //初始化一个BezierEvaluator</span><br><span class="line">    BezierEvaluator evaluator = new BezierEvaluator(getPointF(2), getPointF(1));</span><br><span class="line"></span><br><span class="line">    // 起点固定，终点随机</span><br><span class="line">    ValueAnimator animator = ValueAnimator.ofObject(evaluator, new PointF((mWidth - iWidth) / 2, mHeight - iHeight), new PointF(random.nextInt(getWidth()), 0));</span><br><span class="line">    animator.addUpdateListener(new BezierListener(target));</span><br><span class="line">    animator.setTarget(target);</span><br><span class="line">    animator.setDuration(3000);</span><br><span class="line">    return animator;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可能你已经发现，我给曲线动画设置了一个监听BezierListener</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 动画监听，这里控制位置，真正实现动画</span><br><span class="line"> * Created by jia on 2017/10/13.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class BezierListener implements ValueAnimator.AnimatorUpdateListener &#123;</span><br><span class="line"></span><br><span class="line">    private View target;</span><br><span class="line"></span><br><span class="line">    public BezierListener(View target) &#123;</span><br><span class="line">        this.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">        //这里获取到贝塞尔曲线计算出来的的x y值 赋值给view 这样就能让爱心随着曲线走啦</span><br><span class="line">        PointF pointF = (PointF) animation.getAnimatedValue();</span><br><span class="line">        target.setX(pointF.x);</span><br><span class="line">        target.setY(pointF.y);</span><br><span class="line">        // 这里偷个懒,顺便做一个alpha动画,这样alpha渐变也完成啦</span><br><span class="line">        target.setAlpha(1-animation.getAnimatedFraction());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>只有在回调里使用了计算的值，才能真正做到曲线运动</strong>，否则没有效果哦。</p>
+<p>我们在位置更新时给爱心的ImageView设置x、y值，使其按计算的贝塞尔路径运动起来。</p>
+<p>并且同时设置了逐渐变淡动画，也就是在运动过程中逐渐消失的效果。</p>
+<p>修改一下addFavor方法：将动画更换为 贝塞尔动画</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void addFavor() &#123;</span><br><span class="line"></span><br><span class="line">       ImageView imageView = new ImageView(getContext());</span><br><span class="line">       //随机选一个</span><br><span class="line">       imageView.setImageDrawable(drawables[random.nextInt(3)]);</span><br><span class="line">       imageView.setLayoutParams(lp);</span><br><span class="line">       addView(imageView);</span><br><span class="line">       Log.v(TAG, &quot;add后子view数:&quot;+getChildCount());</span><br><span class="line">       getBezierValueAnimator(imageView).start();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>看下效果：</p>
+<p><img src="http://img.blog.csdn.net/20171013174108549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<h3 id="五、收尾，效果合成"><a href="#五、收尾，效果合成" class="headerlink" title="五、收尾，效果合成"></a>五、收尾，效果合成</h3><h4 id="1、实现变速"><a href="#1、实现变速" class="headerlink" title="1、实现变速"></a><strong>1、实现变速</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 为了实现 变速效果 挑选了几种插补器</span><br><span class="line">private Interpolator line = new LinearInterpolator();//线性</span><br><span class="line">private Interpolator acc = new AccelerateInterpolator();//加速</span><br><span class="line">private Interpolator dce = new DecelerateInterpolator();//减速</span><br><span class="line">private Interpolator accdec = new AccelerateDecelerateInterpolator();//先加速后减速</span><br><span class="line"></span><br><span class="line">// 在init中初始化</span><br><span class="line">private Interpolator[] interpolators;</span><br></pre></td></tr></table></figure>
+<p>在init方法中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 初始化插值器</span><br><span class="line">interpolators = new Interpolator[4];</span><br><span class="line">interpolators[0] = line;</span><br><span class="line">interpolators[1] = acc;</span><br><span class="line">interpolators[2] = dce;</span><br><span class="line">interpolators[3] = accdec;</span><br></pre></td></tr></table></figure>
+<p>随机选用插值器，使得爱心运动有变化。</p>
+<h4 id="2、动画合并"><a href="#2、动画合并" class="headerlink" title="2、动画合并"></a><strong>2、动画合并</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置动画</span><br><span class="line"> *</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private Animator getAnimator(View target) &#123;</span><br><span class="line">    AnimatorSet set = getEnterAnimtor(target);</span><br><span class="line"></span><br><span class="line">    ValueAnimator bezierValueAnimator = getBezierValueAnimator(target);</span><br><span class="line"></span><br><span class="line">    AnimatorSet finalSet = new AnimatorSet();</span><br><span class="line">    finalSet.playSequentially(set);</span><br><span class="line">    finalSet.playSequentially(set, bezierValueAnimator);</span><br><span class="line">    finalSet.setInterpolator(interpolators[random.nextInt(4)]);//实现随机变速</span><br><span class="line">    finalSet.setTarget(target);</span><br><span class="line">    return finalSet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、修改点赞方法"><a href="#3、修改点赞方法" class="headerlink" title="3、修改点赞方法"></a><strong>3、修改点赞方法</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 点赞</span><br><span class="line"> * 对外暴露的方法</span><br><span class="line"> */</span><br><span class="line">public void addFavor() &#123;</span><br><span class="line">    ImageView imageView = new ImageView(getContext());</span><br><span class="line">    // 随机选一个</span><br><span class="line">    imageView.setImageDrawable(loves[random.nextInt(loves.length)]);</span><br><span class="line">    // 设置底部 水平居中</span><br><span class="line">    imageView.setLayoutParams(lp);</span><br><span class="line"></span><br><span class="line">    addView(imageView);</span><br><span class="line">    Log.e(TAG, &quot;addFavor: &quot; + &quot;add后子view数:&quot; + getChildCount());</span><br><span class="line"></span><br><span class="line">    Animator set = getAnimator(imageView);</span><br><span class="line">    set.addListener(new AnimEndListener(imageView));</span><br><span class="line">    set.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>聪明的伙伴可能又看出来了，我给动画集设置了结束监听，又是为什么呢？</p>
+<h4 id="4、设置消失监听"><a href="#4、设置消失监听" class="headerlink" title="4、设置消失监听"></a><strong>4、设置消失监听</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private class AnimEndListener extends AnimatorListenerAdapter &#123;</span><br><span class="line">	private View target;</span><br><span class="line"></span><br><span class="line">	public AnimEndListener(View target) &#123;</span><br><span class="line">		this.target = target;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">		super.onAnimationEnd(animation);</span><br><span class="line">		//因为不停的add 导致子view数量只增不减,所以在view动画结束后remove掉</span><br><span class="line">		removeView((target));</span><br><span class="line">		Log.v(TAG, &quot;removeView后子view数:&quot; + getChildCount());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们之前代码其实已经实现点赞效果，但每次点击都在创建新的爱心的ImageView并且添加到父布局中，所以<strong>增加了一个监听，目的是为了在动画结束后，把爱心移除，不然，子view只增不减！</strong></p>
+<hr>
+<h3 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h3><p>总结没想好说什么，由于时间仓促，不免有bug或不足的地方，大家发现可以告诉我，有好的建议也可以告诉我，我们一起进步哦！如果您喜欢我的文章，可以去<a href="https://github.com/shuaijia/LiveLike" target="_blank" rel="noopener">https://github.com/shuaijia/LiveLike</a>点个赞哦！^_^</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+	<div>
+  
+</div>
+	
     <footer class="post-footer">
       
 
@@ -470,7 +975,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
                 2018-01-03
@@ -646,211 +1151,10 @@
 
     
 
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
+	<div>
   
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/03/用三阶贝塞尔曲线实现直播中点赞效果/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jia Shuai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Android机动车">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/03/用三阶贝塞尔曲线实现直播中点赞效果/" itemprop="url">用三阶贝塞尔曲线实现直播中点赞效果</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
-                2018-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>完整代码，请查看我的github：<a href="https://github.com/shuaijia/LiveLike" target="_blank" rel="noopener">https://github.com/shuaijia/LiveLike</a>，喜欢的话就给点个赞喽^_^</p>
-<p>视频直播想必大家都不谋生，从2015年左右开始，视频直播开始大量普及，市面上的大中型APP基本上都有直播功能，比如专做直播的斗鱼、花椒等。大家都可能看过别人直播甚至参与过直播，那么对精彩的内容总忍不住点赞、送礼物！</p>
-<p>那作为开发的我们，总是以技术的角度看待世界，看到酷炫的点赞效果，当然也免不了自己实现一下子。</p>
-<p>先看效果：<br><img src="http://img.blog.csdn.net/20171013164532553?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>根据效果先分析一波：</p>
-<p><img src="http://img.blog.csdn.net/20171013164837343?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>根据效果，确定解决思路和关键技术：</p>
-<p><img src="http://img.blog.csdn.net/20171013165107682?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<ul>
-<li><strong>自定义View当然少不了，这是基础</strong></li>
-<li><strong>多种爱心随机出现、路径也都不同，所以随机数也是必要的</strong></li>
-<li><strong>每个爱心的运动速度、变化快慢是不同的，所以用到了插值器</strong></li>
-<li><strong>爱心的运动轨迹是平滑的曲线，而且曲线都不一样，所以我们想到了使用贝塞尔函数</strong></li>
-<li><strong>应用贝塞尔函数计算运动中点的位置，就需要使用估值器来实现平滑的动画效果</strong></li>
-</ul>
-<p><strong>这些很重要！</strong></p>
-<p>有了实现思路，那么接下来我们根据分析的它的特点，一步步得来实现：</p>
-<hr>
-<h3 id="一、创建基础View，爱心出现在底部并居中"><a href="#一、创建基础View，爱心出现在底部并居中" class="headerlink" title="一、创建基础View，爱心出现在底部并居中"></a>一、创建基础View，爱心出现在底部并居中</h3><p>这样使用RelativeLayout最为合适，所以自定义View需继承RelativeLayout：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class FavorLayout extends RelativeLayout &#123;</span><br><span class="line"></span><br><span class="line">    private static final String TAG = &quot;FavorLayout&quot;;</span><br><span class="line"></span><br><span class="line">    // 实现随机效果</span><br><span class="line">    private Random random = new Random();</span><br><span class="line"></span><br><span class="line">    // 爱心高度</span><br><span class="line">    private int iHeight = 120;</span><br><span class="line">    // 爱心宽度</span><br><span class="line">    private int iWidth = 120;</span><br><span class="line">    // FavorLayout高度</span><br><span class="line">    private int mHeight;</span><br><span class="line">    // FavorLayout宽度</span><br><span class="line">    private int mWidth;</span><br><span class="line"></span><br><span class="line">    // 来控制子view的位置</span><br><span class="line">    private LayoutParams lp;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当然了，构造也少不了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public FavorLayout(Context context) &#123;</span><br><span class="line">	super(context);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public FavorLayout(Context context, AttributeSet attrs) &#123;</span><br><span class="line">	super(context, attrs);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public FavorLayout(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">	super(context, attrs, defStyleAttr);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中init()方法进行一些初始化，接下来的过程中我们会慢慢讲解和一步步完善init方法。</p>
-<p>首先<strong>在init方法中设置子View的LayoutParams，使其能够实现底部居中。</strong> </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//底部 并且 水平居中</span><br><span class="line">lp = new LayoutParams(iWidth, iHeight);</span><br><span class="line">lp.addRule(CENTER_HORIZONTAL, TRUE); //这里的TRUE 要注意 不是true</span><br><span class="line">lp.addRule(ALIGN_PARENT_BOTTOM, TRUE);</span><br></pre></td></tr></table></figure>
-<p>注意：<br>控件的宽度高度应在onMeasure方法中获取</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">	super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">	// 获取控件宽高（应在onMeasure方法中获取）</span><br><span class="line">	mWidth = getMeasuredWidth();</span><br><span class="line">	mHeight = getMeasuredHeight();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="二、爱心类型实现随机"><a href="#二、爱心类型实现随机" class="headerlink" title="二、爱心类型实现随机"></a>二、爱心类型实现随机</h3><p>在自定义的View中创建 爱心 Drawable对象和数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private Drawable aLove;</span><br><span class="line">private Drawable bLove;</span><br><span class="line">private Drawable cLove;</span><br><span class="line">private Drawable dLove;</span><br><span class="line">private Drawable eLove;</span><br><span class="line"></span><br><span class="line">private Drawable[] loves;</span><br></pre></td></tr></table></figure>
-<p>在init方法中，将爱心创建并存入数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//初始化显示的图片</span><br><span class="line">loves = new Drawable[5];</span><br><span class="line">aLove = getResources().getDrawable(R.mipmap.love_a);</span><br><span class="line">bLove = getResources().getDrawable(R.mipmap.love_b);</span><br><span class="line">cLove = getResources().getDrawable(R.mipmap.love_c);</span><br><span class="line">dLove = getResources().getDrawable(R.mipmap.love_d);</span><br><span class="line">eLove = getResources().getDrawable(R.mipmap.love_e);</span><br><span class="line"></span><br><span class="line">//赋值给loves</span><br><span class="line">loves[0] = aLove;</span><br><span class="line">loves[1] = bLove;</span><br><span class="line">loves[2] = cLove;</span><br><span class="line">loves[3] = dLove;</span><br><span class="line">loves[4] = eLove;</span><br></pre></td></tr></table></figure>
-<p>默认提供了五种不同颜色的爱心，当然，爱心数组可有开发者由外部设置，进行拓展。</p>
-<hr>
-<h3 id="三、爱心进入时候有一个缩放并渐变的动画"><a href="#三、爱心进入时候有一个缩放并渐变的动画" class="headerlink" title="三、爱心进入时候有一个缩放并渐变的动画"></a>三、爱心进入时候有一个缩放并渐变的动画</h3><p> 先看效果：<br> <img src="http://img.blog.csdn.net/20171013171139379?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"> </p>
-<p>说到Android动画，我们以前常用Animation，它通常情况下能满足我们的需求，但是它的功能比较弱，并不是很好用。好在3.0后,强大的属性动画的出现,让动画在Android中实现起来变得非常容易。如果你还不知道属性动画怎么使用，赶紧去了解一下吧！</p>
-<p>上代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置初始动画</span><br><span class="line"> * 渐变 并且横纵向放大</span><br><span class="line"> *</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private AnimatorSet getEnterAnimtor(final View target) &#123;</span><br><span class="line"></span><br><span class="line">	ObjectAnimator alpha = ObjectAnimator.ofFloat(target, View.ALPHA, 0.2f, 1f);</span><br><span class="line">	ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, View.SCALE_X, 0.2f, 1f);</span><br><span class="line">	ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, View.SCALE_Y, 0.2f, 1f);</span><br><span class="line">	AnimatorSet enter = new AnimatorSet();</span><br><span class="line">	enter.setDuration(500);</span><br><span class="line">	enter.setInterpolator(new LinearInterpolator());</span><br><span class="line">	enter.playTogether(alpha, scaleX, scaleY);</span><br><span class="line">	enter.setTarget(target);</span><br><span class="line">	return enter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>给传进来的target（就是爱心的ImageView）设置属性动画集，渐变的同时横纵向放大。</p>
-<p><strong>对外提供点赞的方法（其实是创建爱心ImageView并添加）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 点赞</span><br><span class="line"> * 对外暴露的方法</span><br><span class="line"> */</span><br><span class="line">public void addFavor() &#123;</span><br><span class="line">    ImageView imageView = new ImageView(getContext());</span><br><span class="line">    // 随机选一个</span><br><span class="line">    imageView.setImageDrawable(loves[random.nextInt(loves.length)]);</span><br><span class="line">    // 设置底部 水平居中</span><br><span class="line">    imageView.setLayoutParams(lp);</span><br><span class="line"></span><br><span class="line">    addView(imageView);</span><br><span class="line">    Log.e(TAG, &quot;addFavor: &quot; + &quot;add后子view数:&quot; + getChildCount());</span><br><span class="line"></span><br><span class="line">    Animator set = getAnimator(imageView);</span><br><span class="line">    set.addListener(new AnimEndListener(imageView));</span><br><span class="line">    set.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>点赞其实就是：在爱心数组中随机抽取一个创建ImageView，添加给付控件并设置渐变和放大动画。</p>
-<p>那么这样我们在按钮的点击事件中调用addFavor方法就可以实现如上图的爱心效果了。</p>
-<hr>
-<h3 id="四、使用贝塞尔函数实现曲线运动轨迹"><a href="#四、使用贝塞尔函数实现曲线运动轨迹" class="headerlink" title="四、使用贝塞尔函数实现曲线运动轨迹"></a>四、使用贝塞尔函数实现曲线运动轨迹</h3><p>我们怎么让爱心按照曲线移动?而且还有随机呢?</p>
-<p>接下来就是本文的主角贝塞尔曲线登场的时刻啦，这也是我实现这个效果学到的最重要的知识。不了解贝塞尔曲线的可以阅读我写的另一篇文章<a href="https://mp.weixin.qq.com/s?__biz=MzI3ODg5NTkwMA==&amp;tempkey=OTI2X2JWV0ZvbHFrcFpHR0J5VVhyV3B1cUNrVzJDODhZR0piVFhzUnd4ZzVYX0Z1YVAtNkhIbmw5VXc2bVpPUU5iNlhfTExVVEVfWnhFR1dqZllXQ2dVdTFVWXpaZ1prR2FWX0dTcnBQN2tRZ3ZCcFZlN0hXcUE3RWxYbU1vWGhBdEpDakhLRXQtaFBDZGRNLXg5cFltUzE5X0lCN2ZvaFRpMkFVNEhqc2d%2bfg==&amp;chksm=6b514de15c26c4f71d5178cefbe15a738b58d50a1d6243db47f5983ed88d8ba2ed4246278f0f#rd" target="_blank" rel="noopener">开发中的动效设计与实现 —— 贝塞尔曲线动画的插值法</a></p>
-<p><strong>简单来说：就是给定一个起点，一个终点，一个及一个以上的控制点，计算出一个曲线.</strong></p>
-<p>简单了解贝塞尔曲线后，发现 <strong>三次方贝塞尔曲线</strong> 符合我们的要求。</p>
-<p>公式:<br><img src="http://img.blog.csdn.net/20171013172604979?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>公式中需要四个P、P0是我们的起点，P3是终点，P1、P2是曲线的两个控制点。而t是一个因子，取值范围是0-1，熟悉动画的同学应该就明白，0-1，对动画的作用有多么重大。</p>
-<p>因为需要自己实现贝塞尔，所以想到了属性动画中的<strong>TypeEvaluator</strong>，它就是我们需要的。</p>
-<p>上代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 动画估值器，以实现平滑动画</span><br><span class="line"> * Created by jia on 2017/10/13.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class BezierEvaluator implements TypeEvaluator&lt;PointF&gt; &#123;</span><br><span class="line"></span><br><span class="line">    // 两个控制点</span><br><span class="line">    private PointF pointF1;</span><br><span class="line">    private PointF pointF2;</span><br><span class="line"></span><br><span class="line">    public BezierEvaluator(PointF pointF1,PointF pointF2)&#123;</span><br><span class="line">        this.pointF1 = pointF1;</span><br><span class="line">        this.pointF2 = pointF2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public PointF evaluate(float time, PointF startValue, PointF endValue) &#123;</span><br><span class="line">        float timeLeft = 1.0f - time;</span><br><span class="line"></span><br><span class="line">        //结果</span><br><span class="line">        PointF point = new PointF();</span><br><span class="line"></span><br><span class="line">        PointF point0 = (PointF)startValue;//起点</span><br><span class="line">        PointF point3 = (PointF)endValue;//终点</span><br><span class="line"></span><br><span class="line">        // 贝塞尔公式</span><br><span class="line">        point.x = timeLeft * timeLeft * timeLeft * (point0.x)</span><br><span class="line">                + 3 * timeLeft * timeLeft * time * (pointF1.x)</span><br><span class="line">                + 3 * timeLeft * time * time * (pointF2.x)</span><br><span class="line">                + time * time * time * (point3.x);</span><br><span class="line"></span><br><span class="line">        point.y = timeLeft * timeLeft * timeLeft * (point0.y)</span><br><span class="line">                + 3 * timeLeft * timeLeft * time * (pointF1.y)</span><br><span class="line">                + 3 * timeLeft * time * time * (pointF2.y)</span><br><span class="line">                + time * time * time * (point3.y);</span><br><span class="line"></span><br><span class="line">        return point;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>先认识一下两个类：</p>
-<ul>
-<li>TypeEvaluator：在获取动画对象时只需要传入起始和结束值系统就会自动完成值的平滑过渡,这个平滑过渡的完成就是靠TypeEvaluator这个类</li>
-<li>PointF：点类，与Point一样，区别是其x和y值是float类型</li>
-</ul>
-<p><strong>由于我们view的移动需要控制x y 所以就传入PointF 作为参数。</strong></p>
-<p><strong>核心就是在动画变化过程中，实时根据贝塞尔三阶方程计算点的位置并返回。</strong></p>
-<p>到这一步，只要我们传入两个PonitF就能得到一个贝塞尔曲线了。</p>
-<p>接下来我们在FavorLayout中定义获取一个贝塞尔动画的方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取一条路径的两个控制点</span><br><span class="line"> * @param scale</span><br><span class="line"> */</span><br><span class="line">private PointF getPointF(int scale) &#123;</span><br><span class="line"></span><br><span class="line">    PointF pointF = new PointF();</span><br><span class="line">    //减去100 是为了控制 x轴活动范围</span><br><span class="line">    pointF.x = random.nextInt((mWidth - 100));</span><br><span class="line">    //再Y轴上 为了确保第二个控制点 在第一个点之上,我把Y分成了上下两半</span><br><span class="line">    pointF.y = random.nextInt((mHeight - 100)) / scale;</span><br><span class="line">    return pointF;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>根据贝塞尔曲线方程可知：两个控制点才是真正控制曲线路径的关键！为了使爱心的运动轨迹不同，所以我们<strong>随机生成两个控制点，就可以使得曲线轨迹随机</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取贝塞尔曲线动画</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private ValueAnimator getBezierValueAnimator(View target) &#123;</span><br><span class="line"></span><br><span class="line">    //初始化一个BezierEvaluator</span><br><span class="line">    BezierEvaluator evaluator = new BezierEvaluator(getPointF(2), getPointF(1));</span><br><span class="line"></span><br><span class="line">    // 起点固定，终点随机</span><br><span class="line">    ValueAnimator animator = ValueAnimator.ofObject(evaluator, new PointF((mWidth - iWidth) / 2, mHeight - iHeight), new PointF(random.nextInt(getWidth()), 0));</span><br><span class="line">    animator.addUpdateListener(new BezierListener(target));</span><br><span class="line">    animator.setTarget(target);</span><br><span class="line">    animator.setDuration(3000);</span><br><span class="line">    return animator;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可能你已经发现，我给曲线动画设置了一个监听BezierListener</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 动画监听，这里控制位置，真正实现动画</span><br><span class="line"> * Created by jia on 2017/10/13.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class BezierListener implements ValueAnimator.AnimatorUpdateListener &#123;</span><br><span class="line"></span><br><span class="line">    private View target;</span><br><span class="line"></span><br><span class="line">    public BezierListener(View target) &#123;</span><br><span class="line">        this.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">        //这里获取到贝塞尔曲线计算出来的的x y值 赋值给view 这样就能让爱心随着曲线走啦</span><br><span class="line">        PointF pointF = (PointF) animation.getAnimatedValue();</span><br><span class="line">        target.setX(pointF.x);</span><br><span class="line">        target.setY(pointF.y);</span><br><span class="line">        // 这里偷个懒,顺便做一个alpha动画,这样alpha渐变也完成啦</span><br><span class="line">        target.setAlpha(1-animation.getAnimatedFraction());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>只有在回调里使用了计算的值，才能真正做到曲线运动</strong>，否则没有效果哦。</p>
-<p>我们在位置更新时给爱心的ImageView设置x、y值，使其按计算的贝塞尔路径运动起来。</p>
-<p>并且同时设置了逐渐变淡动画，也就是在运动过程中逐渐消失的效果。</p>
-<p>修改一下addFavor方法：将动画更换为 贝塞尔动画</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void addFavor() &#123;</span><br><span class="line"></span><br><span class="line">       ImageView imageView = new ImageView(getContext());</span><br><span class="line">       //随机选一个</span><br><span class="line">       imageView.setImageDrawable(drawables[random.nextInt(3)]);</span><br><span class="line">       imageView.setLayoutParams(lp);</span><br><span class="line">       addView(imageView);</span><br><span class="line">       Log.v(TAG, &quot;add后子view数:&quot;+getChildCount());</span><br><span class="line">       getBezierValueAnimator(imageView).start();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>看下效果：</p>
-<p><img src="http://img.blog.csdn.net/20171013174108549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<hr>
-<h3 id="五、收尾，效果合成"><a href="#五、收尾，效果合成" class="headerlink" title="五、收尾，效果合成"></a>五、收尾，效果合成</h3><h4 id="1、实现变速"><a href="#1、实现变速" class="headerlink" title="1、实现变速"></a><strong>1、实现变速</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 为了实现 变速效果 挑选了几种插补器</span><br><span class="line">private Interpolator line = new LinearInterpolator();//线性</span><br><span class="line">private Interpolator acc = new AccelerateInterpolator();//加速</span><br><span class="line">private Interpolator dce = new DecelerateInterpolator();//减速</span><br><span class="line">private Interpolator accdec = new AccelerateDecelerateInterpolator();//先加速后减速</span><br><span class="line"></span><br><span class="line">// 在init中初始化</span><br><span class="line">private Interpolator[] interpolators;</span><br></pre></td></tr></table></figure>
-<p>在init方法中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 初始化插值器</span><br><span class="line">interpolators = new Interpolator[4];</span><br><span class="line">interpolators[0] = line;</span><br><span class="line">interpolators[1] = acc;</span><br><span class="line">interpolators[2] = dce;</span><br><span class="line">interpolators[3] = accdec;</span><br></pre></td></tr></table></figure>
-<p>随机选用插值器，使得爱心运动有变化。</p>
-<h4 id="2、动画合并"><a href="#2、动画合并" class="headerlink" title="2、动画合并"></a><strong>2、动画合并</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置动画</span><br><span class="line"> *</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private Animator getAnimator(View target) &#123;</span><br><span class="line">    AnimatorSet set = getEnterAnimtor(target);</span><br><span class="line"></span><br><span class="line">    ValueAnimator bezierValueAnimator = getBezierValueAnimator(target);</span><br><span class="line"></span><br><span class="line">    AnimatorSet finalSet = new AnimatorSet();</span><br><span class="line">    finalSet.playSequentially(set);</span><br><span class="line">    finalSet.playSequentially(set, bezierValueAnimator);</span><br><span class="line">    finalSet.setInterpolator(interpolators[random.nextInt(4)]);//实现随机变速</span><br><span class="line">    finalSet.setTarget(target);</span><br><span class="line">    return finalSet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="3、修改点赞方法"><a href="#3、修改点赞方法" class="headerlink" title="3、修改点赞方法"></a><strong>3、修改点赞方法</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 点赞</span><br><span class="line"> * 对外暴露的方法</span><br><span class="line"> */</span><br><span class="line">public void addFavor() &#123;</span><br><span class="line">    ImageView imageView = new ImageView(getContext());</span><br><span class="line">    // 随机选一个</span><br><span class="line">    imageView.setImageDrawable(loves[random.nextInt(loves.length)]);</span><br><span class="line">    // 设置底部 水平居中</span><br><span class="line">    imageView.setLayoutParams(lp);</span><br><span class="line"></span><br><span class="line">    addView(imageView);</span><br><span class="line">    Log.e(TAG, &quot;addFavor: &quot; + &quot;add后子view数:&quot; + getChildCount());</span><br><span class="line"></span><br><span class="line">    Animator set = getAnimator(imageView);</span><br><span class="line">    set.addListener(new AnimEndListener(imageView));</span><br><span class="line">    set.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>聪明的伙伴可能又看出来了，我给动画集设置了结束监听，又是为什么呢？</p>
-<h4 id="4、设置消失监听"><a href="#4、设置消失监听" class="headerlink" title="4、设置消失监听"></a><strong>4、设置消失监听</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private class AnimEndListener extends AnimatorListenerAdapter &#123;</span><br><span class="line">	private View target;</span><br><span class="line"></span><br><span class="line">	public AnimEndListener(View target) &#123;</span><br><span class="line">		this.target = target;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">		super.onAnimationEnd(animation);</span><br><span class="line">		//因为不停的add 导致子view数量只增不减,所以在view动画结束后remove掉</span><br><span class="line">		removeView((target));</span><br><span class="line">		Log.v(TAG, &quot;removeView后子view数:&quot; + getChildCount());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们之前代码其实已经实现点赞效果，但每次点击都在创建新的爱心的ImageView并且添加到父布局中，所以<strong>增加了一个监听，目的是为了在动画结束后，把爱心移除，不然，子view只增不减！</strong></p>
-<hr>
-<h3 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h3><p>总结没想好说什么，由于时间仓促，不免有bug或不足的地方，大家发现可以告诉我，有好的建议也可以告诉我，我们一起进步哦！如果您喜欢我的文章，可以去<a href="https://github.com/shuaijia/LiveLike" target="_blank" rel="noopener">https://github.com/shuaijia/LiveLike</a>点个赞哦！^_^</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
+</div>
+	
     <footer class="post-footer">
       
 
@@ -917,8 +1221,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
             
@@ -931,7 +1235,7 @@
               <div class="site-state-item site-state-tags">
                 
                   <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 
               </div>
             
@@ -993,7 +1297,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
