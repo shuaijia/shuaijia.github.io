@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -218,6 +218,168 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/11/手撸Router——解决跨模块下的页面跳转/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/11/手撸Router——解决跨模块下的页面跳转/" itemprop="url">手撸Router——解决跨模块下的页面跳转</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-11T00:00:00+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>人之所以能，是相信能。</p>
+</blockquote>
+<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>开始模块化开发项目之后，一个很重要的问题就是页面见的跳转问题。</p>
+<p>关于模块化发开，可详见我的另一片文章<a href="http://blog.csdn.net/jiashuai94/article/details/78020940" target="_blank" rel="noopener">Android模块化开发探索</a>。</p>
+<p>正是由于将项目模块化拆分，各模块之间没有任何依赖关系，也互相不可见，那么从A模块的a界面跳转到B模块的b界面该怎么办呢？</p>
+<h2 id="二、跨模块跳转的方法"><a href="#二、跨模块跳转的方法" class="headerlink" title="二、跨模块跳转的方法"></a>二、跨模块跳转的方法</h2><p>这里我们会先介绍这几种常见的跳转方法：</p>
+<ol>
+<li>显示跳转</li>
+<li>隐示跳转</li>
+<li>Scheme协议跳转</li>
+<li>Router路由表方案</li>
+</ol>
+<h3 id="2-1-显示跳转"><a href="#2-1-显示跳转" class="headerlink" title="2.1 显示跳转"></a>2.1 显示跳转</h3><p>显示跳转即我们最最常用的跳转方法：使用Intent，传入当前Activity上下文，和目标Activity的class对象即可，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClass(mContext, GuideActivity.class);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>显然，这种方法只能是目标Activity可见（Activity在同一个Module下）的时候才可以这样调用。不适合跨模块间的跳转。</p>
+<h3 id="2-2-隐示跳转"><a href="#2-2-隐示跳转" class="headerlink" title="2.2 隐示跳转"></a>2.2 隐示跳转</h3><p>我们这里说的隐示跳转，intent不设置class，而是设置Action或者Category。</p>
+<p>例如：</p>
+<p>在清单文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--网页展示界面--&gt;</span><br><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;com.whaty.base.BaseWebViewActivity&quot;</span><br><span class="line">    android:hardwareAccelerated=&quot;true&quot;&gt;</span><br><span class="line">        &lt;intent-filter&gt;</span><br><span class="line">            &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">            &lt;action android:name=&quot;com.whaty.base.BaseWebViewActivity&quot; /&gt;</span><br><span class="line">        &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+<p>跳转时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//创建一个隐式的 Intent 对象：Action 动作  </span><br><span class="line">Intent intent = new Intent();  </span><br><span class="line">//设置 Intent 的动作为清单中指定的action  </span><br><span class="line">intent.setAction(&quot;com.whaty.base.BaseWebViewActivity&quot;);  </span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-scheme跳转"><a href="#2-3-scheme跳转" class="headerlink" title="2.3 scheme跳转"></a>2.3 scheme跳转</h3><p>如果我们为 B 页面定义一个 URI - wsc://home/bbb，然后把共享的 messageModel 拍平序列化成 Json 串，那么 A 只需要拼装一个符合 B 页面 scheme 的跳转协议就可以了。<br>wsc://home/bbb?message={ “name”:”John”, “age”:31, “city”:”New York” } </p>
+<p>在清单文件中，配置data属性，设置其host、path、scheme等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.ui.BbbActivity&quot;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;data</span><br><span class="line">            android:host=&quot;bbb&quot;</span><br><span class="line">            android:path=&quot;/home&quot;</span><br><span class="line">            android:scheme=&quot;wsc&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure></p>
+<p>跳转时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">final Uri uri = new Uri.Builder().authority(&quot;wsc&quot;).path(&quot;home/bbb&quot;).appendQueryParameter(&quot;message&quot;, new Gson().toJson(messageModel)).build();</span><br><span class="line">final Intent intent = new Intent(Intent.ACTION_VIEW);</span><br><span class="line">intent.setData(uri);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>以上的方法，都不是我们想要的，接下来开始介绍我们的Router方案。</p>
+<h2 id="三、为什么要用Router"><a href="#三、为什么要用Router" class="headerlink" title="三、为什么要用Router"></a>三、为什么要用Router</h2><p><strong>Google提供了显式和隐式两种原生路由方案。但在模块化开发中，显式Intent存在类直接依赖的问题，造成模块间严重耦合。隐式Intent则需要在Manifest中配置大量路径，导致难以拓展（如进行跳转拦截）。为了解决以上问题，我们需要采用一套更为灵活的Router方案。</strong></p>
+<h2 id="四、实现思路"><a href="#四、实现思路" class="headerlink" title="四、实现思路"></a>四、实现思路</h2><p>思路是这样的：</p>
+<p>使用注解，为每个目标Activity标注别名。在应用启动时，对所有类进行扫名，将注解过的Activity存于路由表中。</p>
+<p>跳转时，在路由表中通过别名获取目标Activity的class对象，使用Intent实现跳转。</p>
+<p><img src="http://img.blog.csdn.net/20180110153812614?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h2 id="五、代码实现"><a href="#五、代码实现" class="headerlink" title="五、代码实现"></a>五、代码实现</h2><h3 id="5-1-自定义注解"><a href="#5-1-自定义注解" class="headerlink" title="5.1 自定义注解"></a>5.1 自定义注解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 路由跳转界面  注解</span><br><span class="line"> * Created by jia on 2018/1/10.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.TYPE) //注解作用于类型（类，接口，注解，枚举）</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME) //运行时保留，运行中可以处理</span><br><span class="line">@Documented // 生成javadoc文件</span><br><span class="line">public @interface Action &#123;</span><br><span class="line"></span><br><span class="line">    String DEFAULT = &quot;js&quot;;</span><br><span class="line"></span><br><span class="line">    String value() default DEFAULT;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关于自定义注解的详细介绍，请阅读我的文章<a href="http://blog.csdn.net/jiashuai94/article/details/79013000" target="_blank" rel="noopener">java进阶之自定义注解</a>。这里不再多说。</p>
+<h3 id="5-2-注解Activity"><a href="#5-2-注解Activity" class="headerlink" title="5.2 注解Activity"></a>5.2 注解Activity</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Action(&quot;MainActivity&quot;)</span><br><span class="line">public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener &#123;</span><br><span class="line"></span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在创建Activity时，用刚刚自定义的注解进行注解，为其注释别名。</p>
+<h3 id="5-3-启动时扫描"><a href="#5-3-启动时扫描" class="headerlink" title="5.3 启动时扫描"></a>5.3 启动时扫描</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private void getAllActivities(Context ctx)&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        //通过资源路径获得DexFile</span><br><span class="line">        DexFile e = new DexFile(ctx.getPackageResourcePath());</span><br><span class="line">        Enumeration entries = e.entries();</span><br><span class="line">        //遍历所有元素</span><br><span class="line">        while(entries.hasMoreElements()) &#123;</span><br><span class="line">            String entryName = (String)entries.nextElement();</span><br><span class="line">            //匹配Activity包名与类名</span><br><span class="line">            if(entryName.contains(&quot;activity&quot;) &amp;&amp; entryName.contains(&quot;Activity&quot;)) &#123;</span><br><span class="line">                //通过反射获得Activity类</span><br><span class="line">                Class entryClass = Class.forName(entryName);</span><br><span class="line">                if(entryClass.isAnnotationPresent(Action.class)) &#123;</span><br><span class="line">                    Action action = (Action)entryClass.getAnnotation(Action.class);</span><br><span class="line">                    this.map.put(action.value(), entryClass);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在应用启动时，Application中对包下的所有类进行扫描，先找到名字中到activity的（定义到activity包下），并将带有注解标注的Activity，存入map中。</p>
+<h3 id="5-4-跳转"><a href="#5-4-跳转" class="headerlink" title="5.4 跳转"></a>5.4 跳转</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 页面跳转</span><br><span class="line"> * @param activity</span><br><span class="line"> * @param alias</span><br><span class="line"> */</span><br><span class="line">public void jumpActivity(Activity activity, String alias) throws ClassNotFoundException&#123;</span><br><span class="line">    if(map.containsKey(alias)) &#123;</span><br><span class="line">        Intent intent = new Intent(activity, map.get(alias));</span><br><span class="line">        activity.startActivity(intent);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        throw new ClassNotFoundException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>跳转的时候传入目标Activity的别名即可（这里的别名就是注解的别名）。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这种方式，解决了跳转Activity所产生的的模块依赖问题，相较于原生方案，拓展性更强。但这种方案只是阶段性的，还存在一些问题。首先，加载过程中，频繁使用到反射，会产生性能问题。其次，对于每个Activity的别名，需要进行统一维护，增加了协作成本。还有待优化。</p>
+<p>当然，市面上有很多流行的Router方案（如阿里的ARouter），这里只是介绍了一个思路，有好的建议欢迎交流，一起进步。</p>
+<p>更多精彩内容，欢迎关注我的微信公众号——Android机动车<br><img src="http://img.blog.csdn.net/20180110155733884?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -261,7 +423,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-05T00:00:00+08:00">
                 2018-01-05
@@ -549,7 +711,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">
                 2018-01-04
@@ -758,7 +920,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
                 2018-01-03
@@ -996,7 +1158,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
                 2018-01-03
@@ -1205,8 +1367,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
-                  <span class="site-state-item-name">Artikel</span>
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -1219,7 +1381,7 @@
               <div class="site-state-item site-state-tags">
                 
                   <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 
               </div>
             
@@ -1281,7 +1443,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
