@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -218,6 +218,285 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/12/Android项目从立项到上线——修仙之路/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/12/Android项目从立项到上线——修仙之路/" itemprop="url">Android项目从立项到上线————修仙之路</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-12T00:00:00+08:00">
+                2018-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="最近在组建项目组从0开始开发项目，从立项到上线，有一些心得，包括项目规范、结构、优化、三方等，与大家分享，一起修仙！"><a href="#最近在组建项目组从0开始开发项目，从立项到上线，有一些心得，包括项目规范、结构、优化、三方等，与大家分享，一起修仙！" class="headerlink" title="最近在组建项目组从0开始开发项目，从立项到上线，有一些心得，包括项目规范、结构、优化、三方等，与大家分享，一起修仙！"></a>最近在组建项目组从0开始开发项目，从立项到上线，有一些心得，包括项目规范、结构、优化、三方等，与大家分享，一起修仙！</h4><h4 id="接下来我会以自己写的两个项目为例，结合起来分析。代码已经上传github："><a href="#接下来我会以自己写的两个项目为例，结合起来分析。代码已经上传github：" class="headerlink" title="接下来我会以自己写的两个项目为例，结合起来分析。代码已经上传github："></a>接下来我会以自己写的两个项目为例，结合起来分析。代码已经上传github：</h4><ul>
+<li>Material Design风格项目  <a href="https://github.com/shuaijia/MaterialDesignProject" target="_blank" rel="noopener">点击前往</a> 喜欢就给个star^_^</li>
+<li>UI、Base、网络等封装库项目 <a href="https://github.com/shuaijia/JSBaseDemo" target="_blank" rel="noopener">点击前往</a>    喜欢也给个star喽</li>
+</ul>
+<h4 id="先上图来看看吧："><a href="#先上图来看看吧：" class="headerlink" title="先上图来看看吧："></a>先上图来看看吧：</h4><p><img src="http://img.blog.csdn.net/20170906094324145?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="项目采用MVP-Retrofit-RxJava-Gson-Glide-Material-Design设计"><a href="#项目采用MVP-Retrofit-RxJava-Gson-Glide-Material-Design设计" class="headerlink" title="项目采用MVP+Retrofit+RxJava+Gson+Glide+Material Design设计"></a>项目采用<strong>MVP+Retrofit+RxJava+Gson+Glide+Material Design</strong>设计</h4><h4 id="同时也使用了EventBus事件总线、GreenDao数据库、SurfaceView-MediaPlayer视频播放器等主要技术。"><a href="#同时也使用了EventBus事件总线、GreenDao数据库、SurfaceView-MediaPlayer视频播放器等主要技术。" class="headerlink" title="同时也使用了EventBus事件总线、GreenDao数据库、SurfaceView+MediaPlayer视频播放器等主要技术。"></a>同时也使用了<strong>EventBus事件总线</strong>、<strong>GreenDao数据库</strong>、<strong>SurfaceView+MediaPlayer视频播放器</strong>等主要技术。</h4><h4 id="ok！项目就简单介绍到这里，接下来开始我们的修仙之路。"><a href="#ok！项目就简单介绍到这里，接下来开始我们的修仙之路。" class="headerlink" title="ok！项目就简单介绍到这里，接下来开始我们的修仙之路。"></a>ok！项目就简单介绍到这里，接下来开始我们的修仙之路。</h4><hr>
+<p><img src="http://img.blog.csdn.net/20170906095022010?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h2 id="1、项目整体分析"><a href="#1、项目整体分析" class="headerlink" title="1、项目整体分析"></a>1、项目整体分析</h2><h3 id="a、UI风格"><a href="#a、UI风格" class="headerlink" title="a、UI风格"></a>a、UI风格</h3><h4 id="logo"><a href="#logo" class="headerlink" title="logo"></a>logo</h4><h4 id="主题风格："><a href="#主题风格：" class="headerlink" title="主题风格："></a>主题风格：</h4><ul>
+<li>Material Design</li>
+<li>仿ios</li>
+<li>主界面–侧拉</li>
+<li>主界面–仿微信 选项卡等</li>
+</ul>
+<h3 id="b、技术方案"><a href="#b、技术方案" class="headerlink" title="b、技术方案"></a>b、技术方案</h3><h4 id="整体分析项目，确定整体技术方案，之后的开发中按照技术方案执行，同时编写相关文档。"><a href="#整体分析项目，确定整体技术方案，之后的开发中按照技术方案执行，同时编写相关文档。" class="headerlink" title="整体分析项目，确定整体技术方案，之后的开发中按照技术方案执行，同时编写相关文档。"></a>整体分析项目，确定整体技术方案，之后的开发中按照技术方案执行，同时编写相关文档。</h4><ul>
+<li>项目架构</li>
+<li>网络框架 </li>
+<li>图片处理</li>
+<li>数据处理/接口格式</li>
+<li>三方使用：统计、推送、更新等</li>
+</ul>
+<h3 id="c、可行性分析"><a href="#c、可行性分析" class="headerlink" title="c、可行性分析"></a>c、可行性分析</h3><h4 id="邀请项目经理、技术负责人、产品经理、后端开发、测试等共同分析技术方案的可行性，并相应调整技术方案。"><a href="#邀请项目经理、技术负责人、产品经理、后端开发、测试等共同分析技术方案的可行性，并相应调整技术方案。" class="headerlink" title="邀请项目经理、技术负责人、产品经理、后端开发、测试等共同分析技术方案的可行性，并相应调整技术方案。"></a>邀请项目经理、技术负责人、产品经理、后端开发、测试等共同分析技术方案的可行性，并相应调整技术方案。</h4><h3 id="d、工期"><a href="#d、工期" class="headerlink" title="d、工期"></a>d、工期</h3><h4 id="根据项目需求和技术方案，给出开发时长；"><a href="#根据项目需求和技术方案，给出开发时长；" class="headerlink" title="根据项目需求和技术方案，给出开发时长；"></a>根据项目需求和技术方案，给出开发时长；</h4><h4 id="根据工期要求，可适当调整技术方案。"><a href="#根据工期要求，可适当调整技术方案。" class="headerlink" title="根据工期要求，可适当调整技术方案。"></a>根据工期要求，可适当调整技术方案。</h4><h3 id="e、测试用例"><a href="#e、测试用例" class="headerlink" title="e、测试用例"></a>e、测试用例</h3><h4 id="测试人员开始整理、编写测试用例和项目标准文档；"><a href="#测试人员开始整理、编写测试用例和项目标准文档；" class="headerlink" title="测试人员开始整理、编写测试用例和项目标准文档；"></a>测试人员开始整理、编写测试用例和项目标准文档；</h4><h4 id="个人觉得开发人员应该参与到测试工作中，这样方便自己对业务逻辑和功能分析全面，也帮助测试人员分析项目功能和技术，便于写出更加全面的测试用例。"><a href="#个人觉得开发人员应该参与到测试工作中，这样方便自己对业务逻辑和功能分析全面，也帮助测试人员分析项目功能和技术，便于写出更加全面的测试用例。" class="headerlink" title="个人觉得开发人员应该参与到测试工作中，这样方便自己对业务逻辑和功能分析全面，也帮助测试人员分析项目功能和技术，便于写出更加全面的测试用例。"></a><em>个人觉得开发人员应该参与到测试工作中，这样方便自己对业务逻辑和功能分析全面，也帮助测试人员分析项目功能和技术，便于写出更加全面的测试用例。</em></h4><hr>
+<h2 id="2、开发规范"><a href="#2、开发规范" class="headerlink" title="2、开发规范"></a>2、开发规范</h2><h4 id="其实Android、Ios、Server等各端开发人员，都应该有完整的、严格的开发规范，这里我只说一下Android端的开发规范："><a href="#其实Android、Ios、Server等各端开发人员，都应该有完整的、严格的开发规范，这里我只说一下Android端的开发规范：" class="headerlink" title="其实Android、Ios、Server等各端开发人员，都应该有完整的、严格的开发规范，这里我只说一下Android端的开发规范："></a>其实Android、Ios、Server等各端开发人员，都应该有完整的、严格的开发规范，这里我只说一下Android端的开发规范：</h4><h4 id="以自己项目为例，涉及到以下几项："><a href="#以自己项目为例，涉及到以下几项：" class="headerlink" title="以自己项目为例，涉及到以下几项："></a>以自己项目为例，涉及到以下几项：</h4><ul>
+<li>文档规范</li>
+<li>资源命名规范</li>
+<li>代码命名规范</li>
+<li>代码注释规范</li>
+<li>代码风格规范</li>
+<li>服务器数据规范  等</li>
+</ul>
+<h3 id="a、文档"><a href="#a、文档" class="headerlink" title="a、文档"></a>a、文档</h3><h4 id="重要有以下几个文档："><a href="#重要有以下几个文档：" class="headerlink" title="重要有以下几个文档："></a>重要有以下几个文档：</h4><ol>
+<li>需求文档</li>
+<li>产品原型图</li>
+<li>完整UI图</li>
+<li>接口文档</li>
+<li>核心技术文档</li>
+<li>重点逻辑文档</li>
+<li>程序框架图</li>
+<li>ER图、数据字典、类图等</li>
+<li>测试文档<h3 id="b、资源文件命名规范"><a href="#b、资源文件命名规范" class="headerlink" title="b、资源文件命名规范"></a>b、资源文件命名规范</h3><h4 id="名字全部小写，最好不用数字，全部英文，单词中间下划线隔开"><a href="#名字全部小写，最好不用数字，全部英文，单词中间下划线隔开" class="headerlink" title="名字全部小写，最好不用数字，全部英文，单词中间下划线隔开"></a><strong>名字全部小写，最好不用数字，全部英文，单词中间下划线隔开</strong></h4></li>
+</ol>
+<h4 id="、drawable、anim等文件夹下"><a href="#、drawable、anim等文件夹下" class="headerlink" title="~、drawable、anim等文件夹下"></a>~、drawable、anim等文件夹下</h4><p>名称结构为“技术点<em>模块点</em>空间类型_功能名”结构，技术点主要有：selector、translate、alpha、scale等，模块名主要有：login、pay、mine、setting等，控件类型主要有：button、textview、imageview、dialog等，功能名主要有：findpwd、request、back、next等。<br><img src="http://img.blog.csdn.net/20170906134436576?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="、drawable-xhdpi等图片资源"><a href="#、drawable-xhdpi等图片资源" class="headerlink" title="~、drawable-xhdpi等图片资源"></a>~、drawable-xhdpi等图片资源</h4><p>名称为“技术点<em>模块点</em>功能名”结构，技术点主要有：activity、fragment、item、include等，模块点主要有：login、setting、mine、pay等，功能名主要有：head、title、back、sure等。<br><img src="http://img.blog.csdn.net/20170906134634239?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="、layout"><a href="#、layout" class="headerlink" title="~、layout"></a>~、layout</h4><p>布局名称为“技术点<em>模块</em>功能名”结构，技术点主要有：activity、fragment、item、include等，模块主要有：home、lesson、mine、loginregist等，功能名主要有：login、title、setting、pay、bar等。<br><img src="http://img.blog.csdn.net/20170906134838331?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="、values"><a href="#、values" class="headerlink" title="~、values"></a>~、values</h4><p>布局名称为“技术点<em>模块</em>功能名”结构，技术点主要有：activity、fragment、item、include等，模块主要有：home、lesson、mine、loginregist等，功能名主要有：login、title、setting、pay、bar等。<br><img src="http://img.blog.csdn.net/20170906134925206?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="c、代码命名规范"><a href="#c、代码命名规范" class="headerlink" title="c、代码命名规范"></a>c、代码命名规范</h3><h4 id="、包名"><a href="#、包名" class="headerlink" title="~、包名"></a>~、包名</h4><p>包名为“根包名.技术点名.模块名”结构，<strong>全部小写</strong><br><img src="http://img.blog.csdn.net/20170906135230342?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="、类名"><a href="#、类名" class="headerlink" title="~、类名"></a>~、类名</h4><h4 id="采用-大驼峰-命名法，单词直接拼接，所有单词首字母大写"><a href="#采用-大驼峰-命名法，单词直接拼接，所有单词首字母大写" class="headerlink" title="采用 大驼峰 命名法，单词直接拼接，所有单词首字母大写"></a>采用 <strong>大驼峰</strong> 命名法，单词直接拼接，所有单词首字母大写</h4><p>类名为“业务模块名 执行操作名 技术点名”结构，业务模块名主要有：home、lession、net、login，pay等，操作名主要有：Get、Set、Request、Login等，技术点名主要有：Activity、Fragment、View、Adapter等。<br><img src="http://img.blog.csdn.net/20170906135438992?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="、普通变量"><a href="#、普通变量" class="headerlink" title="~、普通变量"></a>~、普通变量</h4><h4 id="采用-小驼峰-命名法，第一个单词首字母小写，其他单词首字母大写。"><a href="#采用-小驼峰-命名法，第一个单词首字母小写，其他单词首字母大写。" class="headerlink" title="采用 小驼峰 命名法，第一个单词首字母小写，其他单词首字母大写。"></a>采用 <strong>小驼峰</strong> 命名法，第一个单词首字母小写，其他单词首字母大写。</h4><p>普通变量为“名字简写 类型 功能名”结构，名字简写有：js等，类型主要有：Int、Double、Boolean、String、Char等，功能名有：Login、Number、Content等。<br><img src="http://img.blog.csdn.net/20170906135621037?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="、常亮"><a href="#、常亮" class="headerlink" title="~、常亮"></a>~、常亮</h4><h4 id="所有字母全部大写，中间下划线隔开"><a href="#所有字母全部大写，中间下划线隔开" class="headerlink" title="所有字母全部大写，中间下划线隔开"></a>所有字母全部大写，中间下划线隔开</h4><p>常量为“功能名_标识”结构，功能名主要有：LOGIN、REQUEST、PERSONINFO等，标识有SUCCESS、ERROR、URL等。<br><img src="http://img.blog.csdn.net/20170906135818518?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="、方法名"><a href="#、方法名" class="headerlink" title="~、方法名"></a>~、方法名</h4><p>名字能体现出功能即可。不再累赘重述。</p>
+<hr>
+<h2 id="3、数据-接口定义"><a href="#3、数据-接口定义" class="headerlink" title="3、数据/接口定义"></a>3、数据/接口定义</h2><h4 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h4><ol>
+<li>服务器返回数据采用json格式</li>
+<li>json数据中无数据，必须返回空数组或空字符串，不可返回null</li>
+<li>Android端使用gson或fastjson或jackson等三方解析工具解析</li>
+<li>不建议使用官方JSONObject解析，容易出错</li>
+<li>实体类属性名与json中字段名完全一致</li>
+<li>json中字段名全部使用英文，不可英文、拼音夹杂</li>
+<li>用户表识建议使用Cookie</li>
+<li>建议使用POST解析，它对参数数量没有要求，也比较安全</li>
+<li>为了传输安全，使用https请求   等</li>
+<li>完善接口文档，建议每一版对应一个完整接口文档</li>
+</ol>
+<hr>
+<h2 id="4、屏幕适配"><a href="#4、屏幕适配" class="headerlink" title="4、屏幕适配"></a>4、屏幕适配</h2><h4 id="安卓设备分辨率、屏幕尺寸五花八门，碎片化严重，重点对市面上主流的7201280和10801920手机进行适配，同时对于其他类型手机也要适配。"><a href="#安卓设备分辨率、屏幕尺寸五花八门，碎片化严重，重点对市面上主流的7201280和10801920手机进行适配，同时对于其他类型手机也要适配。" class="headerlink" title="安卓设备分辨率、屏幕尺寸五花八门，碎片化严重，重点对市面上主流的7201280和10801920手机进行适配，同时对于其他类型手机也要适配。"></a>安卓设备分辨率、屏幕尺寸五花八门，碎片化严重，重点对市面上主流的720<em>1280和1080</em>1920手机进行适配，同时对于其他类型手机也要适配。</h4><h4 id="关于屏幕适配，之前写过一个Android屏幕完美适配方案，点击前往，这里不再重复表述。"><a href="#关于屏幕适配，之前写过一个Android屏幕完美适配方案，点击前往，这里不再重复表述。" class="headerlink" title="关于屏幕适配，之前写过一个Android屏幕完美适配方案，点击前往，这里不再重复表述。"></a>关于屏幕适配，之前写过一个<strong>Android屏幕完美适配方案</strong>，<a href="http://blog.csdn.net/jiashuai94/article/details/77639511" target="_blank" rel="noopener">点击前往</a>，这里不再重复表述。</h4><hr>
+<h2 id="5、程序架构MVP"><a href="#5、程序架构MVP" class="headerlink" title="5、程序架构MVP"></a>5、程序架构MVP</h2><p><img src="http://img.blog.csdn.net/20170907092553745?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="上图介绍："><a href="#上图介绍：" class="headerlink" title="上图介绍："></a>上图介绍：</h3><h4 id="Contract：契约类，一个功能模块中View接口、Model接口和请求数据回调统一在对应模块的Contract中定义，便于管理。"><a href="#Contract：契约类，一个功能模块中View接口、Model接口和请求数据回调统一在对应模块的Contract中定义，便于管理。" class="headerlink" title="Contract：契约类，一个功能模块中View接口、Model接口和请求数据回调统一在对应模块的Contract中定义，便于管理。"></a><strong>Contract：</strong>契约类，一个功能模块中View接口、Model接口和请求数据回调统一在对应模块的Contract中定义，便于管理。</h4><h4 id="ViewInterface：-view层接口，定义了view中的UI操作"><a href="#ViewInterface：-view层接口，定义了view中的UI操作" class="headerlink" title="ViewInterface： view层接口，定义了view中的UI操作"></a><strong>ViewInterface：</strong> view层接口，定义了view中的UI操作</h4><h4 id="ModelInterface：-model层接口，定义了model负责的数据操作方法，如请求接口，操作数据库等"><a href="#ModelInterface：-model层接口，定义了model负责的数据操作方法，如请求接口，操作数据库等" class="headerlink" title="ModelInterface： model层接口，定义了model负责的数据操作方法，如请求接口，操作数据库等"></a><strong>ModelInterface：</strong> model层接口，定义了model负责的数据操作方法，如请求接口，操作数据库等</h4><h4 id="CallbackInterface：-model层操作数据完成后的回调"><a href="#CallbackInterface：-model层操作数据完成后的回调" class="headerlink" title="CallbackInterface： model层操作数据完成后的回调"></a><strong>CallbackInterface：</strong> model层操作数据完成后的回调</h4><h4 id="BasePersenter：-Persenter父类，主要是对相关view的获取，销毁等操作"><a href="#BasePersenter：-Persenter父类，主要是对相关view的获取，销毁等操作" class="headerlink" title="BasePersenter： Persenter父类，主要是对相关view的获取，销毁等操作"></a><strong>BasePersenter：</strong> Persenter父类，主要是对相关view的获取，销毁等操作</h4><h4 id="View：-view层实现类，主要就是Activity或Fragment，负责UI展示和事件响应"><a href="#View：-view层实现类，主要就是Activity或Fragment，负责UI展示和事件响应" class="headerlink" title="View： view层实现类，主要就是Activity或Fragment，负责UI展示和事件响应"></a><strong>View：</strong> view层实现类，主要就是Activity或Fragment，负责UI展示和事件响应</h4><h4 id="Model：-model层实现类，就是依据业务，请求对应接口或数据库，并将结果返给回调CallBack"><a href="#Model：-model层实现类，就是依据业务，请求对应接口或数据库，并将结果返给回调CallBack" class="headerlink" title="Model： model层实现类，就是依据业务，请求对应接口或数据库，并将结果返给回调CallBack"></a><strong>Model：</strong> model层实现类，就是依据业务，请求对应接口或数据库，并将结果返给回调CallBack</h4><h4 id="Persenter：-persenter层类，负责业务逻辑处理，view将响应传给persenter，persenter负责调用model，并将结果返回给view供其展示"><a href="#Persenter：-persenter层类，负责业务逻辑处理，view将响应传给persenter，persenter负责调用model，并将结果返回给view供其展示" class="headerlink" title="Persenter： persenter层类，负责业务逻辑处理，view将响应传给persenter，persenter负责调用model，并将结果返回给view供其展示"></a><strong>Persenter：</strong> persenter层类，负责业务逻辑处理，view将响应传给persenter，persenter负责调用model，并将结果返回给view供其展示</h4><h3 id="MVP："><a href="#MVP：" class="headerlink" title="MVP："></a>MVP：</h3><h4 id="MVP模式相当于在MVC模式中又加了一个Presenter用于处理模型和逻辑，将View和Model完全独立开，在android开发中的体现就是activity仅用于显示界面和交互，activity不参与模型结构和逻辑。"><a href="#MVP模式相当于在MVC模式中又加了一个Presenter用于处理模型和逻辑，将View和Model完全独立开，在android开发中的体现就是activity仅用于显示界面和交互，activity不参与模型结构和逻辑。" class="headerlink" title="MVP模式相当于在MVC模式中又加了一个Presenter用于处理模型和逻辑，将View和Model完全独立开，在android开发中的体现就是activity仅用于显示界面和交互，activity不参与模型结构和逻辑。"></a>MVP模式相当于在MVC模式中又加了一个Presenter用于处理模型和逻辑，将View和Model完全独立开，在android开发中的体现就是activity仅用于显示界面和交互，activity不参与模型结构和逻辑。</h4><h4 id="使用MVP模式会使得代码多出一些接口但是使得代码逻辑更加清晰，尤其是在处理复杂界面和逻辑时，我们可以对同一个activity将每一个业务都抽离成一个Presenter，这样代码既清晰逻辑明确又方便我们扩展。当然如果我们的业务逻辑本身就比较简单的话使用MVP模式就显得，没那么必要。所以我们不需要为了用它而用它，具体的还是要要业务需要"><a href="#使用MVP模式会使得代码多出一些接口但是使得代码逻辑更加清晰，尤其是在处理复杂界面和逻辑时，我们可以对同一个activity将每一个业务都抽离成一个Presenter，这样代码既清晰逻辑明确又方便我们扩展。当然如果我们的业务逻辑本身就比较简单的话使用MVP模式就显得，没那么必要。所以我们不需要为了用它而用它，具体的还是要要业务需要" class="headerlink" title="使用MVP模式会使得代码多出一些接口但是使得代码逻辑更加清晰，尤其是在处理复杂界面和逻辑时，我们可以对同一个activity将每一个业务都抽离成一个Presenter，这样代码既清晰逻辑明确又方便我们扩展。当然如果我们的业务逻辑本身就比较简单的话使用MVP模式就显得，没那么必要。所以我们不需要为了用它而用它，具体的还是要要业务需要"></a>使用MVP模式会使得代码多出一些接口但是使得代码逻辑更加清晰，尤其是在处理复杂界面和逻辑时，我们可以对同一个activity将每一个业务都抽离成一个Presenter，这样代码既清晰逻辑明确又方便我们扩展。当然如果我们的业务逻辑本身就比较简单的话使用MVP模式就显得，没那么必要。所以我们不需要为了用它而用它，具体的还是要要业务需要</h4><h4 id="现在比较流行MVVM架构，后续我会将MVVM总结，大家期待一下。。"><a href="#现在比较流行MVVM架构，后续我会将MVVM总结，大家期待一下。。" class="headerlink" title="现在比较流行MVVM架构，后续我会将MVVM总结，大家期待一下。。"></a><strong>现在比较流行MVVM架构，后续我会将MVVM总结，大家期待一下。。</strong></h4><hr>
+<h2 id="6、package划分"><a href="#6、package划分" class="headerlink" title="6、package划分"></a>6、package划分</h2><p><img src="http://img.blog.csdn.net/20170907103058711?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="如上：主体按功能模块划分，同一级的还有一些技术点，如adapter、util、pay等；在功能模块下，按照mvp模式，又分为contract、model、presenter、fragment和activity；而在其他技术点包下面同样也按功能模块划分。"><a href="#如上：主体按功能模块划分，同一级的还有一些技术点，如adapter、util、pay等；在功能模块下，按照mvp模式，又分为contract、model、presenter、fragment和activity；而在其他技术点包下面同样也按功能模块划分。" class="headerlink" title="如上：主体按功能模块划分，同一级的还有一些技术点，如adapter、util、pay等；在功能模块下，按照mvp模式，又分为contract、model、presenter、fragment和activity；而在其他技术点包下面同样也按功能模块划分。"></a>如上：主体按功能模块划分，同一级的还有一些技术点，如adapter、util、pay等；在功能模块下，按照mvp模式，又分为contract、model、presenter、fragment和activity；而在其他技术点包下面同样也按功能模块划分。</h4><h4 id="总之，我们划分包时：以功能模块为主，以技术点为辅。"><a href="#总之，我们划分包时：以功能模块为主，以技术点为辅。" class="headerlink" title="总之，我们划分包时：以功能模块为主，以技术点为辅。"></a>总之，我们划分包时：<strong>以功能模块为主，以技术点为辅</strong>。</h4><h4 id="希望能对大家有用"><a href="#希望能对大家有用" class="headerlink" title="希望能对大家有用"></a>希望能对大家有用</h4><hr>
+<h2 id="7、Base、Util、UI类封装"><a href="#7、Base、Util、UI类封装" class="headerlink" title="7、Base、Util、UI类封装"></a>7、Base、Util、UI类封装</h2><h3 id="A、Base类"><a href="#A、Base类" class="headerlink" title="A、Base类"></a>A、Base类</h3><ul>
+<li>BaseApplication</li>
+<li>BaseActivity</li>
+<li>BaseFragment</li>
+<li><p>BasePresenter 等</p>
+<h4 id="a、BaseApplication："><a href="#a、BaseApplication：" class="headerlink" title="a、BaseApplication："></a>a、<strong>BaseApplication</strong>：</h4><h4 id="主要进行一些例如：三方配置、热更新加载、文件配置、数据库配置等准备工作；同时也许定义全局性变量：如Application的Context、网络状态、主线程Looper、主线程Handler等。"><a href="#主要进行一些例如：三方配置、热更新加载、文件配置、数据库配置等准备工作；同时也许定义全局性变量：如Application的Context、网络状态、主线程Looper、主线程Handler等。" class="headerlink" title="主要进行一些例如：三方配置、热更新加载、文件配置、数据库配置等准备工作；同时也许定义全局性变量：如Application的Context、网络状态、主线程Looper、主线程Handler等。"></a>主要进行一些例如：<strong>三方配置</strong>、<strong>热更新加载</strong>、<strong>文件配置</strong>、<strong>数据库配置</strong>等准备工作；同时也许定义全局性变量：如<strong>Application的Context</strong>、<strong>网络状态</strong>、<strong>主线程Looper</strong>、<strong>主线程Handler</strong>等。</h4><h4 id="b、BaseActivity："><a href="#b、BaseActivity：" class="headerlink" title="b、BaseActivity："></a>b、<strong>BaseActivity</strong>：</h4><h4 id="封装为抽象类，将各任务抽取成方法，有子类实现：比如findViewById-initView-、initData、setListener等；"><a href="#封装为抽象类，将各任务抽取成方法，有子类实现：比如findViewById-initView-、initData、setListener等；" class="headerlink" title="封装为抽象类，将各任务抽取成方法，有子类实现：比如findViewById(initView)、initData、setListener等；"></a>封装为抽象类，将各任务抽取成方法，有子类实现：比如<strong>findViewById(initView)</strong>、<strong>initData</strong>、<strong>setListener</strong>等；</h4><h4 id="对友盟统计的封装：因为友盟统计或别的统计需要在所有Activity的各生命周期方法中调用api，所以应该将其封装到BaseActivity中。"><a href="#对友盟统计的封装：因为友盟统计或别的统计需要在所有Activity的各生命周期方法中调用api，所以应该将其封装到BaseActivity中。" class="headerlink" title="对友盟统计的封装：因为友盟统计或别的统计需要在所有Activity的各生命周期方法中调用api，所以应该将其封装到BaseActivity中。"></a>对友盟统计的封装：因为友盟统计或别的统计需要在所有Activity的各生命周期方法中调用api，所以应该将其封装到BaseActivity中。</h4><h4 id="项目为MVP结构，所以设置了View和Presenter的泛型，如："><a href="#项目为MVP结构，所以设置了View和Presenter的泛型，如：" class="headerlink" title="项目为MVP结构，所以设置了View和Presenter的泛型，如："></a>项目为MVP结构，所以设置了View和Presenter的泛型，如：</h4><h4 id="其中定义了屏幕宽高度等设备信息，也定义了BasePresenter对象、并抽取抽象方法，由子类返回其对应presenter。"><a href="#其中定义了屏幕宽高度等设备信息，也定义了BasePresenter对象、并抽取抽象方法，由子类返回其对应presenter。" class="headerlink" title="其中定义了屏幕宽高度等设备信息，也定义了BasePresenter对象、并抽取抽象方法，由子类返回其对应presenter。"></a>其中定义了屏幕宽高度等设备信息，也定义了BasePresenter对象、并抽取抽象方法，由子类返回其对应presenter。</h4><p><img src="http://img.blog.csdn.net/20170911093023497?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="c、BaseFragment："><a href="#c、BaseFragment：" class="headerlink" title="c、BaseFragment："></a>c、<strong>BaseFragment</strong>：</h4><h4 id="BaseFragment的封装如BaseActivity一样，添加View和Presenter的泛型和presenter对象，创建返回Presenter的抽象方法供子类事项；"><a href="#BaseFragment的封装如BaseActivity一样，添加View和Presenter的泛型和presenter对象，创建返回Presenter的抽象方法供子类事项；" class="headerlink" title="BaseFragment的封装如BaseActivity一样，添加View和Presenter的泛型和presenter对象，创建返回Presenter的抽象方法供子类事项；"></a>BaseFragment的封装如BaseActivity一样，添加View和Presenter的泛型和presenter对象，创建返回Presenter的抽象方法供子类事项；</h4><h4 id="创建createView-创建跟视图view-、initChildView-子view-findViewById-、initData-加载数据-抽象方法"><a href="#创建createView-创建跟视图view-、initChildView-子view-findViewById-、initData-加载数据-抽象方法" class="headerlink" title="创建createView(创建跟视图view)、initChildView(子view findViewById)、initData(加载数据)抽象方法"></a>创建<strong>createView</strong>(创建跟视图view)、<strong>initChildView</strong>(子view findViewById)、<strong>initData</strong>(加载数据)抽象方法</h4><h4 id="d、BasePresenter："><a href="#d、BasePresenter：" class="headerlink" title="d、BasePresenter："></a>d、<strong>BasePresenter</strong>：</h4><p><img src="http://img.blog.csdn.net/20170911102506210?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="BasePresenter封装如上：内置view的软引用，在Activity或Fragment的onResume中调用presenter的attachView方法，将view实例传给presenter；在Activity或Fragment的onDestroy或onStop方法中调用detachView方法解除与view的绑定；而getView方法则是presenter在model返回数据后调用来操作对应view的展示UI方法。"><a href="#BasePresenter封装如上：内置view的软引用，在Activity或Fragment的onResume中调用presenter的attachView方法，将view实例传给presenter；在Activity或Fragment的onDestroy或onStop方法中调用detachView方法解除与view的绑定；而getView方法则是presenter在model返回数据后调用来操作对应view的展示UI方法。" class="headerlink" title="BasePresenter封装如上：内置view的软引用，在Activity或Fragment的onResume中调用presenter的attachView方法，将view实例传给presenter；在Activity或Fragment的onDestroy或onStop方法中调用detachView方法解除与view的绑定；而getView方法则是presenter在model返回数据后调用来操作对应view的展示UI方法。"></a>BasePresenter封装如上：内置view的软引用，在Activity或Fragment的onResume中调用presenter的attachView方法，将view实例传给presenter；在Activity或Fragment的onDestroy或onStop方法中调用detachView方法解除与view的绑定；而getView方法则是presenter在model返回数据后调用来操作对应view的展示UI方法。</h4></li>
+</ul>
+<h3 id="B、Utils类"><a href="#B、Utils类" class="headerlink" title="B、Utils类"></a>B、Utils类</h3><h4 id="只列举一些常用的工具类："><a href="#只列举一些常用的工具类：" class="headerlink" title="只列举一些常用的工具类："></a>只列举一些常用的工具类：</h4><ul>
+<li>SharedPreferenceUtils</li>
+<li>ToastUtils</li>
+<li>StorageUtils</li>
+<li>FileUtils</li>
+<li>NetUtils</li>
+<li>deviceUtils</li>
+<li>DateUtils</li>
+<li>LogUtils</li>
+<li>AppUtils 等</li>
+</ul>
+<h3 id="C、UI类"><a href="#C、UI类" class="headerlink" title="C、UI类"></a>C、UI类</h3><h4 id="只列举一些常用的View类"><a href="#只列举一些常用的View类" class="headerlink" title="只列举一些常用的View类"></a>只列举一些常用的View类</h4><ul>
+<li>下拉刷新、上拉加载</li>
+<li>圆形ImageView</li>
+<li>自定义Dialog</li>
+<li>Banner</li>
+<li>自定义ScrollView</li>
+<li>自定义RecyclerView  </li>
+<li>项目相关的自定义View  等</li>
+</ul>
+<hr>
+<h2 id="8、数据库"><a href="#8、数据库" class="headerlink" title="8、数据库"></a>8、数据库</h2><h4 id="关于数据库操作，之前一直是自己写：也就是SQLiteOpenHelper结合相关SQL操作工具类来实现数据库操作。"><a href="#关于数据库操作，之前一直是自己写：也就是SQLiteOpenHelper结合相关SQL操作工具类来实现数据库操作。" class="headerlink" title="关于数据库操作，之前一直是自己写：也就是SQLiteOpenHelper结合相关SQL操作工具类来实现数据库操作。"></a>关于数据库操作，之前一直是自己写：也就是SQLiteOpenHelper结合相关SQL操作工具类来实现数据库操作。</h4><h4 id="但随着业务逻辑的增加和复杂，需要进行大量的数据库操作时，编写大量的代码，既费时间、还会避免不了地出bug；"><a href="#但随着业务逻辑的增加和复杂，需要进行大量的数据库操作时，编写大量的代码，既费时间、还会避免不了地出bug；" class="headerlink" title="但随着业务逻辑的增加和复杂，需要进行大量的数据库操作时，编写大量的代码，既费时间、还会避免不了地出bug；"></a>但随着业务逻辑的增加和复杂，需要进行大量的数据库操作时，编写大量的代码，既费时间、还会避免不了地出bug；</h4><h4 id="所以我们只介绍几款流行的数据库框架："><a href="#所以我们只介绍几款流行的数据库框架：" class="headerlink" title="所以我们只介绍几款流行的数据库框架："></a>所以我们只介绍几款流行的数据库框架：</h4><ul>
+<li>GreenDao</li>
+<li>OrmLite</li>
+<li>LitePal</li>
+<li>Realm</li>
+</ul>
+<h3 id="GreenDao："><a href="#GreenDao：" class="headerlink" title="GreenDao："></a>GreenDao：</h3><h4 id="特点：1-存取速度快-2-支持数据库加密-3-轻量级-4-激活实体-5-支持缓存-6-代码自动生成"><a href="#特点：1-存取速度快-2-支持数据库加密-3-轻量级-4-激活实体-5-支持缓存-6-代码自动生成" class="headerlink" title="特点：1.存取速度快; 2.支持数据库加密; 3.轻量级; 4.激活实体; 5.支持缓存; 6.代码自动生成"></a>特点：1.存取速度快; 2.支持数据库加密; 3.轻量级; 4.激活实体; 5.支持缓存; 6.代码自动生成</h4><h4 id="地址：https-github-com-greenrobot-greenDAO"><a href="#地址：https-github-com-greenrobot-greenDAO" class="headerlink" title="地址：https://github.com/greenrobot/greenDAO"></a>地址：<a href="https://github.com/greenrobot/greenDAO" target="_blank" rel="noopener">https://github.com/greenrobot/greenDAO</a></h4><h3 id="OrmLite："><a href="#OrmLite：" class="headerlink" title="OrmLite："></a>OrmLite：</h3><h4 id="优点：-1-轻量级；2-使用简单，易上手；3-封装完善；4-文档全面。缺点：1-基于反射，效率较低（本人还没有觉得效率低）；2-缺少中文翻译文档"><a href="#优点：-1-轻量级；2-使用简单，易上手；3-封装完善；4-文档全面。缺点：1-基于反射，效率较低（本人还没有觉得效率低）；2-缺少中文翻译文档" class="headerlink" title="优点： 1.轻量级；2.使用简单，易上手；3.封装完善；4.文档全面。缺点：1.基于反射，效率较低（本人还没有觉得效率低）；2.缺少中文翻译文档"></a>优点： 1.轻量级；2.使用简单，易上手；3.封装完善；4.文档全面。缺点：1.基于反射，效率较低（本人还没有觉得效率低）；2.缺少中文翻译文档</h4><h4 id="jar包地址：http-ormlite-com-releases"><a href="#jar包地址：http-ormlite-com-releases" class="headerlink" title="jar包地址：http://ormlite.com/releases/"></a>jar包地址：<a href="http://ormlite.com/releases/" target="_blank" rel="noopener">http://ormlite.com/releases/</a></h4><h3 id="LitePal："><a href="#LitePal：" class="headerlink" title="LitePal："></a>LitePal：</h3><h4 id="LitePal-框架是郭大神开源的数据库框架，他的博客也比较详细的介绍了其用法。"><a href="#LitePal-框架是郭大神开源的数据库框架，他的博客也比较详细的介绍了其用法。" class="headerlink" title="LitePal 框架是郭大神开源的数据库框架，他的博客也比较详细的介绍了其用法。"></a>LitePal 框架是郭大神开源的数据库框架，他的博客也比较详细的介绍了其用法。</h4><h4 id="地址：https-github-com-LitePalFramework-LitePal"><a href="#地址：https-github-com-LitePalFramework-LitePal" class="headerlink" title="地址：https://github.com/LitePalFramework/LitePal"></a>地址：<a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="noopener">https://github.com/LitePalFramework/LitePal</a></h4><h3 id="Realm："><a href="#Realm：" class="headerlink" title="Realm："></a>Realm：</h3><h4 id="1-易用：Ream-不是在SQLite基础上的ORM，它有自己的数据查询引擎。并且十分容易使用。"><a href="#1-易用：Ream-不是在SQLite基础上的ORM，它有自己的数据查询引擎。并且十分容易使用。" class="headerlink" title="1.易用：Ream 不是在SQLite基础上的ORM，它有自己的数据查询引擎。并且十分容易使用。"></a>1.易用：Ream 不是在SQLite基础上的ORM，它有自己的数据查询引擎。并且十分容易使用。</h4><h4 id="2-快速：由于它是完全重新开始开发的数据库实现，所以它比任何的ORM速度都快很多，甚至比SLite速度都要快。"><a href="#2-快速：由于它是完全重新开始开发的数据库实现，所以它比任何的ORM速度都快很多，甚至比SLite速度都要快。" class="headerlink" title="2.快速：由于它是完全重新开始开发的数据库实现，所以它比任何的ORM速度都快很多，甚至比SLite速度都要快。"></a>2.快速：由于它是完全重新开始开发的数据库实现，所以它比任何的ORM速度都快很多，甚至比SLite速度都要快。</h4><h4 id="3-跨平台：Realm-支持-iOS-amp-OS-X-Objective‑C-amp-Swift-amp-Android。我们可以在这些平台上共享Realm数据库文件，并且上层逻辑可以不用任何改动的情况下实现移植。"><a href="#3-跨平台：Realm-支持-iOS-amp-OS-X-Objective‑C-amp-Swift-amp-Android。我们可以在这些平台上共享Realm数据库文件，并且上层逻辑可以不用任何改动的情况下实现移植。" class="headerlink" title="3.跨平台：Realm 支持 iOS &amp; OS X (Objective‑C &amp; Swift) &amp; Android。我们可以在这些平台上共享Realm数据库文件，并且上层逻辑可以不用任何改动的情况下实现移植。"></a>3.跨平台：Realm 支持 iOS &amp; OS X (Objective‑C &amp; Swift) &amp; Android。我们可以在这些平台上共享Realm数据库文件，并且上层逻辑可以不用任何改动的情况下实现移植。</h4><h4 id="4-高级：Ream支持加密，格式化查询，易于移植，支持JSON，流式api，数据变更通知等高级特性"><a href="#4-高级：Ream支持加密，格式化查询，易于移植，支持JSON，流式api，数据变更通知等高级特性" class="headerlink" title="4.高级：Ream支持加密，格式化查询，易于移植，支持JSON，流式api，数据变更通知等高级特性"></a>4.高级：Ream支持加密，格式化查询，易于移植，支持JSON，流式api，数据变更通知等高级特性</h4><h4 id="5-可视化"><a href="#5-可视化" class="headerlink" title="5.可视化"></a>5.可视化</h4><h4 id="git地址：https-github-com-realm-realm-java"><a href="#git地址：https-github-com-realm-realm-java" class="headerlink" title="git地址：https://github.com/realm/realm-java"></a>git地址：<a href="https://github.com/realm/realm-java" target="_blank" rel="noopener">https://github.com/realm/realm-java</a></h4><h4 id="官网：https-realm-io-docs-java-latest-getting-started"><a href="#官网：https-realm-io-docs-java-latest-getting-started" class="headerlink" title="官网：https://realm.io/docs/java/latest/#getting-started"></a>官网：<a href="https://realm.io/docs/java/latest/#getting-started" target="_blank" rel="noopener">https://realm.io/docs/java/latest/#getting-started</a></h4><h4 id="自己项目中使用了GreenDao，它代码自动生成、存取速度快、支持加密、一个轻量级别的库，用着方便，推荐大家使用GreenDao。"><a href="#自己项目中使用了GreenDao，它代码自动生成、存取速度快、支持加密、一个轻量级别的库，用着方便，推荐大家使用GreenDao。" class="headerlink" title="自己项目中使用了GreenDao，它代码自动生成、存取速度快、支持加密、一个轻量级别的库，用着方便，推荐大家使用GreenDao。"></a>自己项目中使用了GreenDao，它代码自动生成、存取速度快、支持加密、一个轻量级别的库，用着方便，推荐大家使用GreenDao。</h4><hr>
+<h2 id="9、图片处理"><a href="#9、图片处理" class="headerlink" title="9、图片处理"></a>9、图片处理</h2><h4 id="之前有自己封装过图片处理框架，核心是使用HttpUrlConnection实现加载，仿LruCache（近期最少使用排序）算法实现图片缓存。"><a href="#之前有自己封装过图片处理框架，核心是使用HttpUrlConnection实现加载，仿LruCache（近期最少使用排序）算法实现图片缓存。" class="headerlink" title="之前有自己封装过图片处理框架，核心是使用HttpUrlConnection实现加载，仿LruCache（近期最少使用排序）算法实现图片缓存。"></a>之前有自己封装过图片处理框架，核心是使用HttpUrlConnection实现加载，仿LruCache（近期最少使用排序）算法实现图片缓存。</h4><h4 id="但我们用的最多的还是ImageLoader、Glide、Picasso和Fresco四大主流框架，接下来主要比较一下四个框架的各自特点："><a href="#但我们用的最多的还是ImageLoader、Glide、Picasso和Fresco四大主流框架，接下来主要比较一下四个框架的各自特点：" class="headerlink" title="但我们用的最多的还是ImageLoader、Glide、Picasso和Fresco四大主流框架，接下来主要比较一下四个框架的各自特点："></a>但我们用的最多的还是ImageLoader、Glide、Picasso和Fresco四大主流框架，接下来主要比较一下四个框架的各自特点：</h4><h3 id="ImageLoader："><a href="#ImageLoader：" class="headerlink" title="ImageLoader："></a>ImageLoader：</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点:"></a>优点:</h4><ul>
+<li>多线程下载，线程管理。</li>
+<li>多级缓存架构设计和策略，内存缓存，磁盘缓存，缓存有效性处理。</li>
+<li>图片压缩，特效处理，动画处理。</li>
+<li>复杂网络情况下下载图片策略，例如弱网络等。</li>
+<li>内存管理，lru 算法、对象引用、GC回收等优化。<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4></li>
+<li>时间久，官方不再维护，出现bug需要自己修复。</li>
+</ul>
+<h3 id="Glide："><a href="#Glide：" class="headerlink" title="Glide："></a>Glide：</h3><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><ul>
+<li>更易用，因为Glide的with方法不光接受Context，还接受Activity 和 Fragment，Context会自动的从他们获取。同时将Activity/Fragment作为with()参数的好处是：图片加载会和Activity/Fragment的生命周期保持一致，比如Paused状态在暂停加载，在Resumed的时候又自动重新加载。所以我<strong>建议传参的时候传递Activity 和 Fragment给Glide，而不是Context</strong>。</li>
+<li>Glide可以加载GIF动态图。</li>
+<li>Glide缓存的是跟ImageView尺寸相同的。Glide的这种方式优点是加载显示非常快。</li>
+<li>默认使用HttpUrlConnection下载图片，可以配置为OkHttp或者Volley下载，也可以自定义下载方式。</li>
+<li>默认使用手机内置存储进行磁盘缓存，可以配置为外部存储，可以配置缓存大小，图片池大小。</li>
+<li>默认使用两个线程池来分别执行读取缓存和下载任务，都可以自定义。</li>
+</ul>
+<h4 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h4><ul>
+<li>Glide加载的图片质量要差于Picasso，这是因为Glide默认的Bitmap格式是RGB_565，比ARGB_8888格式的内存开销要小一半。</li>
+</ul>
+<h3 id="Picasso："><a href="#Picasso：" class="headerlink" title="Picasso："></a>Picasso：</h3><h4 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h4><ul>
+<li>在adapter中需要取消已经不在视野范围的ImageView图片资源的加载，否则会导致图片错位，Picasso已经解决了这个问题。</li>
+<li>使用复杂的图片压缩转换来尽可能的减少内存消耗</li>
+<li>自带内存和硬盘二级缓存功能</li>
+</ul>
+<h3 id="Fresco："><a href="#Fresco：" class="headerlink" title="Fresco："></a>Fresco：</h3><h4 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h4><ul>
+<li><p>最大的优势便在于5.0以下(最低2.3) bitmap的加载，在5.0以下系统，Fresco将图片放到一个特别的内存区域(Ashmem)，而且图片不显示时，占用的内存会自动被释放，这会使APP更加流畅，减少因图片内存占用而引发的OOM。5.0以后的系统默认存储在Ashmem区了</p>
+</li>
+<li><p>图片的渐进式呈现，图片先呈现大致的轮廓，然后随着图片下载的继续，逐渐成仙清晰的图片，这对于慢网络对说，用户体验更好。</p>
+</li>
+<li><p>支持加载Git动态图和Webp格式的图片。</p>
+</li>
+</ul>
+<h4 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h4><ul>
+<li>框架体积比较大，3M左右，会增加APK的大小。<h4 id="总结：在项目开发中，要适当的选择图片框架，ImageLoader太老已过时，且官方不再维护，所以不再考虑使用ImageLoader；Picasso能做的，Glide都能做到，就是Glide的图片质量会稍差一些；而Fresco又体积偏大，但渐进式呈现，用户体验好。综上的话，一般项目建议使用Glide即可。"><a href="#总结：在项目开发中，要适当的选择图片框架，ImageLoader太老已过时，且官方不再维护，所以不再考虑使用ImageLoader；Picasso能做的，Glide都能做到，就是Glide的图片质量会稍差一些；而Fresco又体积偏大，但渐进式呈现，用户体验好。综上的话，一般项目建议使用Glide即可。" class="headerlink" title="总结：在项目开发中，要适当的选择图片框架，ImageLoader太老已过时，且官方不再维护，所以不再考虑使用ImageLoader；Picasso能做的，Glide都能做到，就是Glide的图片质量会稍差一些；而Fresco又体积偏大，但渐进式呈现，用户体验好。综上的话，一般项目建议使用Glide即可。"></a>总结：在项目开发中，要适当的选择图片框架，ImageLoader太老已过时，且官方不再维护，所以不再考虑使用ImageLoader；Picasso能做的，Glide都能做到，就是Glide的图片质量会稍差一些；而Fresco又体积偏大，但渐进式呈现，用户体验好。综上的话，一般项目建议使用Glide即可。</h4></li>
+</ul>
+<hr>
+<h2 id="10、网络框架"><a href="#10、网络框架" class="headerlink" title="10、网络框架"></a>10、网络框架</h2><h4 id="上一个项目中，网络框架自己封装：核心使用HttpUrlConnection实现，先封装请求参数相关类RequestVo，其中包含请求方式、url、参数、解析类、是否缓存、缓存时长等参数；缓存是将json字符串加密后与拼接过的url成对存储到File，并且设置有效时间，超过有效时间删除缓存并去网络请求，成功后重新保存。"><a href="#上一个项目中，网络框架自己封装：核心使用HttpUrlConnection实现，先封装请求参数相关类RequestVo，其中包含请求方式、url、参数、解析类、是否缓存、缓存时长等参数；缓存是将json字符串加密后与拼接过的url成对存储到File，并且设置有效时间，超过有效时间删除缓存并去网络请求，成功后重新保存。" class="headerlink" title="上一个项目中，网络框架自己封装：核心使用HttpUrlConnection实现，先封装请求参数相关类RequestVo，其中包含请求方式、url、参数、解析类、是否缓存、缓存时长等参数；缓存是将json字符串加密后与拼接过的url成对存储到File，并且设置有效时间，超过有效时间删除缓存并去网络请求，成功后重新保存。"></a>上一个项目中，网络框架自己封装：核心使用HttpUrlConnection实现，先封装请求参数相关类RequestVo，其中包含<em>请求方式</em>、<em>url</em>、<em>参数</em>、<em>解析类</em>、<em>是否缓存</em>、<em>缓存时长</em>等参数；缓存是将json字符串加密后与拼接过的url成对存储到File，并且设置有效时间，超过有效时间删除缓存并去网络请求，成功后重新保存。</h4><h4 id="但现在市面上最流行的是Retrofit-RxJava-Gson，接下来我们大概介绍一下："><a href="#但现在市面上最流行的是Retrofit-RxJava-Gson，接下来我们大概介绍一下：" class="headerlink" title="但现在市面上最流行的是Retrofit+RxJava+Gson，接下来我们大概介绍一下："></a>但现在市面上最流行的是Retrofit+RxJava+Gson，接下来我们大概介绍一下：</h4><h3 id="a、添加依赖"><a href="#a、添加依赖" class="headerlink" title="a、添加依赖"></a>a、添加依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;io.reactivex:rxjava:x.y.z&apos;</span><br><span class="line">compile &apos;io.reactivex:rxandroid:1.0.1&apos;</span><br><span class="line">compile &apos;com.squareup.retrofit2:retrofit:2.0.2&apos;</span><br><span class="line">compile &apos;com.squareup.retrofit2:converter-gson:2.0.2&apos;</span><br><span class="line">compile &apos;com.squareup.retrofit2:adapter-rxjava:2.0.2&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="要注意：以上添加了Retrofit、RxJava和Gson依赖，版本号必须一致"><a href="#要注意：以上添加了Retrofit、RxJava和Gson依赖，版本号必须一致" class="headerlink" title="要注意：以上添加了Retrofit、RxJava和Gson依赖，版本号必须一致"></a>要注意：以上添加了Retrofit、RxJava和Gson依赖，版本号必须一致</h4><h3 id="b、登录Service"><a href="#b、登录Service" class="headerlink" title="b、登录Service"></a>b、登录Service</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">interface BaseService &#123;</span><br><span class="line">  @GET(&quot;user/login&quot; )</span><br><span class="line">  Observable&lt;User&gt; login(</span><br><span class="line">          @Query(&quot;username&quot;) String username,</span><br><span class="line">          @Query(&quot;password&quot;) String password</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="login方法的返回值是Observable类型，就是RxJava中的被观察者。"><a href="#login方法的返回值是Observable类型，就是RxJava中的被观察者。" class="headerlink" title="login方法的返回值是Observable类型，就是RxJava中的被观察者。"></a>login方法的返回值是Observable类型，就是RxJava中的被观察者。</h4><h3 id="c、网络请求"><a href="#c、网络请求" class="headerlink" title="c、网络请求"></a>c、网络请求</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Retrofit retrofit = new Retrofit.Builder()</span><br><span class="line">                .addConverterFactory(GsonConverterFactory.create()           .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//新的配置</span><br><span class="line">            .baseUrl(BASE_URL)</span><br><span class="line">            .build();</span><br><span class="line">      BaseService service = retrofit.create(BaseService.class);</span><br><span class="line"></span><br><span class="line">      service.login(phone, password)               //获取Observable对象</span><br><span class="line">              .subscribeOn(Schedulers.newThread())//请求在新的线程中执行</span><br><span class="line">              .observeOn(Schedulers.io())         //请求完成后在io线程中执行</span><br><span class="line">              .doOnNext(new Action1&lt;UserInfo&gt;() &#123;</span><br><span class="line">                  @Override</span><br><span class="line">                  public void call(User user) &#123;</span><br><span class="line">                      saveUserInfo(user);//保存用户信息到本地</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;)</span><br><span class="line">              .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行</span><br><span class="line">              .subscribe(new Subscriber&lt;User&gt;() &#123;</span><br><span class="line">                  @Override</span><br><span class="line">                  public void onCompleted() &#123;</span><br><span class="line"></span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line">                  @Override</span><br><span class="line">                  public void onError(Throwable e) &#123;</span><br><span class="line">                      //请求失败</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line">                  @Override</span><br><span class="line">                  public void onNext(User user) &#123;</span><br><span class="line">                      //请求成功</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="RxJava-Retrofit-形式的时候，Retrofit-把请求封装进-Observable-，在请求结束后调用-onNext-或在请求失败后调用-onError-。"><a href="#RxJava-Retrofit-形式的时候，Retrofit-把请求封装进-Observable-，在请求结束后调用-onNext-或在请求失败后调用-onError-。" class="headerlink" title="RxJava + Retrofit 形式的时候，Retrofit 把请求封装进 Observable ，在请求结束后调用 onNext() 或在请求失败后调用 onError()。"></a>RxJava + Retrofit 形式的时候，Retrofit 把请求封装进 Observable ，在请求结束后调用 onNext() 或在请求失败后调用 onError()。</h4><h4 id="可以看到，调用了service的login方法后得到Observable对象，在新的线程中执行网络请求，请求成功后切换到io线程执行保存用户信息的动作，最后再切换到主线程执行请求失败onError-、请求成功onNext-。整体的逻辑十分清晰都在一条链中，就算还有别的要求还可以往里面添加，丝毫不影响代码的简洁。"><a href="#可以看到，调用了service的login方法后得到Observable对象，在新的线程中执行网络请求，请求成功后切换到io线程执行保存用户信息的动作，最后再切换到主线程执行请求失败onError-、请求成功onNext-。整体的逻辑十分清晰都在一条链中，就算还有别的要求还可以往里面添加，丝毫不影响代码的简洁。" class="headerlink" title="可以看到，调用了service的login方法后得到Observable对象，在新的线程中执行网络请求，请求成功后切换到io线程执行保存用户信息的动作，最后再切换到主线程执行请求失败onError()、请求成功onNext()。整体的逻辑十分清晰都在一条链中，就算还有别的要求还可以往里面添加，丝毫不影响代码的简洁。"></a>可以看到，调用了service的login方法后得到Observable对象，在新的线程中执行网络请求，请求成功后切换到io线程执行保存用户信息的动作，最后再切换到主线程执行请求失败onError()、请求成功onNext()。整体的逻辑十分清晰都在一条链中，就算还有别的要求还可以往里面添加，丝毫不影响代码的简洁。</h4><pre><code>注意：Retrofit在创建的时候添了一下代码
+addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+</code></pre><h4 id="想了解更多关于RxJava，浏览http-gank-io-post-560e15be2dca930e00da1083-toc-1"><a href="#想了解更多关于RxJava，浏览http-gank-io-post-560e15be2dca930e00da1083-toc-1" class="headerlink" title="想了解更多关于RxJava，浏览http://gank.io/post/560e15be2dca930e00da1083#toc_1"></a>想了解更多关于RxJava，浏览<a href="http://gank.io/post/560e15be2dca930e00da1083#toc_1" target="_blank" rel="noopener">http://gank.io/post/560e15be2dca930e00da1083#toc_1</a></h4><hr>
+<h2 id="11、其他三方"><a href="#11、其他三方" class="headerlink" title="11、其他三方"></a>11、其他三方</h2><h4 id="在自己的开发过程中，还用到了如EventBus、Zxing、Zbar、Volley、Gson、LeakCanary等三方框架；"><a href="#在自己的开发过程中，还用到了如EventBus、Zxing、Zbar、Volley、Gson、LeakCanary等三方框架；" class="headerlink" title="在自己的开发过程中，还用到了如EventBus、Zxing、Zbar、Volley、Gson、LeakCanary等三方框架；"></a>在自己的开发过程中，还用到了如EventBus、Zxing、Zbar、Volley、Gson、LeakCanary等三方框架；</h4><h4 id="也用到了如友盟统计、微信、支付宝支付、三方登录、极光推送、tinker热更新等三方sdk；"><a href="#也用到了如友盟统计、微信、支付宝支付、三方登录、极光推送、tinker热更新等三方sdk；" class="headerlink" title="也用到了如友盟统计、微信、支付宝支付、三方登录、极光推送、tinker热更新等三方sdk；"></a>也用到了如友盟统计、微信、支付宝支付、三方登录、极光推送、tinker热更新等三方sdk；</h4><h4 id="就不再一一列举，附上一张图，大家有时间多去学习、多去了解。"><a href="#就不再一一列举，附上一张图，大家有时间多去学习、多去了解。" class="headerlink" title="就不再一一列举，附上一张图，大家有时间多去学习、多去了解。"></a>就不再一一列举，附上一张图，大家有时间多去学习、多去了解。</h4><p><img src="http://img.blog.csdn.net/20170911110309338?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<h2 id="12、混淆、加固、上线"><a href="#12、混淆、加固、上线" class="headerlink" title="12、混淆、加固、上线"></a>12、混淆、加固、上线</h2><h3 id="混淆"><a href="#混淆" class="headerlink" title="混淆"></a>混淆</h3><p>大家可以参考我的另一篇文章<a href="http://blog.csdn.net/jiashuai94/article/details/77991077" target="_blank" rel="noopener">http://blog.csdn.net/jiashuai94/article/details/77991077</a></p>
+<h4 id="混淆是上线前挺重要的一个环节。Android使用的ProGuard，可以起到压缩，混淆，预检，优化的作用。"><a href="#混淆是上线前挺重要的一个环节。Android使用的ProGuard，可以起到压缩，混淆，预检，优化的作用。" class="headerlink" title="混淆是上线前挺重要的一个环节。Android使用的ProGuard，可以起到压缩，混淆，预检，优化的作用。"></a>混淆是上线前挺重要的一个环节。Android使用的ProGuard，可以起到压缩，混淆，预检，优化的作用。</h4><h4 id="坚持以下几项原则："><a href="#坚持以下几项原则：" class="headerlink" title="坚持以下几项原则："></a>坚持以下几项原则：</h4><ul>
+<li>使用三方依赖，在混淆文件中添加官方提供的混淆代码，官方没有就google；</li>
+<li>实体类不混淆，因为实体类涉及到与服务端的交互，各种gson的交互如此等等，是要保留的；</li>
+<li>与js互调的类不混淆；</li>
+<li><p>与反射有关的类不混淆 等。</p>
+<h4 id="具体语法："><a href="#具体语法：" class="headerlink" title="具体语法："></a>具体语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-optimizationpasses 5 // 代码混淆的压缩比例，值在0-7之间</span><br><span class="line">-dontusemixedcaseclassnames // 混淆后类名都为小写</span><br><span class="line">-dontskipnonpubliclibraryclasses // 指定不去忽略非公共的库的类</span><br><span class="line">-dontskipnonpubliclibraryclassmembers // 指定不去忽略非公共的库的类的成员</span><br><span class="line">-dontpreverify // 不做预校验的操作</span><br><span class="line"></span><br><span class="line">-verbose</span><br><span class="line">-printmapping proguardMapping.txt // 生成原类名和混淆后的类名的映射文件</span><br><span class="line"></span><br><span class="line">-optimizations !code/simplification/cast,!field/*,!class/merging/* // 指定混淆时采用的算法</span><br><span class="line">-keepattributes *Annotation*,InnerClasses // 不混淆Annotation</span><br><span class="line">-keepattributes Signature // 不混淆泛型</span><br><span class="line">-keepattributes SourceFile,LineNumberTable // 抛出异常时保留代码行号</span><br><span class="line">-keep class XXXX // 保留类名不变，也就是类名不混淆，而类中的成员名不保证。当然也可以是继承XXX类的所有类名不混淆，具体代码不贴了，重在理解。</span><br><span class="line">-keepclasseswithmembers class XXXX // 保留类名和成员名。当然也可以是类中特定方法，代码不贴了，理由同上。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="加固："><a href="#加固：" class="headerlink" title="加固："></a>加固：</h3><h4 id="加固一般都使用三方加固：如果apk上百度应用市场，则使用百度加固，其他情况建议使用360加固，当然，加固前一定是混淆过的、并且签过名的apk。"><a href="#加固一般都使用三方加固：如果apk上百度应用市场，则使用百度加固，其他情况建议使用360加固，当然，加固前一定是混淆过的、并且签过名的apk。" class="headerlink" title="加固一般都使用三方加固：如果apk上百度应用市场，则使用百度加固，其他情况建议使用360加固，当然，加固前一定是混淆过的、并且签过名的apk。"></a>加固一般都使用三方加固：如果apk上百度应用市场，则使用百度加固，其他情况建议使用360加固，当然，加固前一定是混淆过的、并且签过名的apk。</h4><h4 id="360加固还提供了一些其他服务，可根据项目情况操作（是需要花钱的-）"><a href="#360加固还提供了一些其他服务，可根据项目情况操作（是需要花钱的-）" class="headerlink" title="360加固还提供了一些其他服务，可根据项目情况操作（是需要花钱的..）"></a>360加固还提供了一些其他服务，可根据项目情况操作（是需要花钱的..）</h4><h3 id="上线："><a href="#上线：" class="headerlink" title="上线："></a>上线：</h3><h4 id="也就是我们所说的发版，当你的apk测试通过，混淆过、签名过、也加固了，可以发版了。"><a href="#也就是我们所说的发版，当你的apk测试通过，混淆过、签名过、也加固了，可以发版了。" class="headerlink" title="也就是我们所说的发版，当你的apk测试通过，混淆过、签名过、也加固了，可以发版了。"></a>也就是我们所说的发版，当你的apk测试通过，混淆过、签名过、也加固了，可以发版了。</h4><h4 id="每个公司上线的市场要求不同，一般主要有应用宝、360、豌豆荚、百度市场、小米市场、华为市场、魅族市场等，当然还有官网了。"><a href="#每个公司上线的市场要求不同，一般主要有应用宝、360、豌豆荚、百度市场、小米市场、华为市场、魅族市场等，当然还有官网了。" class="headerlink" title="每个公司上线的市场要求不同，一般主要有应用宝、360、豌豆荚、百度市场、小米市场、华为市场、魅族市场等，当然还有官网了。"></a>每个公司上线的市场要求不同，一般主要有应用宝、360、豌豆荚、百度市场、小米市场、华为市场、魅族市场等，当然还有官网了。</h4><h4 id="发版时需要：apk当然要有、logo（第一次上线）、应用简介（第一次上线）、版本号、更新功能、介绍图、官网地址（第一次上线）等。"><a href="#发版时需要：apk当然要有、logo（第一次上线）、应用简介（第一次上线）、版本号、更新功能、介绍图、官网地址（第一次上线）等。" class="headerlink" title="发版时需要：apk当然要有、logo（第一次上线）、应用简介（第一次上线）、版本号、更新功能、介绍图、官网地址（第一次上线）等。"></a>发版时需要：apk当然要有、logo（第一次上线）、应用简介（第一次上线）、版本号、更新功能、介绍图、官网地址（第一次上线）等。</h4><h4 id="ok，到这里，我们的一个阶段算是完成了，接下来还会有更多的业务和bug等着大家，哈哈！希望这篇文章能对大家有一点点帮助。"><a href="#ok，到这里，我们的一个阶段算是完成了，接下来还会有更多的业务和bug等着大家，哈哈！希望这篇文章能对大家有一点点帮助。" class="headerlink" title="ok，到这里，我们的一个阶段算是完成了，接下来还会有更多的业务和bug等着大家，哈哈！希望这篇文章能对大家有一点点帮助。"></a>ok，到这里，我们的一个阶段算是完成了，接下来还会有更多的业务和bug等着大家，哈哈！希望这篇文章能对大家有一点点帮助。</h4><hr>
+<h2 id="13、感谢"><a href="#13、感谢" class="headerlink" title="13、感谢"></a>13、感谢</h2><h4 id="感谢天行数据的数据支持；"><a href="#感谢天行数据的数据支持；" class="headerlink" title="感谢天行数据的数据支持；"></a>感谢天行数据的数据支持；</h4><h4 id="感谢各位博客大佬的支持；"><a href="#感谢各位博客大佬的支持；" class="headerlink" title="感谢各位博客大佬的支持；"></a>感谢各位博客大佬的支持；</h4><h4 id="因为时间、水平有限，文章中有不足或不对的地方，希望大家能够指出，我们一起进步。"><a href="#因为时间、水平有限，文章中有不足或不对的地方，希望大家能够指出，我们一起进步。" class="headerlink" title="因为时间、水平有限，文章中有不足或不对的地方，希望大家能够指出，我们一起进步。"></a>因为时间、水平有限，文章中有不足或不对的地方，希望大家能够指出，我们一起进步。</h4><p><img src="https://user-gold-cdn.xitu.io/2018/1/2/160b4a67429c1092?w=344&amp;h=344&amp;f=jpeg&amp;s=8753" alt="这里写图片描述"></p>
+<h3 id="扫描二维码，加入我们，获取更多资讯！"><a href="#扫描二维码，加入我们，获取更多资讯！" class="headerlink" title="扫描二维码，加入我们，获取更多资讯！"></a>扫描二维码，加入我们，获取更多资讯！</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -261,7 +540,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-11T00:00:00+08:00">
                 2018-01-11
@@ -422,7 +701,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-05T00:00:00+08:00">
                 2018-01-05
@@ -710,7 +989,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">
                 2018-01-04
@@ -919,7 +1198,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
                 2018-01-03
@@ -1157,7 +1436,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
                 2018-01-03
@@ -1366,8 +1645,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
             
@@ -1380,7 +1659,7 @@
               <div class="site-state-item site-state-tags">
                 
                   <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 
               </div>
             
@@ -1442,7 +1721,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
