@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="安卓适配," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、为什么要适配由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。但是这种“碎片化”到达什么程度呢？ 以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。####为了让我们的Android应用在各式各样的手">
+<meta name="keywords" content="安卓适配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓屏幕完美适配方案——独家秘笈">
+<meta property="og:url" content="http://shuaijia.github.io/2018/01/16/安卓屏幕完美适配方案——独家秘笈/index.html">
+<meta property="og:site_name" content="Android机动车">
+<meta property="og:description" content="一、为什么要适配由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。但是这种“碎片化”到达什么程度呢？ 以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。####为了让我们的Android应用在各式各样的手">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828091611477?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828091739561?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828092517503?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828092740251?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828092754716?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828092915968?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828093445737?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828094952313?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828095644741?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828100114675?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828100128985?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828100212161?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828100326564?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828100338109?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170828100409932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/2/160b4a67429c1092?w=344&h=344&f=jpeg&s=8753">
+<meta property="og:updated_time" content="2018-01-16T02:29:39.521Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓屏幕完美适配方案——独家秘笈">
+<meta name="twitter:description" content="一、为什么要适配由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。但是这种“碎片化”到达什么程度呢？ 以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。####为了让我们的Android应用在各式各样的手">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170828091611477?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shuaijia.github.io/2018/01/16/安卓屏幕完美适配方案——独家秘笈/"/>
+
+
+
+
+
+  <title>安卓屏幕完美适配方案——独家秘笈 | Android机动车</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/shuaijia"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Android机动车</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人之所以能，是相信能</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/16/安卓屏幕完美适配方案——独家秘笈/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">安卓屏幕完美适配方案——独家秘笈</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-16T00:00:00+08:00">
+                2018-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p><img src="http://img.blog.csdn.net/20170828091611477?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h2 id="一、为什么要适配"><a href="#一、为什么要适配" class="headerlink" title="一、为什么要适配"></a>一、为什么要适配</h2><h4 id="由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。"><a href="#由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。" class="headerlink" title="由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。"></a>由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。</h4><h4 id="但是这种“碎片化”到达什么程度呢？"><a href="#但是这种“碎片化”到达什么程度呢？" class="headerlink" title="但是这种“碎片化”到达什么程度呢？"></a>但是这种“碎片化”到达什么程度呢？</h4><p><img src="http://img.blog.csdn.net/20170828091739561?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。"><a href="#以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。" class="headerlink" title="以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。"></a>以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。</h4><p>####为了让我们的Android应用在各式各样的手机上运行的时候，能够保持界面效果一直，所以，我们需要对各种手机屏幕进行适配！</p>
+<hr>
+<h2 id="二、概念"><a href="#二、概念" class="headerlink" title="二、概念"></a>二、概念</h2><h3 id="1、像素（px）："><a href="#1、像素（px）：" class="headerlink" title="1、像素（px）："></a>1、像素（px）：</h3><h4 id="通常所说的像素，就是CCD-CMOS上光电感应元件的数量，一个感光元件经过感光，光电信号转换，A-D转换等步骤以后，在输出的照片上就形成一个点，我们如果把影像放大数倍，会发现这些连续色调其实是由许多色彩相近的小方点所组成，这些小方点就是构成影像的最小单位“像素”（Pixel）。"><a href="#通常所说的像素，就是CCD-CMOS上光电感应元件的数量，一个感光元件经过感光，光电信号转换，A-D转换等步骤以后，在输出的照片上就形成一个点，我们如果把影像放大数倍，会发现这些连续色调其实是由许多色彩相近的小方点所组成，这些小方点就是构成影像的最小单位“像素”（Pixel）。" class="headerlink" title="通常所说的像素，就是CCD/CMOS上光电感应元件的数量，一个感光元件经过感光，光电信号转换，A/D转换等步骤以后，在输出的照片上就形成一个点，我们如果把影像放大数倍，会发现这些连续色调其实是由许多色彩相近的小方点所组成，这些小方点就是构成影像的最小单位“像素”（Pixel）。"></a>通常所说的像素，就是CCD/CMOS上光电感应元件的数量，一个感光元件经过感光，光电信号转换，A/D转换等步骤以后，在输出的照片上就形成一个点，我们如果把影像放大数倍，会发现这些连续色调其实是由许多色彩相近的小方点所组成，这些小方点就是构成影像的最小单位“像素”（Pixel）。</h4><h4 id="简而言之，像素就是手机屏幕的最小构成单元。"><a href="#简而言之，像素就是手机屏幕的最小构成单元。" class="headerlink" title="简而言之，像素就是手机屏幕的最小构成单元。"></a>简而言之，<strong>像素就是手机屏幕的最小构成单元</strong>。</h4><hr>
+<h3 id="2、分辨率："><a href="#2、分辨率：" class="headerlink" title="2、分辨率："></a>2、分辨率：</h3><h4 id="手机在横向、纵向上的像素点数总和，一般描述成-宽-高-，"><a href="#手机在横向、纵向上的像素点数总和，一般描述成-宽-高-，" class="headerlink" title="手机在横向、纵向上的像素点数总和，一般描述成 宽*高 ，"></a>手机在横向、纵向上的像素点数总和，一般描述成 宽*高 ，</h4><h4 id="即横向像素点个数-纵向像素点个数。"><a href="#即横向像素点个数-纵向像素点个数。" class="headerlink" title="即横向像素点个数*纵向像素点个数。"></a>即<strong>横向像素点个数*纵向像素点个数</strong>。</h4><hr>
+<h3 id="3、屏幕尺寸（in）："><a href="#3、屏幕尺寸（in）：" class="headerlink" title="3、屏幕尺寸（in）："></a>3、屏幕尺寸（in）：</h3><h4 id="手机对角线的物理尺寸，单位-英寸（inch），一英寸大约2-54cm，常见的尺寸有4-7寸、5寸、5-5寸、6寸"><a href="#手机对角线的物理尺寸，单位-英寸（inch），一英寸大约2-54cm，常见的尺寸有4-7寸、5寸、5-5寸、6寸" class="headerlink" title="手机对角线的物理尺寸，单位 英寸（inch），一英寸大约2.54cm，常见的尺寸有4.7寸、5寸、5.5寸、6寸"></a>手机对角线的<strong>物理尺寸</strong>，单位 英寸（inch），一英寸大约2.54cm，常见的尺寸有4.7寸、5寸、5.5寸、6寸</h4><hr>
+<h3 id="4、屏幕像素密度（dpi）："><a href="#4、屏幕像素密度（dpi）：" class="headerlink" title="4、屏幕像素密度（dpi）："></a>4、屏幕像素密度（dpi）：</h3><h4 id="每英寸长度上像素点个数。"><a href="#每英寸长度上像素点个数。" class="headerlink" title="每英寸长度上像素点个数。"></a>每英寸长度上像素点个数。</h4><h4 id="例如每英寸内有160个像素点，则其像素密度为160dpi。"><a href="#例如每英寸内有160个像素点，则其像素密度为160dpi。" class="headerlink" title="例如每英寸内有160个像素点，则其像素密度为160dpi。"></a>例如每英寸内有160个像素点，则其像素密度为160dpi。</h4><h4 id="公式：-像素密度-像素-尺寸-（dpi-px-in）"><a href="#公式：-像素密度-像素-尺寸-（dpi-px-in）" class="headerlink" title="公式：  像素密度=像素/尺寸  （dpi=px/in）"></a>公式：  <strong>像素密度=像素/尺寸  （dpi=px/in）</strong></h4><hr>
+<h3 id="5、标准屏幕像素密度（mdpi）："><a href="#5、标准屏幕像素密度（mdpi）：" class="headerlink" title="5、标准屏幕像素密度（mdpi）："></a>5、标准屏幕像素密度（mdpi）：</h3><h4 id="每英寸长度上还有160个像素点，即称为标准屏幕像素密度（mdpi）。"><a href="#每英寸长度上还有160个像素点，即称为标准屏幕像素密度（mdpi）。" class="headerlink" title="每英寸长度上还有160个像素点，即称为标准屏幕像素密度（mdpi）。"></a>每英寸长度上还有160个像素点，即称为标准屏幕像素密度（mdpi）。</h4><hr>
+<h3 id="6、像素密度等级："><a href="#6、像素密度等级：" class="headerlink" title="6、像素密度等级："></a>6、像素密度等级：</h3><h4 id="手机真实像素密度与标准屏幕像素密度（160dpi）的比值。官方给出的0-75、1、1-5、2、3、4，即对应120dpi、160dpi、240dpi、320dpi、480dpi、640dpi。"><a href="#手机真实像素密度与标准屏幕像素密度（160dpi）的比值。官方给出的0-75、1、1-5、2、3、4，即对应120dpi、160dpi、240dpi、320dpi、480dpi、640dpi。" class="headerlink" title="手机真实像素密度与标准屏幕像素密度（160dpi）的比值。官方给出的0.75、1、1.5、2、3、4，即对应120dpi、160dpi、240dpi、320dpi、480dpi、640dpi。"></a>手机真实像素密度与标准屏幕像素密度（160dpi）的比值。官方给出的0.75、1、1.5、2、3、4，即对应120dpi、160dpi、240dpi、320dpi、480dpi、640dpi。</h4><hr>
+<h3 id="7、密度无关像素（dp）："><a href="#7、密度无关像素（dp）：" class="headerlink" title="7、密度无关像素（dp）："></a>7、密度无关像素（dp）：</h3><h4 id="density-independent-pixel，叫dp或dip，与终端上的实际物理像素点无关。可以保证在不同屏幕像素密度的设备上显示相同的效果，是安卓特有的长度单位。"><a href="#density-independent-pixel，叫dp或dip，与终端上的实际物理像素点无关。可以保证在不同屏幕像素密度的设备上显示相同的效果，是安卓特有的长度单位。" class="headerlink" title="density-independent pixel，叫dp或dip，与终端上的实际物理像素点无关。可以保证在不同屏幕像素密度的设备上显示相同的效果，是安卓特有的长度单位。"></a>density-independent pixel，叫dp或dip，与终端上的实际物理像素点无关。可以保证在不同屏幕像素密度的设备上显示相同的效果，是安卓特有的长度单位。</h4><hr>
+<h3 id="8、独立比例像素（sp）："><a href="#8、独立比例像素（sp）：" class="headerlink" title="8、独立比例像素（sp）："></a>8、独立比例像素（sp）：</h3><h4 id="scale-independent-pixel，叫sp或sip，字体大小专用单位，可根据字体大小首选项进行缩放；"><a href="#scale-independent-pixel，叫sp或sip，字体大小专用单位，可根据字体大小首选项进行缩放；" class="headerlink" title="scale-independent pixel，叫sp或sip，字体大小专用单位，可根据字体大小首选项进行缩放；"></a>scale-independent pixel，叫sp或sip，字体大小专用单位，可根据字体大小首选项进行缩放；</h4><h4 id="推荐使用12sp、14sp、18sp、22sp作为字体大小，不推荐使用奇数和小数，容易造成精度丢失，12sp以下字体太小。"><a href="#推荐使用12sp、14sp、18sp、22sp作为字体大小，不推荐使用奇数和小数，容易造成精度丢失，12sp以下字体太小。" class="headerlink" title="推荐使用12sp、14sp、18sp、22sp作为字体大小，不推荐使用奇数和小数，容易造成精度丢失，12sp以下字体太小。"></a><strong>推荐使用12sp、14sp、18sp、22sp作为字体大小，不推荐使用奇数和小数，容易造成精度丢失，12sp以下字体太小</strong>。</h4><hr>
+<h3 id="9、尺寸、像素、像素密度关系："><a href="#9、尺寸、像素、像素密度关系：" class="headerlink" title="9、尺寸、像素、像素密度关系："></a>9、尺寸、像素、像素密度关系：</h3><p><img src="http://img.blog.csdn.net/20170828092517503?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<h3 id="10、px与dp关系："><a href="#10、px与dp关系：" class="headerlink" title="10、px与dp关系："></a>10、px与dp关系：</h3><h4 id="像素-dp像素密度等级，即px-dp-dpi-160"><a href="#像素-dp像素密度等级，即px-dp-dpi-160" class="headerlink" title="像素=dp像素密度等级，即px=dp(dpi/160)"></a><strong>像素=dp<em>像素密度等级，即px=dp</em>(dpi/160</strong>)</h4><hr>
+<h2 id="三、对哪些设备适配"><a href="#三、对哪些设备适配" class="headerlink" title="三、对哪些设备适配"></a>三、对哪些设备适配</h2><h4 id="注意进行Android设备的屏幕适配操作，不是单单对屏幕尺寸多样的各种设备进行的适配，在诸多的物理尺寸的背后是屏幕的分辨率，现在市面上占比最多的六种分辨率：480800、320480、480854、540960、7201280、10801920。在日常适配中只要做好对这几个设备的适配，就能很好的适配其他机型。但是在这几种分辨率的背后存在的更为根本的数据是设备的屏幕像素密度。在Google文档中对于屏幕的像素密度进行了几种规定！"><a href="#注意进行Android设备的屏幕适配操作，不是单单对屏幕尺寸多样的各种设备进行的适配，在诸多的物理尺寸的背后是屏幕的分辨率，现在市面上占比最多的六种分辨率：480800、320480、480854、540960、7201280、10801920。在日常适配中只要做好对这几个设备的适配，就能很好的适配其他机型。但是在这几种分辨率的背后存在的更为根本的数据是设备的屏幕像素密度。在Google文档中对于屏幕的像素密度进行了几种规定！" class="headerlink" title="注意进行Android设备的屏幕适配操作，不是单单对屏幕尺寸多样的各种设备进行的适配，在诸多的物理尺寸的背后是屏幕的分辨率，现在市面上占比最多的六种分辨率：480800、320480、480854、540960、7201280、10801920。在日常适配中只要做好对这几个设备的适配，就能很好的适配其他机型。但是在这几种分辨率的背后存在的更为根本的数据是设备的屏幕像素密度。在Google文档中对于屏幕的像素密度进行了几种规定！"></a>注意进行Android设备的屏幕适配操作，不是单单对屏幕尺寸多样的各种设备进行的适配，在诸多的物理尺寸的背后是屏幕的分辨率，现在市面上占比最多的六种分辨率：480<em>800、320</em>480、480<em>854、540</em>960、720<em>1280、1080</em>1920。在日常适配中只要做好对这几个设备的适配，就能很好的适配其他机型。但是在这几种分辨率的背后存在的更为根本的数据是设备的屏幕像素密度。在Google文档中对于屏幕的像素密度进行了几种规定！</h4><h4 id="另外也需注意对安卓平板、安卓电视等大尺寸、超大尺寸设备的适配。"><a href="#另外也需注意对安卓平板、安卓电视等大尺寸、超大尺寸设备的适配。" class="headerlink" title="另外也需注意对安卓平板、安卓电视等大尺寸、超大尺寸设备的适配。"></a>另外也需注意对安卓平板、安卓电视等大尺寸、超大尺寸设备的适配。</h4><p><img src="http://img.blog.csdn.net/20170828092740251?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170828092754716?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<h2 id="四、如何适配"><a href="#四、如何适配" class="headerlink" title="四、如何适配"></a>四、如何适配</h2><h3 id="1、适配误区"><a href="#1、适配误区" class="headerlink" title="1、适配误区"></a>1、适配误区</h3><h4 id="在进行适配的时候，人们总是关注于：代码、Layout、Dimens、图片、权重，这几种适配方式并不是屏幕适配的全部方案，除此之外还存在多种小细节来实现屏幕适配。"><a href="#在进行适配的时候，人们总是关注于：代码、Layout、Dimens、图片、权重，这几种适配方式并不是屏幕适配的全部方案，除此之外还存在多种小细节来实现屏幕适配。" class="headerlink" title="在进行适配的时候，人们总是关注于：代码、Layout、Dimens、图片、权重，这几种适配方式并不是屏幕适配的全部方案，除此之外还存在多种小细节来实现屏幕适配。"></a>在进行适配的时候，人们总是关注于：代码、Layout、Dimens、图片、权重，这几种适配方式并不是屏幕适配的全部方案，除此之外还存在多种小细节来实现屏幕适配。</h4><h4 id="如何理解使用dp为单位进行适配？："><a href="#如何理解使用dp为单位进行适配？：" class="headerlink" title="如何理解使用dp为单位进行适配？："></a><strong>如何理解使用dp为单位进行适配？</strong>：</h4><p><img src="http://img.blog.csdn.net/20170828092915968?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="但是，使用密度无关像素（dp）也不能做到适配所有屏幕！"><a href="#但是，使用密度无关像素（dp）也不能做到适配所有屏幕！" class="headerlink" title="但是，使用密度无关像素（dp）也不能做到适配所有屏幕！"></a><strong>但是，使用密度无关像素（dp）也不能做到适配所有屏幕！</strong></h4><hr>
+<h3 id="2、造成误差原因"><a href="#2、造成误差原因" class="headerlink" title="2、造成误差原因"></a>2、造成误差原因</h3><h4 id="在长期的Android发展过程中，由于Android设备的增多，Google制定的屏幕密度标准（mdpi、hdpi、ldpi等），在众多厂家的生产过程中，已经被打破，人们没有生产数完全符合屏幕密度标准的Android设备，对于真实手机的屏幕密度值，是在Google标准的周围浮动变化的，但是不乏存在一些厂商生产的设备偏离Google的屏幕密度标准比较大，这个时候再使用dp作为单位就不能完完全全的完成适配操作！（dp只有在大家标准统一的情况下才有更好的发展）"><a href="#在长期的Android发展过程中，由于Android设备的增多，Google制定的屏幕密度标准（mdpi、hdpi、ldpi等），在众多厂家的生产过程中，已经被打破，人们没有生产数完全符合屏幕密度标准的Android设备，对于真实手机的屏幕密度值，是在Google标准的周围浮动变化的，但是不乏存在一些厂商生产的设备偏离Google的屏幕密度标准比较大，这个时候再使用dp作为单位就不能完完全全的完成适配操作！（dp只有在大家标准统一的情况下才有更好的发展）" class="headerlink" title="在长期的Android发展过程中，由于Android设备的增多，Google制定的屏幕密度标准（mdpi、hdpi、ldpi等），在众多厂家的生产过程中，已经被打破，人们没有生产数完全符合屏幕密度标准的Android设备，对于真实手机的屏幕密度值，是在Google标准的周围浮动变化的，但是不乏存在一些厂商生产的设备偏离Google的屏幕密度标准比较大，这个时候再使用dp作为单位就不能完完全全的完成适配操作！（dp只有在大家标准统一的情况下才有更好的发展）"></a>在长期的Android发展过程中，由于Android设备的增多，Google制定的屏幕密度标准（mdpi、hdpi、ldpi等），在众多厂家的生产过程中，已经被打破，人们没有生产数完全符合屏幕密度标准的Android设备，对于真实手机的屏幕密度值，是在Google标准的周围浮动变化的，但是不乏存在一些厂商生产的设备偏离Google的屏幕密度标准比较大，这个时候再使用dp作为单位就不能完完全全的完成适配操作！（dp只有在大家标准统一的情况下才有更好的发展）</h4><h4 id="在所有计算公式中存在误差：在计算真实像素密度时运用了开方运算和除法运算，导致所得结果存在误差。"><a href="#在所有计算公式中存在误差：在计算真实像素密度时运用了开方运算和除法运算，导致所得结果存在误差。" class="headerlink" title="在所有计算公式中存在误差：在计算真实像素密度时运用了开方运算和除法运算，导致所得结果存在误差。"></a>在所有计算公式中存在误差：在计算真实像素密度时运用了开方运算和除法运算，导致所得结果存在误差。</h4><h4 id="理论计算造成的误差："><a href="#理论计算造成的误差：" class="headerlink" title="理论计算造成的误差："></a>理论计算造成的误差：</h4><h4 id="在计算对角线上像素点个数时，我们使用勾股定理计算得出，但实则存在误差："><a href="#在计算对角线上像素点个数时，我们使用勾股定理计算得出，但实则存在误差：" class="headerlink" title="在计算对角线上像素点个数时，我们使用勾股定理计算得出，但实则存在误差："></a>在计算对角线上像素点个数时，我们使用勾股定理计算得出，但实则存在误差：</h4><ul>
+<li>若将像素长度当做1，分辨率指的是横纵向上的1的个数，计算记过表示的是对角线上有多少个1，但理论上对角线上 根号2 的个数才是像素点的个数！</li>
+<li>屏幕对角线并不会和像素对角线重合，使计算结果存在误差。<br><img src="http://img.blog.csdn.net/20170828093445737?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+</ul>
+<hr>
+<h3 id="3、ldpi、mdpi、hdpi、xhdpi、xxhdpi的使用"><a href="#3、ldpi、mdpi、hdpi、xhdpi、xxhdpi的使用" class="headerlink" title="3、ldpi、mdpi、hdpi、xhdpi、xxhdpi的使用"></a>3、ldpi、mdpi、hdpi、xhdpi、xxhdpi的使用</h3><p>  官方截图：<br>  <img src="http://img.blog.csdn.net/20170828094952313?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170828095644741?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<h3 id="4、使用wrap-content、match-parent、权重"><a href="#4、使用wrap-content、match-parent、权重" class="headerlink" title="4、使用wrap_content、match_parent、权重"></a>4、使用wrap_content、match_parent、权重</h3><h4 id="要确保布局的灵活性并适应各种尺寸的屏幕，应使用-“wrap-content”-、“match-parent”和权重控制某些视图组件的宽度和高度。"><a href="#要确保布局的灵活性并适应各种尺寸的屏幕，应使用-“wrap-content”-、“match-parent”和权重控制某些视图组件的宽度和高度。" class="headerlink" title="要确保布局的灵活性并适应各种尺寸的屏幕，应使用 “wrap_content” 、“match_parent”和权重控制某些视图组件的宽度和高度。"></a>要确保布局的灵活性并适应各种尺寸的屏幕，应使用 “wrap_content” 、“match_parent”和权重控制某些视图组件的宽度和高度。</h4><h4 id="使用-“wrap-content”，系统就会将视图的宽度或高度设置成所需的最小尺寸以适应视图中的内容，而-“match-parent”（在低于-API-级别-8-的级别中称为-“fill-parent”）则会展开组件以匹配其父视图的尺寸。"><a href="#使用-“wrap-content”，系统就会将视图的宽度或高度设置成所需的最小尺寸以适应视图中的内容，而-“match-parent”（在低于-API-级别-8-的级别中称为-“fill-parent”）则会展开组件以匹配其父视图的尺寸。" class="headerlink" title="使用 “wrap_content”，系统就会将视图的宽度或高度设置成所需的最小尺寸以适应视图中的内容，而 “match_parent”（在低于 API 级别 8 的级别中称为 “fill_parent”）则会展开组件以匹配其父视图的尺寸。"></a>使用 “wrap_content”，系统就会将视图的宽度或高度设置成所需的最小尺寸以适应视图中的内容，而 “match_parent”（在低于 API 级别 8 的级别中称为 “fill_parent”）则会展开组件以匹配其父视图的尺寸。</h4><h4 id="如果使用-“wrap-content”-和-“match-parent”-尺寸值而不是硬编码的尺寸，视图就会相应地仅使用自身所需的空间或展开以填满可用空间。此方法可让布局正确适应各种屏幕尺寸和屏幕方向。"><a href="#如果使用-“wrap-content”-和-“match-parent”-尺寸值而不是硬编码的尺寸，视图就会相应地仅使用自身所需的空间或展开以填满可用空间。此方法可让布局正确适应各种屏幕尺寸和屏幕方向。" class="headerlink" title="如果使用 “wrap_content” 和 “match_parent” 尺寸值而不是硬编码的尺寸，视图就会相应地仅使用自身所需的空间或展开以填满可用空间。此方法可让布局正确适应各种屏幕尺寸和屏幕方向。"></a>如果使用 “wrap_content” 和 “match_parent” 尺寸值而不是硬编码的尺寸，视图就会相应地仅使用自身所需的空间或展开以填满可用空间。此方法可让布局正确适应各种屏幕尺寸和屏幕方向。</h4><hr>
+<h3 id="5、使用相对布局，不要使用绝对布局"><a href="#5、使用相对布局，不要使用绝对布局" class="headerlink" title="5、使用相对布局，不要使用绝对布局"></a>5、使用相对布局，不要使用绝对布局</h3><h4 id="我们大部分时候使用的都是线性布局、相对布局和帧布局，绝对布局由于适配性极差，所以极少使用。"><a href="#我们大部分时候使用的都是线性布局、相对布局和帧布局，绝对布局由于适配性极差，所以极少使用。" class="headerlink" title="我们大部分时候使用的都是线性布局、相对布局和帧布局，绝对布局由于适配性极差，所以极少使用。"></a>我们大部分时候使用的都是线性布局、相对布局和帧布局，绝对布局由于适配性极差，所以极少使用。</h4><h4 id="关于布局的使用应该具体情况具体分析，在进行电视机顶盒的开发中就是使用的是绝对布局。"><a href="#关于布局的使用应该具体情况具体分析，在进行电视机顶盒的开发中就是使用的是绝对布局。" class="headerlink" title="关于布局的使用应该具体情况具体分析，在进行电视机顶盒的开发中就是使用的是绝对布局。"></a>关于布局的使用应该具体情况具体分析，在进行电视机顶盒的开发中就是使用的是绝对布局。</h4><hr>
+<h3 id="6、使用限定符进行适配操作"><a href="#6、使用限定符进行适配操作" class="headerlink" title="6、使用限定符进行适配操作"></a>6、使用限定符进行适配操作</h3><h4 id="使用尺寸限定符——large"><a href="#使用尺寸限定符——large" class="headerlink" title="使用尺寸限定符——large"></a>使用尺寸限定符——large</h4><h4 id="使用最小宽度限定符——swdp"><a href="#使用最小宽度限定符——swdp" class="headerlink" title="使用最小宽度限定符——swdp"></a>使用最小宽度限定符——sw<n>dp</n></h4><h4 id="使用屏幕方向限定符"><a href="#使用屏幕方向限定符" class="headerlink" title="使用屏幕方向限定符"></a>使用屏幕方向限定符</h4><hr>
+<h3 id="7、多套layout适配"><a href="#7、多套layout适配" class="headerlink" title="7、多套layout适配"></a>7、多套layout适配</h3><h4 id="res-values-layouts-xml"><a href="#res-values-layouts-xml" class="headerlink" title="res/values/layouts.xml:"></a>res/values/layouts.xml:</h4><h4 id="res-values-sw600dp-land-layouts-xml"><a href="#res-values-sw600dp-land-layouts-xml" class="headerlink" title="res/values-sw600dp-land/layouts.xml:"></a>res/values-sw600dp-land/layouts.xml:</h4><h4 id="res-values-sw600dp-port-layouts-xml"><a href="#res-values-sw600dp-port-layouts-xml" class="headerlink" title="res/values-sw600dp-port/layouts.xml:"></a>res/values-sw600dp-port/layouts.xml:</h4><h4 id="res-values-large-land-layouts-xml"><a href="#res-values-large-land-layouts-xml" class="headerlink" title="res/values-large-land/layouts.xml:"></a>res/values-large-land/layouts.xml:</h4><h4 id="res-values-large-port-layouts-xml"><a href="#res-values-large-port-layouts-xml" class="headerlink" title="res/values-large-port/layouts.xml:"></a>res/values-large-port/layouts.xml:</h4><hr>
+<h3 id="8、使用自动拉伸位图"><a href="#8、使用自动拉伸位图" class="headerlink" title="8、使用自动拉伸位图"></a>8、使用自动拉伸位图</h3><h4 id="支持各种屏幕尺寸通常意味着您的图片资源还必须能适应各种尺寸。例如，无论要应用到什么形状的按钮上，按钮背景都必须能适应。"><a href="#支持各种屏幕尺寸通常意味着您的图片资源还必须能适应各种尺寸。例如，无论要应用到什么形状的按钮上，按钮背景都必须能适应。" class="headerlink" title="支持各种屏幕尺寸通常意味着您的图片资源还必须能适应各种尺寸。例如，无论要应用到什么形状的按钮上，按钮背景都必须能适应。"></a>支持各种屏幕尺寸通常意味着您的图片资源还必须能适应各种尺寸。例如，无论要应用到什么形状的按钮上，按钮背景都必须能适应。</h4><h4 id="如果在可以更改尺寸的组件上使用了简单的图片，您很快就会发现显示效果多少有些不太理想，因为系统会在运行时平均地拉伸或收缩您的图片。解决方法为使用自动拉伸位图，这是一种格式特殊的-PNG-文件，其中会指明可以拉伸以及不可以拉伸的区域。"><a href="#如果在可以更改尺寸的组件上使用了简单的图片，您很快就会发现显示效果多少有些不太理想，因为系统会在运行时平均地拉伸或收缩您的图片。解决方法为使用自动拉伸位图，这是一种格式特殊的-PNG-文件，其中会指明可以拉伸以及不可以拉伸的区域。" class="headerlink" title="如果在可以更改尺寸的组件上使用了简单的图片，您很快就会发现显示效果多少有些不太理想，因为系统会在运行时平均地拉伸或收缩您的图片。解决方法为使用自动拉伸位图，这是一种格式特殊的 PNG 文件，其中会指明可以拉伸以及不可以拉伸的区域。"></a>如果在可以更改尺寸的组件上使用了简单的图片，您很快就会发现显示效果多少有些不太理想，因为系统会在运行时平均地拉伸或收缩您的图片。解决方法为使用自动拉伸位图，这是一种格式特殊的 PNG 文件，其中会指明可以拉伸以及不可以拉伸的区域。</h4><h4 id="9的制作，实际上就是在原图片上添加1px的边界，然后按照我们的需求，把对应的位置设置成黑色线，系统就会根据我们的实际需求进行拉伸。"><a href="#9的制作，实际上就是在原图片上添加1px的边界，然后按照我们的需求，把对应的位置设置成黑色线，系统就会根据我们的实际需求进行拉伸。" class="headerlink" title=".9的制作，实际上就是在原图片上添加1px的边界，然后按照我们的需求，把对应的位置设置成黑色线，系统就会根据我们的实际需求进行拉伸。"></a>.9的制作，实际上就是在原图片上添加1px的边界，然后按照我们的需求，把对应的位置设置成黑色线，系统就会根据我们的实际需求进行拉伸。</h4><hr>
+<h3 id="9、普通图片处理"><a href="#9、普通图片处理" class="headerlink" title="9、普通图片处理"></a>9、普通图片处理</h3><p>稍后会详细介绍。</p>
+<hr>
+<h3 id="10、dimens使用"><a href="#10、dimens使用" class="headerlink" title="10、dimens使用"></a>10、dimens使用</h3><p><img src="http://img.blog.csdn.net/20170828100114675?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="如上图，我将市面上各分辨率下的屏幕尺寸，取了平均数，算出对应的真实的屏幕像素密度，与理论要求的屏幕像素密度作了对比，比值在倒数第二列。发现：（干货要来了！）真实像素密度与理论像素密度的比值大致分为两类，取其平均数，一类在1-15左右，另一类则在0-89左右。巧了，它们两类正好各自对应w320dp和w360dp的宽度限定符！所以，dimens只需写两套即可（values-w320dp、values-w360dp），其name与真实数值的比值就是刚刚我们算出的两个平均数！-以后我们就不需要对应各种分辨率写多套dimens了，两套dimens即可。"><a href="#如上图，我将市面上各分辨率下的屏幕尺寸，取了平均数，算出对应的真实的屏幕像素密度，与理论要求的屏幕像素密度作了对比，比值在倒数第二列。发现：（干货要来了！）真实像素密度与理论像素密度的比值大致分为两类，取其平均数，一类在1-15左右，另一类则在0-89左右。巧了，它们两类正好各自对应w320dp和w360dp的宽度限定符！所以，dimens只需写两套即可（values-w320dp、values-w360dp），其name与真实数值的比值就是刚刚我们算出的两个平均数！-以后我们就不需要对应各种分辨率写多套dimens了，两套dimens即可。" class="headerlink" title="如上图，我将市面上各分辨率下的屏幕尺寸，取了平均数，算出对应的真实的屏幕像素密度，与理论要求的屏幕像素密度作了对比，比值在倒数第二列。发现：（干货要来了！）真实像素密度与理论像素密度的比值大致分为两类，取其平均数，一类在1.15左右，另一类则在0.89左右。巧了，它们两类正好各自对应w320dp和w360dp的宽度限定符！所以，dimens只需写两套即可（values-w320dp、values-w360dp），其name与真实数值的比值就是刚刚我们算出的两个平均数！ 以后我们就不需要对应各种分辨率写多套dimens了，两套dimens即可。"></a>如上图，我将市面上各分辨率下的屏幕尺寸，取了平均数，算出对应的真实的屏幕像素密度，与理论要求的屏幕像素密度作了对比，比值在倒数第二列。发现：<strong>（干货要来了！）真实像素密度与理论像素密度的比值大致分为两类，取其平均数，一类在1.15左右，另一类则在0.89左右。巧了，它们两类正好各自对应w320dp和w360dp的宽度限定符！所以，dimens只需写两套即可（values-w320dp、values-w360dp），其name与真实数值的比值就是刚刚我们算出的两个平均数！</strong> 以后我们就不需要对应各种分辨率写多套dimens了，两套dimens即可。</h4><h4 id="例如：在w320dp限定符下的dimens中，按照上表中求出的w320dp的比值平均数，将逻辑值转为实际值，name为理论值，后面对应真实值，在布局中按设计引用对应dimen值即可。"><a href="#例如：在w320dp限定符下的dimens中，按照上表中求出的w320dp的比值平均数，将逻辑值转为实际值，name为理论值，后面对应真实值，在布局中按设计引用对应dimen值即可。" class="headerlink" title="例如：在w320dp限定符下的dimens中，按照上表中求出的w320dp的比值平均数，将逻辑值转为实际值，name为理论值，后面对应真实值，在布局中按设计引用对应dimen值即可。"></a>例如：在w320dp限定符下的dimens中，按照上表中求出的w320dp的比值平均数，将逻辑值转为实际值，name为理论值，后面对应真实值，在布局中<strong>按设计</strong>引用对应dimen值即可。</h4><p><img src="http://img.blog.csdn.net/20170828100128985?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<h2 id="五、图片处理"><a href="#五、图片处理" class="headerlink" title="五、图片处理"></a>五、图片处理</h2><h3 id="1、logo"><a href="#1、logo" class="headerlink" title="1、logo"></a>1、logo</h3><p><img src="http://img.blog.csdn.net/20170828100212161?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="logo需要3636、4848、7272、9696、144144、192192px，图片使用正方形形状，在某些机型上面，会自动显示为圆角正方形；"><a href="#logo需要3636、4848、7272、9696、144144、192192px，图片使用正方形形状，在某些机型上面，会自动显示为圆角正方形；" class="headerlink" title="logo需要3636、4848、7272、9696、144144、192192px，图片使用正方形形状，在某些机型上面，会自动显示为圆角正方形；"></a>logo需要36<em>36、48</em>48、72<em>72、96</em>96、144<em>144、192</em>192px，图片使用正方形形状，在某些机型上面，会自动显示为圆角正方形；</h4><h4 id="Android8-0以后，系统增加了logo点击效果和动画，可按以上尺寸制作圆形logo，但图片必须为正方形，圆形以外区域透明。"><a href="#Android8-0以后，系统增加了logo点击效果和动画，可按以上尺寸制作圆形logo，但图片必须为正方形，圆形以外区域透明。" class="headerlink" title="Android8.0以后，系统增加了logo点击效果和动画，可按以上尺寸制作圆形logo，但图片必须为正方形，圆形以外区域透明。"></a>Android8.0以后，系统增加了logo点击效果和动画，可按以上尺寸制作圆形logo，但图片必须为正方形，圆形以外区域透明。</h4><hr>
+<h3 id="2、普通图片"><a href="#2、普通图片" class="headerlink" title="2、普通图片"></a>2、普通图片</h3><p><img src="http://img.blog.csdn.net/20170828100326564?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170828100338109?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="UI切图只需按照720-1280，4-7寸屏幕切图即可；"><a href="#UI切图只需按照720-1280，4-7寸屏幕切图即可；" class="headerlink" title="UI切图只需按照720*1280，4.7寸屏幕切图即可；"></a>UI切图只需按照720*1280，4.7寸屏幕切图即可；</h4><h4 id="应为iphone6等分辨率、尺寸、像素密度都与要求接近，可使用IOS的2x图代替。"><a href="#应为iphone6等分辨率、尺寸、像素密度都与要求接近，可使用IOS的2x图代替。" class="headerlink" title="应为iphone6等分辨率、尺寸、像素密度都与要求接近，可使用IOS的2x图代替。"></a>应为iphone6等分辨率、尺寸、像素密度都与要求接近，可使用IOS的2x图代替。</h4><p><img src="http://img.blog.csdn.net/20170828100409932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<h3 id="3、纯色图、-9图"><a href="#3、纯色图、-9图" class="headerlink" title="3、纯色图、.9图"></a>3、纯色图、.9图</h3><h4 id="纯色按钮或渐变按钮可使用代码设置颜色或-9图实现，不必用图片作为背景。"><a href="#纯色按钮或渐变按钮可使用代码设置颜色或-9图实现，不必用图片作为背景。" class="headerlink" title="纯色按钮或渐变按钮可使用代码设置颜色或.9图实现，不必用图片作为背景。"></a>纯色按钮或渐变按钮可使用代码设置颜色或.9图实现，不必用图片作为背景。</h4><hr>
+<h3 id="4、动画、自定义view、shape"><a href="#4、动画、自定义view、shape" class="headerlink" title="4、动画、自定义view、shape"></a>4、动画、自定义view、shape</h3><h4 id="可以使用代码进行控制和展示多种视图，如patch动画替代帧动画。"><a href="#可以使用代码进行控制和展示多种视图，如patch动画替代帧动画。" class="headerlink" title="可以使用代码进行控制和展示多种视图，如patch动画替代帧动画。"></a>可以使用代码进行控制和展示多种视图，如patch动画替代帧动画。</h4><hr>
+<h3 id="5、ImageView的ScaleType"><a href="#5、ImageView的ScaleType" class="headerlink" title="5、ImageView的ScaleType"></a>5、ImageView的ScaleType</h3><h4 id="关于ScaleType请参考这里-点击打开"><a href="#关于ScaleType请参考这里-点击打开" class="headerlink" title="关于ScaleType请参考这里 点击打开"></a>关于ScaleType请参考这里 <a href="http://blog.csdn.net/jiashuai94/article/details/77673625" target="_blank" rel="noopener">点击打开</a></h4><hr>
+<h2 id="六、其他"><a href="#六、其他" class="headerlink" title="六、其他"></a>六、其他</h2><h3 id="1、代码适配"><a href="#1、代码适配" class="headerlink" title="1、代码适配"></a>1、代码适配</h3><h4 id="在代码中使用Google提供的API对设备的屏幕宽度进行测量，然后按照需求进行设置。"><a href="#在代码中使用Google提供的API对设备的屏幕宽度进行测量，然后按照需求进行设置。" class="headerlink" title="在代码中使用Google提供的API对设备的屏幕宽度进行测量，然后按照需求进行设置。"></a>在代码中使用Google提供的API对设备的屏幕宽度进行测量，然后按照需求进行设置。</h4><h4 id="几个主要使用的API："><a href="#几个主要使用的API：" class="headerlink" title="几个主要使用的API："></a>几个主要使用的API：</h4><h4 id="对于当前控件的宽高设置，需要做的操作是首先要获取到该控件的父控件，使用父控件对当前控件的宽高进行设置操作！"><a href="#对于当前控件的宽高设置，需要做的操作是首先要获取到该控件的父控件，使用父控件对当前控件的宽高进行设置操作！" class="headerlink" title="对于当前控件的宽高设置，需要做的操作是首先要获取到该控件的父控件，使用父控件对当前控件的宽高进行设置操作！"></a>对于当前控件的宽高设置，需要做的操作是首先要获取到该控件的父控件，使用父控件对当前控件的宽高进行设置操作！</h4><h4 id="API"><a href="#API" class="headerlink" title="API"></a>API</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DisplayMetrics metrics = new DisplayMetrics ();</span><br><span class="line">getWindowManager().getDefaultDisplay().getMetrics(metrics);</span><br><span class="line">手机对应的宽高：</span><br><span class="line">Constants.screenHeight= metrics.heightDixels;</span><br><span class="line">Constants.screenWidth= metrics.widthDixels;</span><br><span class="line">RelativeLayout.LayoutParams=new RelativeLayout.LayoutParams();</span><br><span class="line"></span><br><span class="line">(int)( Constants.screenHeight*0.5+0.5f);</span><br><span class="line">(int)( Constants.screenWidth *0.5+0.5f);</span><br></pre></td></tr></table></figure>
+<h4 id="在上面的两个计算操作中最后加上0-5f的作用是：进行float强转到int类型的时候会出现都是精度的问题。当使用Java代码进行宽高设置的时候，假如出现320-2dp这样的数据此时直接进行int得到的值是320；但是假如出现320-7这样的数据的时候，由于int的计算规则，会直接强转为320，但是从实际出发，这个时候的值取321更为合适。"><a href="#在上面的两个计算操作中最后加上0-5f的作用是：进行float强转到int类型的时候会出现都是精度的问题。当使用Java代码进行宽高设置的时候，假如出现320-2dp这样的数据此时直接进行int得到的值是320；但是假如出现320-7这样的数据的时候，由于int的计算规则，会直接强转为320，但是从实际出发，这个时候的值取321更为合适。" class="headerlink" title="在上面的两个计算操作中最后加上0.5f的作用是：进行float强转到int类型的时候会出现都是精度的问题。当使用Java代码进行宽高设置的时候，假如出现320.2dp这样的数据此时直接进行int得到的值是320；但是假如出现320.7这样的数据的时候，由于int的计算规则，会直接强转为320，但是从实际出发，这个时候的值取321更为合适。"></a>在上面的两个计算操作中最后加上0.5f的作用是：进行float强转到int类型的时候会出现都是精度的问题。当使用Java代码进行宽高设置的时候，假如出现320.2dp这样的数据此时直接进行int得到的值是320；但是假如出现320.7这样的数据的时候，由于int的计算规则，会直接强转为320，但是从实际出发，这个时候的值取321更为合适。</h4><h4 id="所以在计算的最后直接加0-5，这样一来，320-2-0-5-320-7，进行数据的强转操作得到的数据是320，320-7-0-5-321-2，进行数据强转操作得到的数据是321，这样一来得到的数据就和实际预想的更为接近！！"><a href="#所以在计算的最后直接加0-5，这样一来，320-2-0-5-320-7，进行数据的强转操作得到的数据是320，320-7-0-5-321-2，进行数据强转操作得到的数据是321，这样一来得到的数据就和实际预想的更为接近！！" class="headerlink" title="所以在计算的最后直接加0.5，这样一来，320.2+0.5=320.7，进行数据的强转操作得到的数据是320，320.7+0.5=321.2，进行数据强转操作得到的数据是321，这样一来得到的数据就和实际预想的更为接近！！"></a>所以在计算的最后直接加0.5，这样一来，320.2+0.5=320.7，进行数据的强转操作得到的数据是320，320.7+0.5=321.2，进行数据强转操作得到的数据是321，这样一来得到的数据就和实际预想的更为接近！！</h4><hr>
+<h3 id="2、接口配合"><a href="#2、接口配合" class="headerlink" title="2、接口配合"></a>2、接口配合</h3><h4 id="本地加载图片前判断手机分辨率或像素密度，向服务器请求对应级别图片。"><a href="#本地加载图片前判断手机分辨率或像素密度，向服务器请求对应级别图片。" class="headerlink" title="本地加载图片前判断手机分辨率或像素密度，向服务器请求对应级别图片。"></a>本地加载图片前判断手机分辨率或像素密度，向服务器请求对应级别图片。</h4><hr>
+<p>由于时间匆忙和水平有限，文章中不免错误和不足的地方，希望大家予以指出，一起进步！</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/2/160b4a67429c1092?w=344&amp;h=344&amp;f=jpeg&amp;s=8753" alt="这里写图片描述"></p>
+<h3 id="扫描二维码，加入我们，获取更多资讯！"><a href="#扫描二维码，加入我们，获取更多资讯！" class="headerlink" title="扫描二维码，加入我们，获取更多资讯！"></a>扫描二维码，加入我们，获取更多资讯！</h3>
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/upload/wxqr.jpg" alt="Jia Shuai wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您关注的我的微信公众号Android机动车</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章有用，就赏一杯咖啡钱，谢谢^_^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/upload/wxpay.jpg" alt="Jia Shuai WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+	
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/安卓适配/" rel="tag"><i class="fa fa-tag"></i> 安卓适配</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/12/Android项目从立项到上线——修仙之路/" rel="next" title="Android项目从立项到上线————修仙之路">
+                <i class="fa fa-chevron-left"></i> Android项目从立项到上线————修仙之路
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jia Shuai</p>
+              <p class="site-description motion-element" itemprop="description">贾帅的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">Tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shuaijia" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/jiashuai94" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、为什么要适配"><span class="nav-number">1.</span> <span class="nav-text">一、为什么要适配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。"><span class="nav-number">1.0.1.</span> <span class="nav-text">由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#但是这种“碎片化”到达什么程度呢？"><span class="nav-number">1.0.2.</span> <span class="nav-text">但是这种“碎片化”到达什么程度呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。"><span class="nav-number">1.0.3.</span> <span class="nav-text">以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、品牌碎片化、系统碎片化、屏幕碎片化的程度也在不断加深。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、概念"><span class="nav-number">2.</span> <span class="nav-text">二、概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、像素（px）："><span class="nav-number">2.1.</span> <span class="nav-text">1、像素（px）：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通常所说的像素，就是CCD-CMOS上光电感应元件的数量，一个感光元件经过感光，光电信号转换，A-D转换等步骤以后，在输出的照片上就形成一个点，我们如果把影像放大数倍，会发现这些连续色调其实是由许多色彩相近的小方点所组成，这些小方点就是构成影像的最小单位“像素”（Pixel）。"><span class="nav-number">2.1.1.</span> <span class="nav-text">通常所说的像素，就是CCD/CMOS上光电感应元件的数量，一个感光元件经过感光，光电信号转换，A/D转换等步骤以后，在输出的照片上就形成一个点，我们如果把影像放大数倍，会发现这些连续色调其实是由许多色彩相近的小方点所组成，这些小方点就是构成影像的最小单位“像素”（Pixel）。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简而言之，像素就是手机屏幕的最小构成单元。"><span class="nav-number">2.1.2.</span> <span class="nav-text">简而言之，像素就是手机屏幕的最小构成单元。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、分辨率："><span class="nav-number">2.2.</span> <span class="nav-text">2、分辨率：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#手机在横向、纵向上的像素点数总和，一般描述成-宽-高-，"><span class="nav-number">2.2.1.</span> <span class="nav-text">手机在横向、纵向上的像素点数总和，一般描述成 宽*高 ，</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#即横向像素点个数-纵向像素点个数。"><span class="nav-number">2.2.2.</span> <span class="nav-text">即横向像素点个数*纵向像素点个数。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、屏幕尺寸（in）："><span class="nav-number">2.3.</span> <span class="nav-text">3、屏幕尺寸（in）：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#手机对角线的物理尺寸，单位-英寸（inch），一英寸大约2-54cm，常见的尺寸有4-7寸、5寸、5-5寸、6寸"><span class="nav-number">2.3.1.</span> <span class="nav-text">手机对角线的物理尺寸，单位 英寸（inch），一英寸大约2.54cm，常见的尺寸有4.7寸、5寸、5.5寸、6寸</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、屏幕像素密度（dpi）："><span class="nav-number">2.4.</span> <span class="nav-text">4、屏幕像素密度（dpi）：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#每英寸长度上像素点个数。"><span class="nav-number">2.4.1.</span> <span class="nav-text">每英寸长度上像素点个数。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例如每英寸内有160个像素点，则其像素密度为160dpi。"><span class="nav-number">2.4.2.</span> <span class="nav-text">例如每英寸内有160个像素点，则其像素密度为160dpi。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#公式：-像素密度-像素-尺寸-（dpi-px-in）"><span class="nav-number">2.4.3.</span> <span class="nav-text">公式：  像素密度=像素/尺寸  （dpi=px/in）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、标准屏幕像素密度（mdpi）："><span class="nav-number">2.5.</span> <span class="nav-text">5、标准屏幕像素密度（mdpi）：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#每英寸长度上还有160个像素点，即称为标准屏幕像素密度（mdpi）。"><span class="nav-number">2.5.1.</span> <span class="nav-text">每英寸长度上还有160个像素点，即称为标准屏幕像素密度（mdpi）。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、像素密度等级："><span class="nav-number">2.6.</span> <span class="nav-text">6、像素密度等级：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#手机真实像素密度与标准屏幕像素密度（160dpi）的比值。官方给出的0-75、1、1-5、2、3、4，即对应120dpi、160dpi、240dpi、320dpi、480dpi、640dpi。"><span class="nav-number">2.6.1.</span> <span class="nav-text">手机真实像素密度与标准屏幕像素密度（160dpi）的比值。官方给出的0.75、1、1.5、2、3、4，即对应120dpi、160dpi、240dpi、320dpi、480dpi、640dpi。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、密度无关像素（dp）："><span class="nav-number">2.7.</span> <span class="nav-text">7、密度无关像素（dp）：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#density-independent-pixel，叫dp或dip，与终端上的实际物理像素点无关。可以保证在不同屏幕像素密度的设备上显示相同的效果，是安卓特有的长度单位。"><span class="nav-number">2.7.1.</span> <span class="nav-text">density-independent pixel，叫dp或dip，与终端上的实际物理像素点无关。可以保证在不同屏幕像素密度的设备上显示相同的效果，是安卓特有的长度单位。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、独立比例像素（sp）："><span class="nav-number">2.8.</span> <span class="nav-text">8、独立比例像素（sp）：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#scale-independent-pixel，叫sp或sip，字体大小专用单位，可根据字体大小首选项进行缩放；"><span class="nav-number">2.8.1.</span> <span class="nav-text">scale-independent pixel，叫sp或sip，字体大小专用单位，可根据字体大小首选项进行缩放；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推荐使用12sp、14sp、18sp、22sp作为字体大小，不推荐使用奇数和小数，容易造成精度丢失，12sp以下字体太小。"><span class="nav-number">2.8.2.</span> <span class="nav-text">推荐使用12sp、14sp、18sp、22sp作为字体大小，不推荐使用奇数和小数，容易造成精度丢失，12sp以下字体太小。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、尺寸、像素、像素密度关系："><span class="nav-number">2.9.</span> <span class="nav-text">9、尺寸、像素、像素密度关系：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10、px与dp关系："><span class="nav-number">2.10.</span> <span class="nav-text">10、px与dp关系：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#像素-dp像素密度等级，即px-dp-dpi-160"><span class="nav-number">2.10.1.</span> <span class="nav-text">像素=dp像素密度等级，即px=dp(dpi/160)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、对哪些设备适配"><span class="nav-number">3.</span> <span class="nav-text">三、对哪些设备适配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注意进行Android设备的屏幕适配操作，不是单单对屏幕尺寸多样的各种设备进行的适配，在诸多的物理尺寸的背后是屏幕的分辨率，现在市面上占比最多的六种分辨率：480800、320480、480854、540960、7201280、10801920。在日常适配中只要做好对这几个设备的适配，就能很好的适配其他机型。但是在这几种分辨率的背后存在的更为根本的数据是设备的屏幕像素密度。在Google文档中对于屏幕的像素密度进行了几种规定！"><span class="nav-number">3.0.1.</span> <span class="nav-text">注意进行Android设备的屏幕适配操作，不是单单对屏幕尺寸多样的各种设备进行的适配，在诸多的物理尺寸的背后是屏幕的分辨率，现在市面上占比最多的六种分辨率：480800、320480、480854、540960、7201280、10801920。在日常适配中只要做好对这几个设备的适配，就能很好的适配其他机型。但是在这几种分辨率的背后存在的更为根本的数据是设备的屏幕像素密度。在Google文档中对于屏幕的像素密度进行了几种规定！</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#另外也需注意对安卓平板、安卓电视等大尺寸、超大尺寸设备的适配。"><span class="nav-number">3.0.2.</span> <span class="nav-text">另外也需注意对安卓平板、安卓电视等大尺寸、超大尺寸设备的适配。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、如何适配"><span class="nav-number">4.</span> <span class="nav-text">四、如何适配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、适配误区"><span class="nav-number">4.1.</span> <span class="nav-text">1、适配误区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在进行适配的时候，人们总是关注于：代码、Layout、Dimens、图片、权重，这几种适配方式并不是屏幕适配的全部方案，除此之外还存在多种小细节来实现屏幕适配。"><span class="nav-number">4.1.1.</span> <span class="nav-text">在进行适配的时候，人们总是关注于：代码、Layout、Dimens、图片、权重，这几种适配方式并不是屏幕适配的全部方案，除此之外还存在多种小细节来实现屏幕适配。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何理解使用dp为单位进行适配？："><span class="nav-number">4.1.2.</span> <span class="nav-text">如何理解使用dp为单位进行适配？：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#但是，使用密度无关像素（dp）也不能做到适配所有屏幕！"><span class="nav-number">4.1.3.</span> <span class="nav-text">但是，使用密度无关像素（dp）也不能做到适配所有屏幕！</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、造成误差原因"><span class="nav-number">4.2.</span> <span class="nav-text">2、造成误差原因</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在长期的Android发展过程中，由于Android设备的增多，Google制定的屏幕密度标准（mdpi、hdpi、ldpi等），在众多厂家的生产过程中，已经被打破，人们没有生产数完全符合屏幕密度标准的Android设备，对于真实手机的屏幕密度值，是在Google标准的周围浮动变化的，但是不乏存在一些厂商生产的设备偏离Google的屏幕密度标准比较大，这个时候再使用dp作为单位就不能完完全全的完成适配操作！（dp只有在大家标准统一的情况下才有更好的发展）"><span class="nav-number">4.2.1.</span> <span class="nav-text">在长期的Android发展过程中，由于Android设备的增多，Google制定的屏幕密度标准（mdpi、hdpi、ldpi等），在众多厂家的生产过程中，已经被打破，人们没有生产数完全符合屏幕密度标准的Android设备，对于真实手机的屏幕密度值，是在Google标准的周围浮动变化的，但是不乏存在一些厂商生产的设备偏离Google的屏幕密度标准比较大，这个时候再使用dp作为单位就不能完完全全的完成适配操作！（dp只有在大家标准统一的情况下才有更好的发展）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在所有计算公式中存在误差：在计算真实像素密度时运用了开方运算和除法运算，导致所得结果存在误差。"><span class="nav-number">4.2.2.</span> <span class="nav-text">在所有计算公式中存在误差：在计算真实像素密度时运用了开方运算和除法运算，导致所得结果存在误差。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#理论计算造成的误差："><span class="nav-number">4.2.3.</span> <span class="nav-text">理论计算造成的误差：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在计算对角线上像素点个数时，我们使用勾股定理计算得出，但实则存在误差："><span class="nav-number">4.2.4.</span> <span class="nav-text">在计算对角线上像素点个数时，我们使用勾股定理计算得出，但实则存在误差：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、ldpi、mdpi、hdpi、xhdpi、xxhdpi的使用"><span class="nav-number">4.3.</span> <span class="nav-text">3、ldpi、mdpi、hdpi、xhdpi、xxhdpi的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、使用wrap-content、match-parent、权重"><span class="nav-number">4.4.</span> <span class="nav-text">4、使用wrap_content、match_parent、权重</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#要确保布局的灵活性并适应各种尺寸的屏幕，应使用-“wrap-content”-、“match-parent”和权重控制某些视图组件的宽度和高度。"><span class="nav-number">4.4.1.</span> <span class="nav-text">要确保布局的灵活性并适应各种尺寸的屏幕，应使用 “wrap_content” 、“match_parent”和权重控制某些视图组件的宽度和高度。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-“wrap-content”，系统就会将视图的宽度或高度设置成所需的最小尺寸以适应视图中的内容，而-“match-parent”（在低于-API-级别-8-的级别中称为-“fill-parent”）则会展开组件以匹配其父视图的尺寸。"><span class="nav-number">4.4.2.</span> <span class="nav-text">使用 “wrap_content”，系统就会将视图的宽度或高度设置成所需的最小尺寸以适应视图中的内容，而 “match_parent”（在低于 API 级别 8 的级别中称为 “fill_parent”）则会展开组件以匹配其父视图的尺寸。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果使用-“wrap-content”-和-“match-parent”-尺寸值而不是硬编码的尺寸，视图就会相应地仅使用自身所需的空间或展开以填满可用空间。此方法可让布局正确适应各种屏幕尺寸和屏幕方向。"><span class="nav-number">4.4.3.</span> <span class="nav-text">如果使用 “wrap_content” 和 “match_parent” 尺寸值而不是硬编码的尺寸，视图就会相应地仅使用自身所需的空间或展开以填满可用空间。此方法可让布局正确适应各种屏幕尺寸和屏幕方向。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、使用相对布局，不要使用绝对布局"><span class="nav-number">4.5.</span> <span class="nav-text">5、使用相对布局，不要使用绝对布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们大部分时候使用的都是线性布局、相对布局和帧布局，绝对布局由于适配性极差，所以极少使用。"><span class="nav-number">4.5.1.</span> <span class="nav-text">我们大部分时候使用的都是线性布局、相对布局和帧布局，绝对布局由于适配性极差，所以极少使用。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于布局的使用应该具体情况具体分析，在进行电视机顶盒的开发中就是使用的是绝对布局。"><span class="nav-number">4.5.2.</span> <span class="nav-text">关于布局的使用应该具体情况具体分析，在进行电视机顶盒的开发中就是使用的是绝对布局。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、使用限定符进行适配操作"><span class="nav-number">4.6.</span> <span class="nav-text">6、使用限定符进行适配操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用尺寸限定符——large"><span class="nav-number">4.6.1.</span> <span class="nav-text">使用尺寸限定符——large</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用最小宽度限定符——swdp"><span class="nav-number">4.6.2.</span> <span class="nav-text">使用最小宽度限定符——swdp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用屏幕方向限定符"><span class="nav-number">4.6.3.</span> <span class="nav-text">使用屏幕方向限定符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、多套layout适配"><span class="nav-number">4.7.</span> <span class="nav-text">7、多套layout适配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#res-values-layouts-xml"><span class="nav-number">4.7.1.</span> <span class="nav-text">res/values/layouts.xml:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#res-values-sw600dp-land-layouts-xml"><span class="nav-number">4.7.2.</span> <span class="nav-text">res/values-sw600dp-land/layouts.xml:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#res-values-sw600dp-port-layouts-xml"><span class="nav-number">4.7.3.</span> <span class="nav-text">res/values-sw600dp-port/layouts.xml:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#res-values-large-land-layouts-xml"><span class="nav-number">4.7.4.</span> <span class="nav-text">res/values-large-land/layouts.xml:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#res-values-large-port-layouts-xml"><span class="nav-number">4.7.5.</span> <span class="nav-text">res/values-large-port/layouts.xml:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、使用自动拉伸位图"><span class="nav-number">4.8.</span> <span class="nav-text">8、使用自动拉伸位图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#支持各种屏幕尺寸通常意味着您的图片资源还必须能适应各种尺寸。例如，无论要应用到什么形状的按钮上，按钮背景都必须能适应。"><span class="nav-number">4.8.1.</span> <span class="nav-text">支持各种屏幕尺寸通常意味着您的图片资源还必须能适应各种尺寸。例如，无论要应用到什么形状的按钮上，按钮背景都必须能适应。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果在可以更改尺寸的组件上使用了简单的图片，您很快就会发现显示效果多少有些不太理想，因为系统会在运行时平均地拉伸或收缩您的图片。解决方法为使用自动拉伸位图，这是一种格式特殊的-PNG-文件，其中会指明可以拉伸以及不可以拉伸的区域。"><span class="nav-number">4.8.2.</span> <span class="nav-text">如果在可以更改尺寸的组件上使用了简单的图片，您很快就会发现显示效果多少有些不太理想，因为系统会在运行时平均地拉伸或收缩您的图片。解决方法为使用自动拉伸位图，这是一种格式特殊的 PNG 文件，其中会指明可以拉伸以及不可以拉伸的区域。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9的制作，实际上就是在原图片上添加1px的边界，然后按照我们的需求，把对应的位置设置成黑色线，系统就会根据我们的实际需求进行拉伸。"><span class="nav-number">4.8.3.</span> <span class="nav-text">.9的制作，实际上就是在原图片上添加1px的边界，然后按照我们的需求，把对应的位置设置成黑色线，系统就会根据我们的实际需求进行拉伸。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、普通图片处理"><span class="nav-number">4.9.</span> <span class="nav-text">9、普通图片处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10、dimens使用"><span class="nav-number">4.10.</span> <span class="nav-text">10、dimens使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如上图，我将市面上各分辨率下的屏幕尺寸，取了平均数，算出对应的真实的屏幕像素密度，与理论要求的屏幕像素密度作了对比，比值在倒数第二列。发现：（干货要来了！）真实像素密度与理论像素密度的比值大致分为两类，取其平均数，一类在1-15左右，另一类则在0-89左右。巧了，它们两类正好各自对应w320dp和w360dp的宽度限定符！所以，dimens只需写两套即可（values-w320dp、values-w360dp），其name与真实数值的比值就是刚刚我们算出的两个平均数！-以后我们就不需要对应各种分辨率写多套dimens了，两套dimens即可。"><span class="nav-number">4.10.1.</span> <span class="nav-text">如上图，我将市面上各分辨率下的屏幕尺寸，取了平均数，算出对应的真实的屏幕像素密度，与理论要求的屏幕像素密度作了对比，比值在倒数第二列。发现：（干货要来了！）真实像素密度与理论像素密度的比值大致分为两类，取其平均数，一类在1.15左右，另一类则在0.89左右。巧了，它们两类正好各自对应w320dp和w360dp的宽度限定符！所以，dimens只需写两套即可（values-w320dp、values-w360dp），其name与真实数值的比值就是刚刚我们算出的两个平均数！ 以后我们就不需要对应各种分辨率写多套dimens了，两套dimens即可。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例如：在w320dp限定符下的dimens中，按照上表中求出的w320dp的比值平均数，将逻辑值转为实际值，name为理论值，后面对应真实值，在布局中按设计引用对应dimen值即可。"><span class="nav-number">4.10.2.</span> <span class="nav-text">例如：在w320dp限定符下的dimens中，按照上表中求出的w320dp的比值平均数，将逻辑值转为实际值，name为理论值，后面对应真实值，在布局中按设计引用对应dimen值即可。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、图片处理"><span class="nav-number">5.</span> <span class="nav-text">五、图片处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、logo"><span class="nav-number">5.1.</span> <span class="nav-text">1、logo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#logo需要3636、4848、7272、9696、144144、192192px，图片使用正方形形状，在某些机型上面，会自动显示为圆角正方形；"><span class="nav-number">5.1.1.</span> <span class="nav-text">logo需要3636、4848、7272、9696、144144、192192px，图片使用正方形形状，在某些机型上面，会自动显示为圆角正方形；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android8-0以后，系统增加了logo点击效果和动画，可按以上尺寸制作圆形logo，但图片必须为正方形，圆形以外区域透明。"><span class="nav-number">5.1.2.</span> <span class="nav-text">Android8.0以后，系统增加了logo点击效果和动画，可按以上尺寸制作圆形logo，但图片必须为正方形，圆形以外区域透明。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、普通图片"><span class="nav-number">5.2.</span> <span class="nav-text">2、普通图片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UI切图只需按照720-1280，4-7寸屏幕切图即可；"><span class="nav-number">5.2.1.</span> <span class="nav-text">UI切图只需按照720*1280，4.7寸屏幕切图即可；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应为iphone6等分辨率、尺寸、像素密度都与要求接近，可使用IOS的2x图代替。"><span class="nav-number">5.2.2.</span> <span class="nav-text">应为iphone6等分辨率、尺寸、像素密度都与要求接近，可使用IOS的2x图代替。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、纯色图、-9图"><span class="nav-number">5.3.</span> <span class="nav-text">3、纯色图、.9图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#纯色按钮或渐变按钮可使用代码设置颜色或-9图实现，不必用图片作为背景。"><span class="nav-number">5.3.1.</span> <span class="nav-text">纯色按钮或渐变按钮可使用代码设置颜色或.9图实现，不必用图片作为背景。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、动画、自定义view、shape"><span class="nav-number">5.4.</span> <span class="nav-text">4、动画、自定义view、shape</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可以使用代码进行控制和展示多种视图，如patch动画替代帧动画。"><span class="nav-number">5.4.1.</span> <span class="nav-text">可以使用代码进行控制和展示多种视图，如patch动画替代帧动画。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、ImageView的ScaleType"><span class="nav-number">5.5.</span> <span class="nav-text">5、ImageView的ScaleType</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于ScaleType请参考这里-点击打开"><span class="nav-number">5.5.1.</span> <span class="nav-text">关于ScaleType请参考这里 点击打开</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、其他"><span class="nav-number">6.</span> <span class="nav-text">六、其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、代码适配"><span class="nav-number">6.1.</span> <span class="nav-text">1、代码适配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在代码中使用Google提供的API对设备的屏幕宽度进行测量，然后按照需求进行设置。"><span class="nav-number">6.1.1.</span> <span class="nav-text">在代码中使用Google提供的API对设备的屏幕宽度进行测量，然后按照需求进行设置。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#几个主要使用的API："><span class="nav-number">6.1.2.</span> <span class="nav-text">几个主要使用的API：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对于当前控件的宽高设置，需要做的操作是首先要获取到该控件的父控件，使用父控件对当前控件的宽高进行设置操作！"><span class="nav-number">6.1.3.</span> <span class="nav-text">对于当前控件的宽高设置，需要做的操作是首先要获取到该控件的父控件，使用父控件对当前控件的宽高进行设置操作！</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#API"><span class="nav-number">6.1.4.</span> <span class="nav-text">API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在上面的两个计算操作中最后加上0-5f的作用是：进行float强转到int类型的时候会出现都是精度的问题。当使用Java代码进行宽高设置的时候，假如出现320-2dp这样的数据此时直接进行int得到的值是320；但是假如出现320-7这样的数据的时候，由于int的计算规则，会直接强转为320，但是从实际出发，这个时候的值取321更为合适。"><span class="nav-number">6.1.5.</span> <span class="nav-text">在上面的两个计算操作中最后加上0.5f的作用是：进行float强转到int类型的时候会出现都是精度的问题。当使用Java代码进行宽高设置的时候，假如出现320.2dp这样的数据此时直接进行int得到的值是320；但是假如出现320.7这样的数据的时候，由于int的计算规则，会直接强转为320，但是从实际出发，这个时候的值取321更为合适。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#所以在计算的最后直接加0-5，这样一来，320-2-0-5-320-7，进行数据的强转操作得到的数据是320，320-7-0-5-321-2，进行数据强转操作得到的数据是321，这样一来得到的数据就和实际预想的更为接近！！"><span class="nav-number">6.1.6.</span> <span class="nav-text">所以在计算的最后直接加0.5，这样一来，320.2+0.5=320.7，进行数据的强转操作得到的数据是320，320.7+0.5=321.2，进行数据强转操作得到的数据是321，这样一来得到的数据就和实际预想的更为接近！！</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、接口配合"><span class="nav-number">6.2.</span> <span class="nav-text">2、接口配合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#本地加载图片前判断手机分辨率或像素密度，向服务器请求对应级别图片。"><span class="nav-number">6.2.1.</span> <span class="nav-text">本地加载图片前判断手机分辨率或像素密度，向服务器请求对应级别图片。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扫描二维码，加入我们，获取更多资讯！"><span class="nav-number">6.3.</span> <span class="nav-text">扫描二维码，加入我们，获取更多资讯！</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jia Shuai</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
