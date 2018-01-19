@@ -87,12 +87,10 @@
 <meta property="og:site_name" content="Android机动车">
 <meta property="og:description" content="一、简介注解是Java 1.5引入的，可以提供代码的额外信息，目前正在被广泛应用。除了Java内置注解，我们也可以自定义注解。 以下就是一个自定义注解的简单例子： 12345678910111213141516@Target(ElementType.TYPE) //注解作用于类型（类，接口，注解，枚举）@Retention(RetentionPolicy.RUNTIME) //运行时保留，运行中可">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img.blog.csdn.net/20180109151152985?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2018-01-19T01:12:14.948Z">
+<meta property="og:updated_time" content="2018-01-19T01:15:31.494Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java进阶之自定义注解">
 <meta name="twitter:description" content="一、简介注解是Java 1.5引入的，可以提供代码的额外信息，目前正在被广泛应用。除了Java内置注解，我们也可以自定义注解。 以下就是一个自定义注解的简单例子： 12345678910111213141516@Target(ElementType.TYPE) //注解作用于类型（类，接口，注解，枚举）@Retention(RetentionPolicy.RUNTIME) //运行时保留，运行中可">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20180109151152985?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 
 
@@ -188,7 +186,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -198,7 +196,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -262,7 +260,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-19T00:00:00+08:00">
                 2018-01-19
@@ -409,8 +407,6 @@
 <p>或<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@JsAnnotation(num = 100)</span><br><span class="line">public class AnnotationTest &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>或<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@JsAnnotation(color = Color.BLUE)</span><br><span class="line">public class AnnotationTest &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h4 id="3、获取注解"><a href="#3、获取注解" class="headerlink" title="3、获取注解"></a>3、获取注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    AnnotationTest test = new AnnotationTest();</span><br><span class="line">    Class tClass = test.getClass();</span><br><span class="line">    JsAnnotation jsAnnotation = (JsAnnotation) tClass.getAnnotation(JsAnnotation.class);</span><br><span class="line"></span><br><span class="line">    System.out.println(jsAnnotation.value());</span><br><span class="line">    System.out.println(jsAnnotation.color());</span><br><span class="line">    System.out.println(jsAnnotation.num());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>更多精彩内容关注我的微信公众号——<strong>Android机动车</strong><br><img src="http://img.blog.csdn.net/20180109151152985?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
       
     </div>
     
@@ -534,10 +530,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -558,7 +554,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">8</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
             
@@ -571,7 +567,7 @@
               <div class="site-state-item site-state-tags">
                 
                   <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 
               </div>
             
@@ -649,7 +645,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
