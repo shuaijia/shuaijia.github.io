@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -218,6 +218,161 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/20/java进阶之抽象类、接口和多态/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/20/java进阶之抽象类、接口和多态/" itemprop="url">java进阶之自定义注解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-20T00:00:00+08:00">
+                2018-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="抽象类和接口"><a href="#抽象类和接口" class="headerlink" title="抽象类和接口"></a>抽象类和接口</h3><p><img src="http://img.blog.csdn.net/20171228135922046?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>抽象层次不同</strong> </p>
+<ul>
+<li><p>抽象类是对类抽象，而接口是对行为的抽象</p>
+</li>
+<li><p>抽象类是对整个类整体进行抽象，包括属性、行为，但是接口却是对类局部行为进行抽象</p>
+</li>
+</ul>
+<p><strong>跨域不同</strong> </p>
+<ul>
+<li><p>抽象类所跨域的是具有相似特点的类，而接口却可以跨域不同的类</p>
+</li>
+<li><p>抽象类所体现的是一种继承关系，考虑的是子类与父类本质“是不是”同一类的关系</p>
+</li>
+<li><p>而接口并不要求实现的类与接口是同一本质，它们之间只存在“有没有这个能力”的关系</p>
+</li>
+</ul>
+<p><strong>设计层次不同</strong> </p>
+<ul>
+<li><p>抽象类是自下而上的设计，在子类中重复出现的工作，抽象到抽象类中</p>
+</li>
+<li><p>接口是自上而下，定义行为和规范</p>
+</li>
+</ul>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>多态指的是编译期只知道是个人，具体是什么样的人需要在运行时能确定，同样的参数有可能会有不同的实现。</p>
+<p>通过抽象建立规范，在运行时替换成具体的对象，保证系统的扩展性、灵活性。</p>
+<p>实现多态主要有以下三种方式:</p>
+<ul>
+<li><p>接口实现</p>
+</li>
+<li><p>继承父类重写方法</p>
+</li>
+<li><p>同一类中进行方法重载</p>
+</li>
+</ul>
+<p>不论哪种实现方式，调用者持有的都是基类，不同的实现在他看来都是基类，使用时也当基类用。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -261,7 +416,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-19T00:00:00+08:00">
                 2018-01-19
@@ -486,7 +641,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-16T00:00:00+08:00">
                 2018-01-16
@@ -653,7 +808,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-12T00:00:00+08:00">
                 2018-01-12
@@ -932,7 +1087,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-11T00:00:00+08:00">
                 2018-01-11
@@ -1093,7 +1248,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-05T00:00:00+08:00">
                 2018-01-05
@@ -1381,7 +1536,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">
                 2018-01-04
@@ -1590,7 +1745,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
                 2018-01-03
@@ -1828,7 +1983,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
                 2018-01-03
@@ -2037,8 +2192,8 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
-                  <span class="site-state-item-name">Artikel</span>
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -2051,7 +2206,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
               <div class="site-state-item site-state-tags">
                 
                   <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 
               </div>
             
@@ -2113,7 +2268,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
