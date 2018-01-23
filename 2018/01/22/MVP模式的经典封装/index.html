@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="title: MVP模式的经典封装 date: 2018.01.22 人之所以能，是相信能。  说到MVP，大家应该都不陌生了，由于其高度解等等优点，越来越多的项目使用这个设计模式。然而，优点虽在，缺点也不少，其中一个就是类多了很多，而且V与P直接要项目通信，那么P就得持有V得实例，但如果活动挂掉了，如果没有对V进行释放，还有导致内存溢出得问题，而且，那么多的接口函数，看得到人眼花缭乱，也使得很">
+<meta name="description" content="人之所以能，是相信能。  说到MVP，大家应该都不陌生了，由于其高度解等等优点，越来越多的项目使用这个设计模式。然而，优点虽在，缺点也不少，其中一个就是类多了很多，而且V与P直接要项目通信，那么P就得持有V得实例，但如果活动挂掉了，如果没有对V进行释放，还有导致内存溢出得问题，而且，那么多的接口函数，看得到人眼花缭乱，也使得很多人在使用这个模式的时候望而尚步。 回归正题，最近在进行代码重构，决定">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android机动车">
-<meta property="og:url" content="http://shuaijia.github.io/2018/01/23/MVP模式的经典封装/index.html">
+<meta property="og:title" content="MVP模式的经典封装">
+<meta property="og:url" content="http://shuaijia.github.io/2018/01/22/MVP模式的经典封装/index.html">
 <meta property="og:site_name" content="Android机动车">
-<meta property="og:description" content="title: MVP模式的经典封装 date: 2018.01.22 人之所以能，是相信能。  说到MVP，大家应该都不陌生了，由于其高度解等等优点，越来越多的项目使用这个设计模式。然而，优点虽在，缺点也不少，其中一个就是类多了很多，而且V与P直接要项目通信，那么P就得持有V得实例，但如果活动挂掉了，如果没有对V进行释放，还有导致内存溢出得问题，而且，那么多的接口函数，看得到人眼花缭乱，也使得很">
+<meta property="og:description" content="人之所以能，是相信能。  说到MVP，大家应该都不陌生了，由于其高度解等等优点，越来越多的项目使用这个设计模式。然而，优点虽在，缺点也不少，其中一个就是类多了很多，而且V与P直接要项目通信，那么P就得持有V得实例，但如果活动挂掉了，如果没有对V进行释放，还有导致内存溢出得问题，而且，那么多的接口函数，看得到人眼花缭乱，也使得很多人在使用这个模式的时候望而尚步。 回归正题，最近在进行代码重构，决定">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/19/1610c365f661ca89?w=954&h=536&f=png&s=34459">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/19/1610c42092395a18?w=550&h=182&f=png&s=26771">
@@ -92,10 +92,10 @@
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/19/1610c438af2123ce?w=1403&h=787&f=png&s=41240">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/19/1610c87f205af2f3?w=765&h=390&f=png&s=17865">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/19/1610c86d893de479?w=344&h=344&f=jpeg&s=8753">
-<meta property="og:updated_time" content="2018-01-23T01:12:19.413Z">
+<meta property="og:updated_time" content="2018-01-23T01:14:33.400Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android机动车">
-<meta name="twitter:description" content="title: MVP模式的经典封装 date: 2018.01.22 人之所以能，是相信能。  说到MVP，大家应该都不陌生了，由于其高度解等等优点，越来越多的项目使用这个设计模式。然而，优点虽在，缺点也不少，其中一个就是类多了很多，而且V与P直接要项目通信，那么P就得持有V得实例，但如果活动挂掉了，如果没有对V进行释放，还有导致内存溢出得问题，而且，那么多的接口函数，看得到人眼花缭乱，也使得很">
+<meta name="twitter:title" content="MVP模式的经典封装">
+<meta name="twitter:description" content="人之所以能，是相信能。  说到MVP，大家应该都不陌生了，由于其高度解等等优点，越来越多的项目使用这个设计模式。然而，优点虽在，缺点也不少，其中一个就是类多了很多，而且V与P直接要项目通信，那么P就得持有V得实例，但如果活动挂掉了，如果没有对V进行释放，还有导致内存溢出得问题，而且，那么多的接口函数，看得到人眼花缭乱，也使得很多人在使用这个模式的时候望而尚步。 回归正题，最近在进行代码重构，决定">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/1/19/1610c365f661ca89?w=954&h=536&f=png&s=34459">
 
 
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://shuaijia.github.io/2018/01/23/MVP模式的经典封装/"/>
+  <link rel="canonical" href="http://shuaijia.github.io/2018/01/22/MVP模式的经典封装/"/>
 
 
 
 
 
-  <title> | Android机动车</title>
+  <title>MVP模式的经典封装 | Android机动车</title>
   
 
 
@@ -192,7 +192,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -239,7 +239,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/23/MVP模式的经典封装/">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/22/MVP模式的经典封装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jia Shuai">
@@ -256,7 +256,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">MVP模式的经典封装</h1>
         
 
         <div class="post-meta">
@@ -266,10 +266,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-23T09:12:19+08:00">
-                2018-01-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-22T00:00:00+08:00">
+                2018-01-22
               </time>
             
 
@@ -306,9 +306,7 @@
       
 
       
-        <hr>
-<p>title: MVP模式的经典封装</p>
-<h2 id="date-2018-01-22"><a href="#date-2018-01-22" class="headerlink" title="date: 2018.01.22"></a>date: 2018.01.22</h2><blockquote>
+        <blockquote>
 <p>人之所以能，是相信能。</p>
 </blockquote>
 <p>说到MVP，大家应该都不陌生了，由于其高度解等等优点，越来越多的项目使用这个设计模式。然而，优点虽在，缺点也不少，其中一个就是类多了很多，而且V与P直接要项目通信，那么P就得持有V得实例，但如果活动挂掉了，如果没有对V进行释放，还有导致内存溢出得问题，而且，那么多的接口函数，看得到人眼花缭乱，也使得很多人在使用这个模式的时候望而尚步。</p>
@@ -486,10 +484,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -510,7 +508,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
             
@@ -523,7 +521,7 @@
               <div class="site-state-item site-state-tags">
                 
                   <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 
               </div>
             
@@ -571,7 +569,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#date-2018-01-22"><span class="nav-number">1.</span> <span class="nav-text">date: 2018.01.22</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是MVP模式"><span class="nav-number">2.</span> <span class="nav-text">什么是MVP模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用MVP的结构"><span class="nav-number">2.0.1.</span> <span class="nav-text">使用MVP的结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#再对比下MVC"><span class="nav-number">2.0.2.</span> <span class="nav-text">再对比下MVC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装思路"><span class="nav-number">3.</span> <span class="nav-text">封装思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#框架封装"><span class="nav-number">4.</span> <span class="nav-text">框架封装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Presenter的封装"><span class="nav-number">4.1.</span> <span class="nav-text">1、Presenter的封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、view的封装"><span class="nav-number">4.2.</span> <span class="nav-text">2、view的封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1、BaseActivity"><span class="nav-number">4.3.</span> <span class="nav-text">2.1、BaseActivity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-BaseFragment"><span class="nav-number">4.4.</span> <span class="nav-text">2.2 BaseFragment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Contract契约类"><span class="nav-number">4.5.</span> <span class="nav-text">3、Contract契约类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战"><span class="nav-number">5.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、契约类"><span class="nav-number">5.1.</span> <span class="nav-text">1、契约类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Model实现类"><span class="nav-number">5.2.</span> <span class="nav-text">2、Model实现类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Presenter"><span class="nav-number">5.3.</span> <span class="nav-text">3、Presenter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、View"><span class="nav-number">5.4.</span> <span class="nav-text">4、View</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是MVP模式"><span class="nav-number">1.</span> <span class="nav-text">什么是MVP模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用MVP的结构"><span class="nav-number">1.0.1.</span> <span class="nav-text">使用MVP的结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#再对比下MVC"><span class="nav-number">1.0.2.</span> <span class="nav-text">再对比下MVC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装思路"><span class="nav-number">2.</span> <span class="nav-text">封装思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#框架封装"><span class="nav-number">3.</span> <span class="nav-text">框架封装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Presenter的封装"><span class="nav-number">3.1.</span> <span class="nav-text">1、Presenter的封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、view的封装"><span class="nav-number">3.2.</span> <span class="nav-text">2、view的封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1、BaseActivity"><span class="nav-number">3.3.</span> <span class="nav-text">2.1、BaseActivity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-BaseFragment"><span class="nav-number">3.4.</span> <span class="nav-text">2.2 BaseFragment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Contract契约类"><span class="nav-number">3.5.</span> <span class="nav-text">3、Contract契约类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战"><span class="nav-number">4.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、契约类"><span class="nav-number">4.1.</span> <span class="nav-text">1、契约类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Model实现类"><span class="nav-number">4.2.</span> <span class="nav-text">2、Model实现类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Presenter"><span class="nav-number">4.3.</span> <span class="nav-text">3、Presenter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、View"><span class="nav-number">4.4.</span> <span class="nav-text">4、View</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -601,7 +599,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
