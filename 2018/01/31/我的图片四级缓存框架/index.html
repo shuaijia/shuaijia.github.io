@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="开发App一定涉及到图片加载、图片处理，那就必须会用到三方的图片框架，要么选择自己封装。至于主流的三方图片框架，就不得不说老牌的ImageLoader、如今更流行的Glide、Picasso和Fresco。但三方的框架本文不会过多介绍。 Glide等框架，毕竟是大神及团队花费很大精力开发和维护的开源框架，他们的设计思路、性能优化、代码规范等等很值得我们学习，之前一段时间也研究过Glide的源码（不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的图片四级缓存框架">
+<meta property="og:url" content="http://shuaijia.github.io/2018/01/31/我的图片四级缓存框架/index.html">
+<meta property="og:site_name" content="Android机动车">
+<meta property="og:description" content="开发App一定涉及到图片加载、图片处理，那就必须会用到三方的图片框架，要么选择自己封装。至于主流的三方图片框架，就不得不说老牌的ImageLoader、如今更流行的Glide、Picasso和Fresco。但三方的框架本文不会过多介绍。 Glide等框架，毕竟是大神及团队花费很大精力开发和维护的开源框架，他们的设计思路、性能优化、代码规范等等很值得我们学习，之前一段时间也研究过Glide的源码（不">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.blog.csdn.net/20180128213327798?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20180128213304914?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20180128224929100?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-01-31T01:07:24.005Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的图片四级缓存框架">
+<meta name="twitter:description" content="开发App一定涉及到图片加载、图片处理，那就必须会用到三方的图片框架，要么选择自己封装。至于主流的三方图片框架，就不得不说老牌的ImageLoader、如今更流行的Glide、Picasso和Fresco。但三方的框架本文不会过多介绍。 Glide等框架，毕竟是大神及团队花费很大精力开发和维护的开源框架，他们的设计思路、性能优化、代码规范等等很值得我们学习，之前一段时间也研究过Glide的源码（不">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20180128213327798?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shuaijia.github.io/2018/01/31/我的图片四级缓存框架/"/>
+
+
+
+
+
+  <title>我的图片四级缓存框架 | Android机动车</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/shuaijia"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Android机动车</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人之所以能，是相信能</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/31/我的图片四级缓存框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">我的图片四级缓存框架</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>开发App一定涉及到图片加载、图片处理，那就必须会用到三方的图片框架，要么选择自己封装。至于主流的三方图片框架，就不得不说老牌的ImageLoader、如今更流行的Glide、Picasso和Fresco。但三方的框架本文不会过多介绍。</p>
+<p>Glide等框架，毕竟是大神及团队花费很大精力开发和维护的开源框架，他们的设计思路、性能优化、代码规范等等很值得我们学习，之前一段时间也研究过Glide的源码（不得不由衷佩服）。</p>
+<p>今天，将自己对于图片加载的思路想法，也借鉴了开源框架的一些好的点，封装了一个图片加载框架——JsLoader。（github地址：<a href="https://github.com/shuaijia/JsImageLoader" target="_blank" rel="noopener">https://github.com/shuaijia/JsImageLoader</a>）与大家分享。</p>
+<p>文章目录：<br><img src="http://img.blog.csdn.net/20180128213327798?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>至于图片的网络请求，我这里还是使用Android原生提供的HttpUrlConnection；请求网络图片时，开启子线程进行操作，使用线程池对线程进行统一管理；线程间通信还是用了Handler；提到图片加载，大家肯定会立刻想到图片的三级缓存（内存—外存—网络），但我这里提供一个新的思路——<strong>四级缓存，与三级缓存不同的是内存又分为了两级</strong>，这些稍后会详细介绍到。</p>
+<p>本文目的在于和大家分享一个图片框架的封装思路，至于代码的优化，如使用OkHttp替换HttpUrlConnection，使用RxJava替换Handler等，或者有别的不足的地方，也希望大家能够反馈给我，我们一起进步。</p>
+<p>先看下整体流程图：</p>
+<p><img src="http://img.blog.csdn.net/20180128213304914?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class MyThreadFactory &#123;</span><br><span class="line"></span><br><span class="line">    //Android的线程池类</span><br><span class="line">    private static ThreadPoolExecutor threadPoolExecutor=null;</span><br><span class="line">    //获取当前用户的手机的CPU的核心数</span><br><span class="line">    private static int num= Runtime.getRuntime().availableProcessors();</span><br><span class="line">    //用于存储提交任务的任务队列</span><br><span class="line">    private static BlockingDeque&lt;Runnable&gt; workQueue=new LinkedBlockingDeque&lt;&gt;(num*50);</span><br><span class="line">    private MyThreadFactory()&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public static ThreadPoolExecutor getThreadPoolExecutor()&#123;</span><br><span class="line">        if(null==threadPoolExecutor)&#123;</span><br><span class="line">            threadPoolExecutor=new ThreadPoolExecutor(num*2, num*4, 8, TimeUnit.SECONDS, workQueue, new ThreadPoolExecutor.CallerRunsPolicy());</span><br><span class="line">//            threadPoolExecutor=new ThreadPoolExecutor(1, 1, 8, TimeUnit.SECONDS, workQueue, new ThreadPoolExecutor.CallerRunsPolicy());</span><br><span class="line">        &#125;</span><br><span class="line">        return threadPoolExecutor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当前类是一个线程池的管理类。由于当前的线程池，在整个项目中不需要创建多个对象，直接使用单例模式进行创建。</p>
+<blockquote>
+<p> <strong>补充</strong>：Android中的线程池<br> 在Android中使用线程池的类是：ThreadPoolExecutor；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(int corePoolSize, int maxinumPoolSize, long keepAliveTime, TimeUnit unit, BlockingDeque&lt;Runnable&gt; workQueue, ThreadFactory threadFactory);</span><br></pre></td></tr></table></figure>
+<p>参数：</p>
+<ul>
+<li>int corePoolSize      : 线程池中的核心线程数</li>
+<li>int maxinumPoolSize   ：线程池中允许的最大线程数目</li>
+<li>long keepAliveTime    ：非核心线程的超时时间，超出这个时间非核心线程会被回收</li>
+<li>TimeUnit unit         ：非核心线程的超时时间的时间单位</li>
+<li>BlockingDeque<runnable> workQueue  ： 保存需要线程池执行的任务的列表</runnable></li>
+<li>ThreadFactory threadFactory        ： 线程工厂，只是一个接口，只有一个方法Thread newThread(Runnable r)</li>
+</ul>
+<p>在上文展示的类中，我们获取了手机的CPU核心数num，本线程池的核心线程数为CPU数的2倍，最大线程数为CPU核心数的4倍。</p>
+<h3 id="内存一级缓存"><a href="#内存一级缓存" class="headerlink" title="内存一级缓存"></a>内存一级缓存</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private static final HashMap&lt;String,Bitmap&gt; mHardBitmapCache=new LinkedHashMap&lt;String,Bitmap&gt;(</span><br><span class="line">            M_LINK_SIZE/2,0.75f,true)&#123;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 这个方法是是put或putAll时调用,默认返回false,表示添加数据时不移除最旧的数据.</span><br><span class="line">	 * @param eldest</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	protected boolean removeEldestEntry(Entry&lt;String, Bitmap&gt; eldest) &#123;</span><br><span class="line">		if (size() &gt; M_LINK_SIZE) &#123;</span><br><span class="line">			// 当map的size大于30时，把最近不常用的key放到mSoftBitmapCache中，从而保证mHardBitmapCache的效率</span><br><span class="line">			Bitmap value = eldest.getValue();</span><br><span class="line">			if (value != null) &#123;</span><br><span class="line">				mWeakBitmapCache.put(eldest.getKey(),new SoftReference&lt;Bitmap&gt;(value));</span><br><span class="line">			&#125;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>定义的内存中的一级缓存，即保存作为强引用的位置的HashMap。</p>
+<p>此处HashMap使用的是<strong>LinkedHashMap</strong>。LinkedHashMap 是HashMap的一个子类，保存了记录的插入顺序，在用Iterator遍历LinkedHashMap时，<strong>先得到的记录肯定是先插入的</strong>。也可以在构造时用带参数，按照应用次数排序。在遍历的时候会比HashMap慢，不过有种情况例外，当HashMap容量很大，实际数据较少时，遍历起来可能会比 LinkedHashMap慢，因为LinkedHashMap的遍历速度只和实际数据有关，和容量无关，而HashMap的遍历速度和他的容量有关。</p>
+<p>正是由于LinkedHashMap具有<strong>记忆</strong>功能，最近插入的最新访问，就符合了我们的最近最多使用的原则。但由于其遍历速度慢，我们对其容量进行设定，最多30和元素。</p>
+<p>重写removeEldestEntry方法，当map的size大于30时，把最近不常用的key放到mSoftBitmapCache中（也就是内存第二级缓存），从而保证mHardBitmapCache的效率。</p>
+<p>这里我们在Map中是以Url和Bitmap为Key-Value存储的，由于LinkedHashMap存放少，而且插入移出快，所以这里用的是Bitmap的强引用。</p>
+<p>如果LinkedHashMap中包含我们需要的图片，则将图片直接返回。但是注意：此时我们认为此图使用频率更高，因此我们需要先将该元素移出，在加入（这是由于该map后插入的遍历时先读取）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mHardBitmapCache.remove(netUrlKey);</span><br><span class="line">mHardBitmapCache.put(netUrlKey,usefulBitmap);</span><br></pre></td></tr></table></figure>
+<p>此为内存的一级缓存。</p>
+<h3 id="内存二级缓存"><a href="#内存二级缓存" class="headerlink" title="内存二级缓存"></a>内存二级缓存</h3><p>如果内存的LinkedHashMap中未获取到我们想要的图片的话，在二级缓存中进行查找。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private static Map&lt;String, SoftReference&lt;Bitmap&gt;&gt; mWeakBitmapCache = new ConcurrentHashMap&lt;String, SoftReference&lt;Bitmap&gt;&gt;(</span><br><span class="line">            M_LINK_SIZE / 2);</span><br></pre></td></tr></table></figure>
+<p>这时就用到了ConcurrentHashMap，它的最大特点就是<strong>线程安全</strong>、高并发、存储量大。由于存储量大，所以我们存放Bitmap时就需要使用其软引用了。</p>
+<p>如果此map中含有需要的图片，则先取出其软引用，在从软引用中获取Bitmap对象返回。再将其移至一级缓存中。</p>
+<p>内存的读取整体代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 这里定义的操作方法完成的是从内存中的Map中获取图片的对象</span><br><span class="line"> * 既然已经在内存中了，默认已经完成了压缩</span><br><span class="line"> *</span><br><span class="line"> * @param netUrlKey  作为图片在Map中唯一标志的网络图片URL</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static Bitmap getBitmapFromRAM(String netUrlKey)&#123;</span><br><span class="line"></span><br><span class="line">    if(mHardBitmapCache.containsKey(netUrlKey))&#123;</span><br><span class="line"></span><br><span class="line">        Bitmap usefulBitmap=mHardBitmapCache.get(netUrlKey);</span><br><span class="line">        if(null!=usefulBitmap)&#123;</span><br><span class="line">            //如果存在正在内存中的Bitmap图片，将图片的使用级别向前提，并返回Bitmap对象</span><br><span class="line">            mHardBitmapCache.remove(netUrlKey);</span><br><span class="line">            mHardBitmapCache.put(netUrlKey,usefulBitmap);</span><br><span class="line">            return usefulBitmap;</span><br><span class="line"></span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            //这里的情况是虽然在集合中包含对应的Key但是通过key得不到对应的Bitmap，此时将</span><br><span class="line">            //key从Map中清楚，并返回null</span><br><span class="line">            mHardBitmapCache.remove(netUrlKey);</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //如果在强引用中不包含对应的key，那么在软引用中进行查找</span><br><span class="line">        if(mWeakBitmapCache.containsKey(netUrlKey))&#123;</span><br><span class="line">            SoftReference&lt;Bitmap&gt; usefulSoftBitmap=mWeakBitmapCache.get(netUrlKey);</span><br><span class="line">            if(null!=usefulSoftBitmap)&#123;</span><br><span class="line">                //从软应用中获取出对应的Bitmap对象</span><br><span class="line">                Bitmap usefulBitmap = usefulSoftBitmap.get();</span><br><span class="line">                if(null!=usefulBitmap)&#123;</span><br><span class="line">                    //将软引用中的低级别图片转移到强引用中</span><br><span class="line">                    mHardBitmapCache.put(netUrlKey,usefulBitmap);</span><br><span class="line">                    return usefulBitmap;</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    //软引用中包含key但是获取不到图片</span><br><span class="line">                    mWeakBitmapCache.remove(netUrlKey);</span><br><span class="line">                    return null;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //软引用中包含key但是获取不到图片</span><br><span class="line">                mWeakBitmapCache.remove(netUrlKey);</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            //软引用中也不包括这个key，那么从判断SD卡中是否存在这个资源图片</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>特别声明：在存放入内存前，会将图片进行压缩。</p>
+<h3 id="SD卡缓存"><a href="#SD卡缓存" class="headerlink" title="SD卡缓存"></a>SD卡缓存</h3><p>内存中没有图片的话，就去文件中查找：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取已经保存的数据的位置的路径</span><br><span class="line"> *</span><br><span class="line"> * @param netUrlorPath</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private static String getSavedPath(String netUrlorPath) &#123;</span><br><span class="line"></span><br><span class="line">	String savedPath = null;</span><br><span class="line">	if (StorageUtil.isPhoneHaveSD()) &#123;</span><br><span class="line">		// 创建以SD卡根目录为路径的File对象</span><br><span class="line">		File fileBySD = new File(StorageUtil.getPathBySD());</span><br><span class="line">		// 创建SD卡根目录下以当前应用包名为文件夹的文件对象，并验证是否存在当前目录</span><br><span class="line">		File fileBySDSon = new File(fileBySD, PackageUtil.getAppPackageName());</span><br><span class="line">		// File fileBySDSon=new File(fileBySD,&quot;AA&quot;);</span><br><span class="line">		if (fileBySDSon.exists()) &#123;</span><br><span class="line">			String md5Url = EncryptUtil.md5(netUrlorPath);</span><br><span class="line">			// 以包名为文件夹的对象存在的时候，通过将文件对象和图片的名称的拼接构建文件对象</span><br><span class="line">			File imageFile = new File(fileBySDSon, URLEncoder.encode(md5Url));</span><br><span class="line">			if (imageFile.exists()) &#123;</span><br><span class="line">				// 图片文件对象存在的时候获取当前的图片对象对应的路径</span><br><span class="line">				savedPath = imageFile.getAbsolutePath();</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				return null;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		// 创建以Cache根目录为路径的File对象</span><br><span class="line">		File fileByCache = new File(StorageUtil.getPathBycache());</span><br><span class="line">		// 创建SD卡根目录下以当前应用包名为文件夹的文件对象，并验证是否存在当前目录</span><br><span class="line">		File fileByCacheSon = new File(fileByCache, PackageUtil.getAppPackageName());</span><br><span class="line">		// File fileByCacheSon=new File(fileByCache,&quot;AA&quot;);</span><br><span class="line">		if (fileByCacheSon.exists()) &#123;</span><br><span class="line">			String md5Url = EncryptUtil.md5(netUrlorPath);</span><br><span class="line">			// 以包名为文件夹的对象存在的时候，通过将文件对象和图片的名称的拼接构建文件对象</span><br><span class="line">			File imageFile = new File(fileByCacheSon, URLEncoder.encode(md5Url));</span><br><span class="line">			if (imageFile.exists()) &#123;</span><br><span class="line">				// 图片文件对象存在的时候获取当前的图片对象对应的路径</span><br><span class="line">				savedPath = imageFile.getAbsolutePath();</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				return null;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return savedPath;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上方代码是根据图片url获取到图片在文件中的路径。</p>
+<p>所以的缓存图片，会保存在本包名文件夹下，以url的md5值为名字的文件中，判断到有此文件的话，将文件路径返回。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 这里完成的操作是判断传递进来的路径是否包括Bitmap对象，如果存在将Bitmap对象返回 否则返回null</span><br><span class="line"> *</span><br><span class="line"> * @param saveTime</span><br><span class="line"> *            图片的保存时间</span><br><span class="line"> * @param netUrl</span><br><span class="line"> *            网络图片的网络路径作为文件名称</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static Bitmap getBitmapFromSD(long saveTime, String netUrl) &#123;</span><br><span class="line"></span><br><span class="line">	long nativeSaveTime = saveTime &gt; 0 ? saveTime : DATA_DEFAULT_SAVETIME;</span><br><span class="line">	long actualSaveTime = 0L;</span><br><span class="line">	if (null == netUrl) &#123;</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">	String imageSavePath = getSavedPath(netUrl);</span><br><span class="line">//	System.out.println(&quot;已经存储的图片的路径：：&quot; + imageSavePath);</span><br><span class="line">	if (null == imageSavePath) &#123;</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">	File imageFile = new File(imageSavePath);</span><br><span class="line">	if (!imageFile.exists()) &#123;</span><br><span class="line">		// throw new StructException(&quot;需要的文件不存在！&quot;);</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">	actualSaveTime = System.currentTimeMillis() - imageFile.lastModified();</span><br><span class="line">	if (actualSaveTime &gt; nativeSaveTime) &#123;</span><br><span class="line">		imageFile.delete();</span><br><span class="line">		//System.out.println(&quot;文件超时了！&quot;);</span><br><span class="line">		return null;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 这里的逻辑是当文件对象存在的时候将该文件对象获取出来，并生成Bitmap对象并返回</span><br><span class="line">	 */</span><br><span class="line">	// Bitmap sdBitmap= BitmapFactory.decodeFile(imageSavePath);</span><br><span class="line">	// 从SD卡中获取图片的时候直接进行图片的压缩处理防止OOM</span><br><span class="line"></span><br><span class="line">	//System.out.println(&quot;保存的图片的链接：&quot; + imageSavePath);</span><br><span class="line">	Bitmap sdBitmap = ImageUtil.getCompressBitmapBYScreen(imageSavePath);</span><br><span class="line">	return sdBitmap;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>判断到文件中有我们需要的图片，会拿到文件路径。但是，我们有设定文件有效时间，超过该时间则视为超时，返回null，否则读取该文件。根据图片的路径和当前手机的默认屏幕分辨率进行图片压缩再返回。</p>
+<p>文件中有该图片，那就将该图片移植内存中，以提高优先级，而且内存两级中都放入该图片。</p>
+<h3 id="网络获取"><a href="#网络获取" class="headerlink" title="网络获取"></a>网络获取</h3><p>以上都没拿到图片的话，那只能从网络来获取啦！</p>
+<p>对http还是https进行判断，分别对应使用HttpUrlConnection和HttpsUrlConnection。他们代码类似，就只贴其中一个了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    public static InputStream getHttpIOByGet(String netUrl) throws IOException &#123;</span><br><span class="line"></span><br><span class="line">//        System.out.println(&quot;网络的链接：&quot;+netUrl);</span><br><span class="line"></span><br><span class="line">        URL url = new URL(netUrl);</span><br><span class="line">        HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">        conn.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">        conn.setConnectTimeout(5000);</span><br><span class="line">        int code = conn.getResponseCode();</span><br><span class="line">//        System.out.println(&quot;返回码：：&quot;+code);</span><br><span class="line">        if (code == 200) &#123;</span><br><span class="line">            InputStream is = conn.getInputStream();</span><br><span class="line">            return is;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>返回码200，表示请求成功，就将输入流返回，否则返回null。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bitmap= BitmapFactory.decodeStream(inputStream);</span><br></pre></td></tr></table></figure>
+<p>获取输入流后，使用上方代码获取Bitmap对象，原因大家懂的。</p>
+<p>获取到图片后，再依次存入sd卡和内存中，因为是好是操作，就在子线程中进行了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">new Thread()&#123;</span><br><span class="line">	@Override</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		//3.1、从网络获取图片</span><br><span class="line">		//3.2、将图片压缩后的保存到SD卡或机身内存中</span><br><span class="line">		FileUtil.putBitmapToSD(netUrl, finalThreeCacheBitmap);</span><br><span class="line">		//3.4、将图片保存到Map中</span><br><span class="line">		CacheRAM.putBitmapToRAM(netUrl, finalThreeCacheBitmap);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;.start();</span><br></pre></td></tr></table></figure>
+<h3 id="图片压缩"><a href="#图片压缩" class="headerlink" title="图片压缩"></a>图片压缩</h3><p>这里主要想介绍下图片的压缩：因为图片加载很容易造成OOM，所以图片压缩处理显得尤为重要。</p>
+<p>提供集中压缩方式：</p>
+<ul>
+<li>根据期望大小压缩</li>
+<li>根据期望尺寸压缩</li>
+<li>根据当前手机的默认屏幕分辨率进行图片的压缩</li>
+</ul>
+<p>这里就不再贴代码了，可以去我的github中查看。<a href="https://github.com/shuaijia/JsImageLoader/blob/master/jsimageloader/src/main/java/com/jia/jsloader/utils/ImageUtil.java" target="_blank" rel="noopener">https://github.com/shuaijia/JsImageLoader/blob/master/jsimageloader/src/main/java/com/jia/jsloader/utils/ImageUtil.java</a></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="1、添依赖"><a href="#1、添依赖" class="headerlink" title="1、添依赖"></a>1、添依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">  repositories &#123;</span><br><span class="line">    ...</span><br><span class="line">    maven &#123; url &apos;https://www.jitpack.io&apos; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">  compile &apos;com.github.shuaijia:JsImageLoader:v1.0&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、添权限"><a href="#2、添权限" class="headerlink" title="2、添权限"></a>2、添权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="3、继承JsApplication"><a href="#3、继承JsApplication" class="headerlink" title="3、继承JsApplication"></a>3、继承JsApplication</h4><h4 id="4、请求"><a href="#4、请求" class="headerlink" title="4、请求"></a>4、请求</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JsLoader.with(this)</span><br><span class="line">    .load(&quot;https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=699359866,1092793192&amp;fm=27&amp;gp=0.jpg&quot;)</span><br><span class="line">    .defaultImg(R.mipmap.default)</span><br><span class="line">    .errorImg(R.mipmap.error)</span><br><span class="line">    .into(imageView);</span><br></pre></td></tr></table></figure>
+<p>由于本人水平有限，不免有不对或不足的地方，希望大家能够提出，我们共同进步。</p>
+<p>更多精彩内容，请关注我的微信公众号——<strong>Android机动车</strong></p>
+<p><img src="http://img.blog.csdn.net/20180128224929100?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/upload/wxqr.jpg" alt="Jia Shuai wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您关注的我的微信公众号Android机动车</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章有用，就赏一杯咖啡钱，谢谢^_^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/upload/wxpay.jpg" alt="Jia Shuai WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+	
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/22/MVP模式的经典封装/" rel="next" title="MVP模式的经典封装">
+                <i class="fa fa-chevron-left"></i> MVP模式的经典封装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jia Shuai</p>
+              <p class="site-description motion-element" itemprop="description">贾帅的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shuaijia" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/jiashuai94" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池"><span class="nav-number">2.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存一级缓存"><span class="nav-number">3.</span> <span class="nav-text">内存一级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存二级缓存"><span class="nav-number">4.</span> <span class="nav-text">内存二级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SD卡缓存"><span class="nav-number">5.</span> <span class="nav-text">SD卡缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络获取"><span class="nav-number">6.</span> <span class="nav-text">网络获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片压缩"><span class="nav-number">7.</span> <span class="nav-text">图片压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">8.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、添依赖"><span class="nav-number">8.1.</span> <span class="nav-text">1、添依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、添权限"><span class="nav-number">8.2.</span> <span class="nav-text">2、添权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、继承JsApplication"><span class="nav-number">8.3.</span> <span class="nav-text">3、继承JsApplication</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、请求"><span class="nav-number">8.4.</span> <span class="nav-text">4、请求</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jia Shuai</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
