@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="关键词2017年，是自己毕业的第二年，也是从事Android开发第三年。每一年似乎一点都没察觉，就到了年底。尤其是在毕业之后，才深刻地感受到什么叫时光飞逝。 过完年会，正好手活儿不多，就安静地写写文章，整理一下这一年，和自己走走心。 如果用简单词语来总结这一年，我觉得应该是：平淡、学习。这一年，生活平平淡淡，有值得高兴的事，也有遇到一些“麻烦”。一年中，一直在不断地学习，不断地充电，写了很多文章，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="和自己走走心——2017年总结">
+<meta property="og:url" content="http://shuaijia.github.io/2018/02/09/和自己走走心——2017年总结/index.html">
+<meta property="og:site_name" content="Android机动车">
+<meta property="og:description" content="关键词2017年，是自己毕业的第二年，也是从事Android开发第三年。每一年似乎一点都没察觉，就到了年底。尤其是在毕业之后，才深刻地感受到什么叫时光飞逝。 过完年会，正好手活儿不多，就安静地写写文章，整理一下这一年，和自己走走心。 如果用简单词语来总结这一年，我觉得应该是：平淡、学习。这一年，生活平平淡淡，有值得高兴的事，也有遇到一些“麻烦”。一年中，一直在不断地学习，不断地充电，写了很多文章，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/9/161796c6f7631dee?w=750&h=1334&f=jpeg&s=51531">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/9/161796a40f5a3f47?w=293&h=323&f=png&s=22693">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/9/161796da58033e95?w=1038&h=529&f=png&s=114442">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/9/161796dcecc8bdc4?w=710&h=441&f=png&s=26531">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/9/161797559681f9e6?w=765&h=343&f=png&s=23262">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/9/16179a884af4e77d?w=1080&h=1440&f=jpeg&s=114321">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/9/16179c3cefd865d3?w=344&h=344&f=jpeg&s=8753">
+<meta property="og:updated_time" content="2018-02-09T09:14:20.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="和自己走走心——2017年总结">
+<meta name="twitter:description" content="关键词2017年，是自己毕业的第二年，也是从事Android开发第三年。每一年似乎一点都没察觉，就到了年底。尤其是在毕业之后，才深刻地感受到什么叫时光飞逝。 过完年会，正好手活儿不多，就安静地写写文章，整理一下这一年，和自己走走心。 如果用简单词语来总结这一年，我觉得应该是：平淡、学习。这一年，生活平平淡淡，有值得高兴的事，也有遇到一些“麻烦”。一年中，一直在不断地学习，不断地充电，写了很多文章，">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/2/9/161796c6f7631dee?w=750&h=1334&f=jpeg&s=51531">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shuaijia.github.io/2018/02/09/和自己走走心——2017年总结/"/>
+
+
+
+
+
+  <title>和自己走走心——2017年总结 | Android机动车</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/shuaijia"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Android机动车</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人之所以能，是相信能</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/02/09/和自己走走心——2017年总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">和自己走走心——2017年总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-09T00:00:00+08:00">
+                2018-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h3><p>2017年，是自己毕业的第二年，也是从事Android开发第三年。每一年似乎一点都没察觉，就到了年底。尤其是在毕业之后，才深刻地感受到什么叫<strong>时光飞逝</strong>。</p>
+<p>过完年会，正好手活儿不多，就安静地写写文章，整理一下这一年，和自己走走心。</p>
+<p>如果用简单词语来总结这一年，我觉得应该是：<strong>平淡</strong>、<strong>学习</strong>。这一年，生活平平淡淡，有值得高兴的事，也有遇到一些“麻烦”。一年中，一直在不断地学习，不断地充电，写了很多文章，学习和尝试了许多新技术和新思路。</p>
+<p>这一年或许可以更好，但是对我来说没有丝毫的遗憾。</p>
+<h3 id="年初目标"><a href="#年初目标" class="headerlink" title="年初目标"></a>年初目标</h3><p>2016年，刚毕业，自己定了两个目标——<strong>减肥</strong>和<strong>涨薪</strong>，但只实现了一个。很值得骄傲的是，用了一个夏天的时间，成功减肥35斤，并且到现在也没有反弹^_^。</p>
+<p>旧公司种种原因吧，工资拖欠，也是很多互联网创业公司常常发生的，但我依然很感恩，在自己还是个懵懂少年的时候，公司认可了我，在工作中学到了许多Android开发技巧，也学着如何与人交流沟通，认识了一帮交心的朋友。</p>
+<p>但2017年年初实现了16年的第二个目标，换了工作，成功跻身西二旗程序猿大队中，从此，<strong>西二旗</strong>、<strong>软件园</strong>、<strong>后厂村路</strong>似乎离不开我的生活。</p>
+<p>于是，2017年伊始，给自己制定了新的目标：</p>
+<ul>
+<li>学习</li>
+<li>健身</li>
+<li>旅游</li>
+</ul>
+<p>现在想来，这些小目标，似乎都做了。</p>
+<h3 id="技术方面"><a href="#技术方面" class="headerlink" title="技术方面"></a>技术方面</h3><p>2016年，深感自己技术欠缺，所以2017年，一直在做的就是，学习新的技术，弥补自己的缺失。</p>
+<p>这一年，买了本《大话数据结构》，每天晚上下班后去健身，回来大约十点，再学习回顾数据结构到十二点再收拾睡觉。还好不负苦心，自觉数据结构长进不少。</p>
+<p>Android方面，学习尝试了许多新的东西，模块化开发、指纹登录、百度翻译、语音播报、代码混淆、银联支付、EventBus、Router方案、DataBinding、MVVM、AR等等，对自定义View熟悉了许多，也写了不少自定义的View。遇到新的需求，学会了分析和制定解决方案，直到一步步实现。</p>
+<p>17年，用 <strong>Retrofit+RxJava+Glide+Gson+MVP</strong> 封装了一个开发框架，并在真实的工作中使用。在开发过程中也发现了框架的不足，并且一点点地完善、优化。春节过后，会抽时间将之提交github与大家分享。</p>
+<p>尝试使用 <strong>MediaPlayer+SurfaceView</strong> 封装了视频播放器，并取名叫 <strong>JsPlayer</strong>（当然，Android播放器，和JavaScript没有关系了） ，github地址是<a href="https://github.com/shuaijia/JsPlayer" target="_blank" rel="noopener">https://github.com/shuaijia/JsPlayer</a>，已经获得40多个star，我知道这还远远不够，还会一直去优化和维护它。</p>
+<h3 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h3><p>自己是一个典型的理工男，文笔不好，之前也不喜欢写东西。但是后半年以来，受到朋友启发，写了许多技术相关的文章，都发到了掘金、CSDN、简书。向github提交了多个项目，学会了制作依赖库。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/2/9/161796c6f7631dee?w=750&amp;h=1334&amp;f=jpeg&amp;s=51531" alt="掘金"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/2/9/161796a40f5a3f47?w=293&amp;h=323&amp;f=png&amp;s=22693" alt="csdn"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/2/9/161796da58033e95?w=1038&amp;h=529&amp;f=png&amp;s=114442" alt="github"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/2/9/161796dcecc8bdc4?w=710&amp;h=441&amp;f=png&amp;s=26531" alt="github贡献"></p>
+<p>掘金获得两千多收藏、近三万的阅读量；csdn写了近70篇文章；github共440个贡献，近两百个star。</p>
+<p>九月份，开通了自己的微信公众号——<strong>Android机动车</strong>，截止目前已经发文95篇：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/2/9/161797559681f9e6?w=765&amp;h=343&amp;f=png&amp;s=23262" alt=""></p>
+<p>自己从一个讨厌写文章的人，慢慢地开始喜欢写作，享受写作到给自己的成长。写博客，不仅整理自己的思路，也认识了许多志同道合的朋友，在这过程中，互相帮助、一起进步。</p>
+<p>顺便也和大家分享：</p>
+<blockquote>
+<ul>
+<li>掘金：<a href="https://juejin.im/user/5795730379bc44006638e28f" target="_blank" rel="noopener">https://juejin.im/user/5795730379bc44006638e28f</a></li>
+<li>csdn: <a href="http://blog.csdn.net/jiashuai94" target="_blank" rel="noopener">http://blog.csdn.net/jiashuai94</a></li>
+<li>github: <a href="https://github.com/shuaijia" target="_blank" rel="noopener">https://github.com/shuaijia</a></li>
+<li>公众号：Android机动车</li>
+</ul>
+</blockquote>
+<h3 id="工作方面"><a href="#工作方面" class="headerlink" title="工作方面"></a>工作方面</h3><p>新公司做的是在线教育，主攻方向依旧是视频播放。除了使用自己封装VideoView、MediaPlayer+SurfaceView之外，也了解和学习了IjkPlayer、Vitamio和ExoPlayer。</p>
+<p>这一年工作中，曾建议项目进行代码混淆、热修复集成和接口版本开发，但种种原因，也没有推行下去。当然，也整理了不少工作相关文档。</p>
+<p>不知不觉开始了主持的路子。又是一年年终，又操起了老本行，主持了前两天的公司年会。这次也是挑战了自己，连续九个小时，还参与了一个舞蹈和合唱，身心俱疲。自己也算是一个会敲代码的文艺工作者吧，哈哈。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/2/9/16179a884af4e77d?w=1080&amp;h=1440&amp;f=jpeg&amp;s=114321" alt=""></p>
+<h3 id="生活方面"><a href="#生活方面" class="headerlink" title="生活方面"></a>生活方面</h3><p>年初曾计划，新一年，一定练出一身“腱子肉”，有一段时间，每天下班去健身，当然付出就有回报，咱也是有过腹肌的，嘿嘿；说到旅游，去了南京、苏州、上海、北戴河；2017年，让本是开车菜鸟的我，也慢慢变成了“老司机”，曾在四环绕了一次又一次。。。</p>
+<p>这一年，收获很多，也麻烦不少，共享汽车被骗、被中介欺负。。但让自己庆幸的是，身边有一群交心的朋友，一直陪伴着，帮助着。经常出来喝喝酒、聊聊天，心里总是慰藉。</p>
+<h3 id="诗和远方"><a href="#诗和远方" class="headerlink" title="诗和远方"></a>诗和远方</h3><p>新的一年，自己将依旧坚持学习，写文章，维护自己的博客和公众号；技术方面，希望自己对视频播放有更深的研究，对java底层、Android底层和优化更加深刻理解；坚持健身，锻炼好身体，做一个强壮的程序猿。。。</p>
+<p>人生就在于不断超越自己，才有所进步。还记得第一次面对八百人去主持，心里是慌的，自己可以吗、能行吗？但多次主持下来，现在也能从容面对。人生的奔跑，不在于瞬间的爆发，取决于途中的坚持。纵有千百个理由放弃，也要找到一个理由坚持下去。</p>
+<p>喜欢一首邓丽君的《漫步人生路》，<strong>目标推远，让理想永远在前面</strong>。勿忘初心，方得始终。</p>
+<p>最后还是希望大家继续支持我的微信公众号——<strong>Android机动车</strong>。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/2/9/16179c3cefd865d3?w=344&amp;h=344&amp;f=jpeg&amp;s=8753" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/upload/wxqr.jpg" alt="Jia Shuai wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您关注的我的微信公众号Android机动车</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章有用，就赏一杯咖啡钱，谢谢^_^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/upload/wxpay.jpg" alt="Jia Shuai WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+	
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/08/Android-5-0以上系统常用控件着色指南/" rel="next" title="Android5.0以上系统常用控件着色指南">
+                <i class="fa fa-chevron-left"></i> Android5.0以上系统常用控件着色指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jia Shuai</p>
+              <p class="site-description motion-element" itemprop="description">贾帅的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shuaijia" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/jiashuai94" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键词"><span class="nav-number">1.</span> <span class="nav-text">关键词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#年初目标"><span class="nav-number">2.</span> <span class="nav-text">年初目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术方面"><span class="nav-number">3.</span> <span class="nav-text">技术方面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#博客"><span class="nav-number">4.</span> <span class="nav-text">博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作方面"><span class="nav-number">5.</span> <span class="nav-text">工作方面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生活方面"><span class="nav-number">6.</span> <span class="nav-text">生活方面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#诗和远方"><span class="nav-number">7.</span> <span class="nav-text">诗和远方</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jia Shuai</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
