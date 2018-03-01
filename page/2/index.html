@@ -232,6 +232,167 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/11/手撸Router——解决跨模块下的页面跳转/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/11/手撸Router——解决跨模块下的页面跳转/" itemprop="url">手撸Router——解决跨模块下的页面跳转</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-11T00:00:00+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>人之所以能，是相信能。</p>
+</blockquote>
+<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>开始模块化开发项目之后，一个很重要的问题就是页面见的跳转问题。</p>
+<p>关于模块化发开，可详见我的另一片文章<a href="http://blog.csdn.net/jiashuai94/article/details/78020940" target="_blank" rel="noopener">Android模块化开发探索</a>。</p>
+<p>正是由于将项目模块化拆分，各模块之间没有任何依赖关系，也互相不可见，那么从A模块的a界面跳转到B模块的b界面该怎么办呢？</p>
+<h2 id="二、跨模块跳转的方法"><a href="#二、跨模块跳转的方法" class="headerlink" title="二、跨模块跳转的方法"></a>二、跨模块跳转的方法</h2><p>这里我们会先介绍这几种常见的跳转方法：</p>
+<ol>
+<li>显示跳转</li>
+<li>隐示跳转</li>
+<li>Scheme协议跳转</li>
+<li>Router路由表方案</li>
+</ol>
+<h3 id="2-1-显示跳转"><a href="#2-1-显示跳转" class="headerlink" title="2.1 显示跳转"></a>2.1 显示跳转</h3><p>显示跳转即我们最最常用的跳转方法：使用Intent，传入当前Activity上下文，和目标Activity的class对象即可，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClass(mContext, GuideActivity.class);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>显然，这种方法只能是目标Activity可见（Activity在同一个Module下）的时候才可以这样调用。不适合跨模块间的跳转。</p>
+<h3 id="2-2-隐示跳转"><a href="#2-2-隐示跳转" class="headerlink" title="2.2 隐示跳转"></a>2.2 隐示跳转</h3><p>我们这里说的隐示跳转，intent不设置class，而是设置Action或者Category。</p>
+<p>例如：</p>
+<p>在清单文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--网页展示界面--&gt;</span><br><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;com.whaty.base.BaseWebViewActivity&quot;</span><br><span class="line">    android:hardwareAccelerated=&quot;true&quot;&gt;</span><br><span class="line">        &lt;intent-filter&gt;</span><br><span class="line">            &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">            &lt;action android:name=&quot;com.whaty.base.BaseWebViewActivity&quot; /&gt;</span><br><span class="line">        &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+<p>跳转时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//创建一个隐式的 Intent 对象：Action 动作  </span><br><span class="line">Intent intent = new Intent();  </span><br><span class="line">//设置 Intent 的动作为清单中指定的action  </span><br><span class="line">intent.setAction(&quot;com.whaty.base.BaseWebViewActivity&quot;);  </span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-scheme跳转"><a href="#2-3-scheme跳转" class="headerlink" title="2.3 scheme跳转"></a>2.3 scheme跳转</h3><p>如果我们为 B 页面定义一个 URI - wsc://home/bbb，然后把共享的 messageModel 拍平序列化成 Json 串，那么 A 只需要拼装一个符合 B 页面 scheme 的跳转协议就可以了。<br>wsc://home/bbb?message={ “name”:”John”, “age”:31, “city”:”New York” } </p>
+<p>在清单文件中，配置data属性，设置其host、path、scheme等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.ui.BbbActivity&quot;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;data</span><br><span class="line">            android:host=&quot;bbb&quot;</span><br><span class="line">            android:path=&quot;/home&quot;</span><br><span class="line">            android:scheme=&quot;wsc&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure></p>
+<p>跳转时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">final Uri uri = new Uri.Builder().authority(&quot;wsc&quot;).path(&quot;home/bbb&quot;).appendQueryParameter(&quot;message&quot;, new Gson().toJson(messageModel)).build();</span><br><span class="line">final Intent intent = new Intent(Intent.ACTION_VIEW);</span><br><span class="line">intent.setData(uri);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>以上的方法，都不是我们想要的，接下来开始介绍我们的Router方案。</p>
+<h2 id="三、为什么要用Router"><a href="#三、为什么要用Router" class="headerlink" title="三、为什么要用Router"></a>三、为什么要用Router</h2><p><strong>Google提供了显式和隐式两种原生路由方案。但在模块化开发中，显式Intent存在类直接依赖的问题，造成模块间严重耦合。隐式Intent则需要在Manifest中配置大量路径，导致难以拓展（如进行跳转拦截）。为了解决以上问题，我们需要采用一套更为灵活的Router方案。</strong></p>
+<h2 id="四、实现思路"><a href="#四、实现思路" class="headerlink" title="四、实现思路"></a>四、实现思路</h2><p>思路是这样的：</p>
+<p>使用注解，为每个目标Activity标注别名。在应用启动时，对所有类进行扫名，将注解过的Activity存于路由表中。</p>
+<p>跳转时，在路由表中通过别名获取目标Activity的class对象，使用Intent实现跳转。</p>
+<p><img src="http://img.blog.csdn.net/20180110153812614?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h2 id="五、代码实现"><a href="#五、代码实现" class="headerlink" title="五、代码实现"></a>五、代码实现</h2><h3 id="5-1-自定义注解"><a href="#5-1-自定义注解" class="headerlink" title="5.1 自定义注解"></a>5.1 自定义注解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 路由跳转界面  注解</span><br><span class="line"> * Created by jia on 2018/1/10.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.TYPE) //注解作用于类型（类，接口，注解，枚举）</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME) //运行时保留，运行中可以处理</span><br><span class="line">@Documented // 生成javadoc文件</span><br><span class="line">public @interface Action &#123;</span><br><span class="line"></span><br><span class="line">    String DEFAULT = &quot;js&quot;;</span><br><span class="line"></span><br><span class="line">    String value() default DEFAULT;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关于自定义注解的详细介绍，请阅读我的文章<a href="http://blog.csdn.net/jiashuai94/article/details/79013000" target="_blank" rel="noopener">java进阶之自定义注解</a>。这里不再多说。</p>
+<h3 id="5-2-注解Activity"><a href="#5-2-注解Activity" class="headerlink" title="5.2 注解Activity"></a>5.2 注解Activity</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Action(&quot;MainActivity&quot;)</span><br><span class="line">public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener &#123;</span><br><span class="line"></span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在创建Activity时，用刚刚自定义的注解进行注解，为其注释别名。</p>
+<h3 id="5-3-启动时扫描"><a href="#5-3-启动时扫描" class="headerlink" title="5.3 启动时扫描"></a>5.3 启动时扫描</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private void getAllActivities(Context ctx)&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        //通过资源路径获得DexFile</span><br><span class="line">        DexFile e = new DexFile(ctx.getPackageResourcePath());</span><br><span class="line">        Enumeration entries = e.entries();</span><br><span class="line">        //遍历所有元素</span><br><span class="line">        while(entries.hasMoreElements()) &#123;</span><br><span class="line">            String entryName = (String)entries.nextElement();</span><br><span class="line">            //匹配Activity包名与类名</span><br><span class="line">            if(entryName.contains(&quot;activity&quot;) &amp;&amp; entryName.contains(&quot;Activity&quot;)) &#123;</span><br><span class="line">                //通过反射获得Activity类</span><br><span class="line">                Class entryClass = Class.forName(entryName);</span><br><span class="line">                if(entryClass.isAnnotationPresent(Action.class)) &#123;</span><br><span class="line">                    Action action = (Action)entryClass.getAnnotation(Action.class);</span><br><span class="line">                    this.map.put(action.value(), entryClass);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在应用启动时，Application中对包下的所有类进行扫描，先找到名字中到activity的（定义到activity包下），并将带有注解标注的Activity，存入map中。</p>
+<h3 id="5-4-跳转"><a href="#5-4-跳转" class="headerlink" title="5.4 跳转"></a>5.4 跳转</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 页面跳转</span><br><span class="line"> * @param activity</span><br><span class="line"> * @param alias</span><br><span class="line"> */</span><br><span class="line">public void jumpActivity(Activity activity, String alias) throws ClassNotFoundException&#123;</span><br><span class="line">    if(map.containsKey(alias)) &#123;</span><br><span class="line">        Intent intent = new Intent(activity, map.get(alias));</span><br><span class="line">        activity.startActivity(intent);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        throw new ClassNotFoundException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>跳转的时候传入目标Activity的别名即可（这里的别名就是注解的别名）。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这种方式，解决了跳转Activity所产生的的模块依赖问题，相较于原生方案，拓展性更强。但这种方案只是阶段性的，还存在一些问题。首先，加载过程中，频繁使用到反射，会产生性能问题。其次，对于每个Activity的别名，需要进行统一维护，增加了协作成本。还有待优化。</p>
+<p>当然，市面上有很多流行的Router方案（如阿里的ARouter），这里只是介绍了一个思路，有好的建议欢迎交流，一起进步。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/05/SurfaceView-MediaPlayer封装之路/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -729,211 +890,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/03/用三阶贝塞尔曲线实现直播中点赞效果/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jia Shuai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Android机动车">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/03/用三阶贝塞尔曲线实现直播中点赞效果/" itemprop="url">用三阶贝塞尔曲线实现直播中点赞效果</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
-                2018-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>完整代码，请查看我的github：<a href="https://github.com/shuaijia/LiveLike" target="_blank" rel="noopener">https://github.com/shuaijia/LiveLike</a>，喜欢的话就给点个赞喽^_^</p>
-<p>视频直播想必大家都不谋生，从2015年左右开始，视频直播开始大量普及，市面上的大中型APP基本上都有直播功能，比如专做直播的斗鱼、花椒等。大家都可能看过别人直播甚至参与过直播，那么对精彩的内容总忍不住点赞、送礼物！</p>
-<p>那作为开发的我们，总是以技术的角度看待世界，看到酷炫的点赞效果，当然也免不了自己实现一下子。</p>
-<p>先看效果：<br><img src="http://img.blog.csdn.net/20171013164532553?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>根据效果先分析一波：</p>
-<p><img src="http://img.blog.csdn.net/20171013164837343?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>根据效果，确定解决思路和关键技术：</p>
-<p><img src="http://img.blog.csdn.net/20171013165107682?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<ul>
-<li><strong>自定义View当然少不了，这是基础</strong></li>
-<li><strong>多种爱心随机出现、路径也都不同，所以随机数也是必要的</strong></li>
-<li><strong>每个爱心的运动速度、变化快慢是不同的，所以用到了插值器</strong></li>
-<li><strong>爱心的运动轨迹是平滑的曲线，而且曲线都不一样，所以我们想到了使用贝塞尔函数</strong></li>
-<li><strong>应用贝塞尔函数计算运动中点的位置，就需要使用估值器来实现平滑的动画效果</strong></li>
-</ul>
-<p><strong>这些很重要！</strong></p>
-<p>有了实现思路，那么接下来我们根据分析的它的特点，一步步得来实现：</p>
-<hr>
-<h3 id="一、创建基础View，爱心出现在底部并居中"><a href="#一、创建基础View，爱心出现在底部并居中" class="headerlink" title="一、创建基础View，爱心出现在底部并居中"></a>一、创建基础View，爱心出现在底部并居中</h3><p>这样使用RelativeLayout最为合适，所以自定义View需继承RelativeLayout：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class FavorLayout extends RelativeLayout &#123;</span><br><span class="line"></span><br><span class="line">    private static final String TAG = &quot;FavorLayout&quot;;</span><br><span class="line"></span><br><span class="line">    // 实现随机效果</span><br><span class="line">    private Random random = new Random();</span><br><span class="line"></span><br><span class="line">    // 爱心高度</span><br><span class="line">    private int iHeight = 120;</span><br><span class="line">    // 爱心宽度</span><br><span class="line">    private int iWidth = 120;</span><br><span class="line">    // FavorLayout高度</span><br><span class="line">    private int mHeight;</span><br><span class="line">    // FavorLayout宽度</span><br><span class="line">    private int mWidth;</span><br><span class="line"></span><br><span class="line">    // 来控制子view的位置</span><br><span class="line">    private LayoutParams lp;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当然了，构造也少不了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public FavorLayout(Context context) &#123;</span><br><span class="line">	super(context);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public FavorLayout(Context context, AttributeSet attrs) &#123;</span><br><span class="line">	super(context, attrs);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public FavorLayout(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">	super(context, attrs, defStyleAttr);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中init()方法进行一些初始化，接下来的过程中我们会慢慢讲解和一步步完善init方法。</p>
-<p>首先<strong>在init方法中设置子View的LayoutParams，使其能够实现底部居中。</strong> </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//底部 并且 水平居中</span><br><span class="line">lp = new LayoutParams(iWidth, iHeight);</span><br><span class="line">lp.addRule(CENTER_HORIZONTAL, TRUE); //这里的TRUE 要注意 不是true</span><br><span class="line">lp.addRule(ALIGN_PARENT_BOTTOM, TRUE);</span><br></pre></td></tr></table></figure>
-<p>注意：<br>控件的宽度高度应在onMeasure方法中获取</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">	super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">	// 获取控件宽高（应在onMeasure方法中获取）</span><br><span class="line">	mWidth = getMeasuredWidth();</span><br><span class="line">	mHeight = getMeasuredHeight();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="二、爱心类型实现随机"><a href="#二、爱心类型实现随机" class="headerlink" title="二、爱心类型实现随机"></a>二、爱心类型实现随机</h3><p>在自定义的View中创建 爱心 Drawable对象和数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private Drawable aLove;</span><br><span class="line">private Drawable bLove;</span><br><span class="line">private Drawable cLove;</span><br><span class="line">private Drawable dLove;</span><br><span class="line">private Drawable eLove;</span><br><span class="line"></span><br><span class="line">private Drawable[] loves;</span><br></pre></td></tr></table></figure>
-<p>在init方法中，将爱心创建并存入数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//初始化显示的图片</span><br><span class="line">loves = new Drawable[5];</span><br><span class="line">aLove = getResources().getDrawable(R.mipmap.love_a);</span><br><span class="line">bLove = getResources().getDrawable(R.mipmap.love_b);</span><br><span class="line">cLove = getResources().getDrawable(R.mipmap.love_c);</span><br><span class="line">dLove = getResources().getDrawable(R.mipmap.love_d);</span><br><span class="line">eLove = getResources().getDrawable(R.mipmap.love_e);</span><br><span class="line"></span><br><span class="line">//赋值给loves</span><br><span class="line">loves[0] = aLove;</span><br><span class="line">loves[1] = bLove;</span><br><span class="line">loves[2] = cLove;</span><br><span class="line">loves[3] = dLove;</span><br><span class="line">loves[4] = eLove;</span><br></pre></td></tr></table></figure>
-<p>默认提供了五种不同颜色的爱心，当然，爱心数组可有开发者由外部设置，进行拓展。</p>
-<hr>
-<h3 id="三、爱心进入时候有一个缩放并渐变的动画"><a href="#三、爱心进入时候有一个缩放并渐变的动画" class="headerlink" title="三、爱心进入时候有一个缩放并渐变的动画"></a>三、爱心进入时候有一个缩放并渐变的动画</h3><p> 先看效果：<br> <img src="http://img.blog.csdn.net/20171013171139379?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"> </p>
-<p>说到Android动画，我们以前常用Animation，它通常情况下能满足我们的需求，但是它的功能比较弱，并不是很好用。好在3.0后,强大的属性动画的出现,让动画在Android中实现起来变得非常容易。如果你还不知道属性动画怎么使用，赶紧去了解一下吧！</p>
-<p>上代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置初始动画</span><br><span class="line"> * 渐变 并且横纵向放大</span><br><span class="line"> *</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private AnimatorSet getEnterAnimtor(final View target) &#123;</span><br><span class="line"></span><br><span class="line">	ObjectAnimator alpha = ObjectAnimator.ofFloat(target, View.ALPHA, 0.2f, 1f);</span><br><span class="line">	ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, View.SCALE_X, 0.2f, 1f);</span><br><span class="line">	ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, View.SCALE_Y, 0.2f, 1f);</span><br><span class="line">	AnimatorSet enter = new AnimatorSet();</span><br><span class="line">	enter.setDuration(500);</span><br><span class="line">	enter.setInterpolator(new LinearInterpolator());</span><br><span class="line">	enter.playTogether(alpha, scaleX, scaleY);</span><br><span class="line">	enter.setTarget(target);</span><br><span class="line">	return enter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>给传进来的target（就是爱心的ImageView）设置属性动画集，渐变的同时横纵向放大。</p>
-<p><strong>对外提供点赞的方法（其实是创建爱心ImageView并添加）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 点赞</span><br><span class="line"> * 对外暴露的方法</span><br><span class="line"> */</span><br><span class="line">public void addFavor() &#123;</span><br><span class="line">    ImageView imageView = new ImageView(getContext());</span><br><span class="line">    // 随机选一个</span><br><span class="line">    imageView.setImageDrawable(loves[random.nextInt(loves.length)]);</span><br><span class="line">    // 设置底部 水平居中</span><br><span class="line">    imageView.setLayoutParams(lp);</span><br><span class="line"></span><br><span class="line">    addView(imageView);</span><br><span class="line">    Log.e(TAG, &quot;addFavor: &quot; + &quot;add后子view数:&quot; + getChildCount());</span><br><span class="line"></span><br><span class="line">    Animator set = getAnimator(imageView);</span><br><span class="line">    set.addListener(new AnimEndListener(imageView));</span><br><span class="line">    set.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>点赞其实就是：在爱心数组中随机抽取一个创建ImageView，添加给付控件并设置渐变和放大动画。</p>
-<p>那么这样我们在按钮的点击事件中调用addFavor方法就可以实现如上图的爱心效果了。</p>
-<hr>
-<h3 id="四、使用贝塞尔函数实现曲线运动轨迹"><a href="#四、使用贝塞尔函数实现曲线运动轨迹" class="headerlink" title="四、使用贝塞尔函数实现曲线运动轨迹"></a>四、使用贝塞尔函数实现曲线运动轨迹</h3><p>我们怎么让爱心按照曲线移动?而且还有随机呢?</p>
-<p>接下来就是本文的主角贝塞尔曲线登场的时刻啦，这也是我实现这个效果学到的最重要的知识。不了解贝塞尔曲线的可以阅读我写的另一篇文章<a href="https://mp.weixin.qq.com/s?__biz=MzI3ODg5NTkwMA==&amp;tempkey=OTI2X2JWV0ZvbHFrcFpHR0J5VVhyV3B1cUNrVzJDODhZR0piVFhzUnd4ZzVYX0Z1YVAtNkhIbmw5VXc2bVpPUU5iNlhfTExVVEVfWnhFR1dqZllXQ2dVdTFVWXpaZ1prR2FWX0dTcnBQN2tRZ3ZCcFZlN0hXcUE3RWxYbU1vWGhBdEpDakhLRXQtaFBDZGRNLXg5cFltUzE5X0lCN2ZvaFRpMkFVNEhqc2d%2bfg==&amp;chksm=6b514de15c26c4f71d5178cefbe15a738b58d50a1d6243db47f5983ed88d8ba2ed4246278f0f#rd" target="_blank" rel="noopener">开发中的动效设计与实现 —— 贝塞尔曲线动画的插值法</a></p>
-<p><strong>简单来说：就是给定一个起点，一个终点，一个及一个以上的控制点，计算出一个曲线.</strong></p>
-<p>简单了解贝塞尔曲线后，发现 <strong>三次方贝塞尔曲线</strong> 符合我们的要求。</p>
-<p>公式:<br><img src="http://img.blog.csdn.net/20171013172604979?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>公式中需要四个P、P0是我们的起点，P3是终点，P1、P2是曲线的两个控制点。而t是一个因子，取值范围是0-1，熟悉动画的同学应该就明白，0-1，对动画的作用有多么重大。</p>
-<p>因为需要自己实现贝塞尔，所以想到了属性动画中的<strong>TypeEvaluator</strong>，它就是我们需要的。</p>
-<p>上代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 动画估值器，以实现平滑动画</span><br><span class="line"> * Created by jia on 2017/10/13.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class BezierEvaluator implements TypeEvaluator&lt;PointF&gt; &#123;</span><br><span class="line"></span><br><span class="line">    // 两个控制点</span><br><span class="line">    private PointF pointF1;</span><br><span class="line">    private PointF pointF2;</span><br><span class="line"></span><br><span class="line">    public BezierEvaluator(PointF pointF1,PointF pointF2)&#123;</span><br><span class="line">        this.pointF1 = pointF1;</span><br><span class="line">        this.pointF2 = pointF2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public PointF evaluate(float time, PointF startValue, PointF endValue) &#123;</span><br><span class="line">        float timeLeft = 1.0f - time;</span><br><span class="line"></span><br><span class="line">        //结果</span><br><span class="line">        PointF point = new PointF();</span><br><span class="line"></span><br><span class="line">        PointF point0 = (PointF)startValue;//起点</span><br><span class="line">        PointF point3 = (PointF)endValue;//终点</span><br><span class="line"></span><br><span class="line">        // 贝塞尔公式</span><br><span class="line">        point.x = timeLeft * timeLeft * timeLeft * (point0.x)</span><br><span class="line">                + 3 * timeLeft * timeLeft * time * (pointF1.x)</span><br><span class="line">                + 3 * timeLeft * time * time * (pointF2.x)</span><br><span class="line">                + time * time * time * (point3.x);</span><br><span class="line"></span><br><span class="line">        point.y = timeLeft * timeLeft * timeLeft * (point0.y)</span><br><span class="line">                + 3 * timeLeft * timeLeft * time * (pointF1.y)</span><br><span class="line">                + 3 * timeLeft * time * time * (pointF2.y)</span><br><span class="line">                + time * time * time * (point3.y);</span><br><span class="line"></span><br><span class="line">        return point;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>先认识一下两个类：</p>
-<ul>
-<li>TypeEvaluator：在获取动画对象时只需要传入起始和结束值系统就会自动完成值的平滑过渡,这个平滑过渡的完成就是靠TypeEvaluator这个类</li>
-<li>PointF：点类，与Point一样，区别是其x和y值是float类型</li>
-</ul>
-<p><strong>由于我们view的移动需要控制x y 所以就传入PointF 作为参数。</strong></p>
-<p><strong>核心就是在动画变化过程中，实时根据贝塞尔三阶方程计算点的位置并返回。</strong></p>
-<p>到这一步，只要我们传入两个PonitF就能得到一个贝塞尔曲线了。</p>
-<p>接下来我们在FavorLayout中定义获取一个贝塞尔动画的方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取一条路径的两个控制点</span><br><span class="line"> * @param scale</span><br><span class="line"> */</span><br><span class="line">private PointF getPointF(int scale) &#123;</span><br><span class="line"></span><br><span class="line">    PointF pointF = new PointF();</span><br><span class="line">    //减去100 是为了控制 x轴活动范围</span><br><span class="line">    pointF.x = random.nextInt((mWidth - 100));</span><br><span class="line">    //再Y轴上 为了确保第二个控制点 在第一个点之上,我把Y分成了上下两半</span><br><span class="line">    pointF.y = random.nextInt((mHeight - 100)) / scale;</span><br><span class="line">    return pointF;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>根据贝塞尔曲线方程可知：两个控制点才是真正控制曲线路径的关键！为了使爱心的运动轨迹不同，所以我们<strong>随机生成两个控制点，就可以使得曲线轨迹随机</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取贝塞尔曲线动画</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private ValueAnimator getBezierValueAnimator(View target) &#123;</span><br><span class="line"></span><br><span class="line">    //初始化一个BezierEvaluator</span><br><span class="line">    BezierEvaluator evaluator = new BezierEvaluator(getPointF(2), getPointF(1));</span><br><span class="line"></span><br><span class="line">    // 起点固定，终点随机</span><br><span class="line">    ValueAnimator animator = ValueAnimator.ofObject(evaluator, new PointF((mWidth - iWidth) / 2, mHeight - iHeight), new PointF(random.nextInt(getWidth()), 0));</span><br><span class="line">    animator.addUpdateListener(new BezierListener(target));</span><br><span class="line">    animator.setTarget(target);</span><br><span class="line">    animator.setDuration(3000);</span><br><span class="line">    return animator;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可能你已经发现，我给曲线动画设置了一个监听BezierListener</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 动画监听，这里控制位置，真正实现动画</span><br><span class="line"> * Created by jia on 2017/10/13.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class BezierListener implements ValueAnimator.AnimatorUpdateListener &#123;</span><br><span class="line"></span><br><span class="line">    private View target;</span><br><span class="line"></span><br><span class="line">    public BezierListener(View target) &#123;</span><br><span class="line">        this.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">        //这里获取到贝塞尔曲线计算出来的的x y值 赋值给view 这样就能让爱心随着曲线走啦</span><br><span class="line">        PointF pointF = (PointF) animation.getAnimatedValue();</span><br><span class="line">        target.setX(pointF.x);</span><br><span class="line">        target.setY(pointF.y);</span><br><span class="line">        // 这里偷个懒,顺便做一个alpha动画,这样alpha渐变也完成啦</span><br><span class="line">        target.setAlpha(1-animation.getAnimatedFraction());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>只有在回调里使用了计算的值，才能真正做到曲线运动</strong>，否则没有效果哦。</p>
-<p>我们在位置更新时给爱心的ImageView设置x、y值，使其按计算的贝塞尔路径运动起来。</p>
-<p>并且同时设置了逐渐变淡动画，也就是在运动过程中逐渐消失的效果。</p>
-<p>修改一下addFavor方法：将动画更换为 贝塞尔动画</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void addFavor() &#123;</span><br><span class="line"></span><br><span class="line">       ImageView imageView = new ImageView(getContext());</span><br><span class="line">       //随机选一个</span><br><span class="line">       imageView.setImageDrawable(drawables[random.nextInt(3)]);</span><br><span class="line">       imageView.setLayoutParams(lp);</span><br><span class="line">       addView(imageView);</span><br><span class="line">       Log.v(TAG, &quot;add后子view数:&quot;+getChildCount());</span><br><span class="line">       getBezierValueAnimator(imageView).start();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>看下效果：</p>
-<p><img src="http://img.blog.csdn.net/20171013174108549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<hr>
-<h3 id="五、收尾，效果合成"><a href="#五、收尾，效果合成" class="headerlink" title="五、收尾，效果合成"></a>五、收尾，效果合成</h3><h4 id="1、实现变速"><a href="#1、实现变速" class="headerlink" title="1、实现变速"></a><strong>1、实现变速</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 为了实现 变速效果 挑选了几种插补器</span><br><span class="line">private Interpolator line = new LinearInterpolator();//线性</span><br><span class="line">private Interpolator acc = new AccelerateInterpolator();//加速</span><br><span class="line">private Interpolator dce = new DecelerateInterpolator();//减速</span><br><span class="line">private Interpolator accdec = new AccelerateDecelerateInterpolator();//先加速后减速</span><br><span class="line"></span><br><span class="line">// 在init中初始化</span><br><span class="line">private Interpolator[] interpolators;</span><br></pre></td></tr></table></figure>
-<p>在init方法中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 初始化插值器</span><br><span class="line">interpolators = new Interpolator[4];</span><br><span class="line">interpolators[0] = line;</span><br><span class="line">interpolators[1] = acc;</span><br><span class="line">interpolators[2] = dce;</span><br><span class="line">interpolators[3] = accdec;</span><br></pre></td></tr></table></figure>
-<p>随机选用插值器，使得爱心运动有变化。</p>
-<h4 id="2、动画合并"><a href="#2、动画合并" class="headerlink" title="2、动画合并"></a><strong>2、动画合并</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置动画</span><br><span class="line"> *</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private Animator getAnimator(View target) &#123;</span><br><span class="line">    AnimatorSet set = getEnterAnimtor(target);</span><br><span class="line"></span><br><span class="line">    ValueAnimator bezierValueAnimator = getBezierValueAnimator(target);</span><br><span class="line"></span><br><span class="line">    AnimatorSet finalSet = new AnimatorSet();</span><br><span class="line">    finalSet.playSequentially(set);</span><br><span class="line">    finalSet.playSequentially(set, bezierValueAnimator);</span><br><span class="line">    finalSet.setInterpolator(interpolators[random.nextInt(4)]);//实现随机变速</span><br><span class="line">    finalSet.setTarget(target);</span><br><span class="line">    return finalSet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="3、修改点赞方法"><a href="#3、修改点赞方法" class="headerlink" title="3、修改点赞方法"></a><strong>3、修改点赞方法</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 点赞</span><br><span class="line"> * 对外暴露的方法</span><br><span class="line"> */</span><br><span class="line">public void addFavor() &#123;</span><br><span class="line">    ImageView imageView = new ImageView(getContext());</span><br><span class="line">    // 随机选一个</span><br><span class="line">    imageView.setImageDrawable(loves[random.nextInt(loves.length)]);</span><br><span class="line">    // 设置底部 水平居中</span><br><span class="line">    imageView.setLayoutParams(lp);</span><br><span class="line"></span><br><span class="line">    addView(imageView);</span><br><span class="line">    Log.e(TAG, &quot;addFavor: &quot; + &quot;add后子view数:&quot; + getChildCount());</span><br><span class="line"></span><br><span class="line">    Animator set = getAnimator(imageView);</span><br><span class="line">    set.addListener(new AnimEndListener(imageView));</span><br><span class="line">    set.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>聪明的伙伴可能又看出来了，我给动画集设置了结束监听，又是为什么呢？</p>
-<h4 id="4、设置消失监听"><a href="#4、设置消失监听" class="headerlink" title="4、设置消失监听"></a><strong>4、设置消失监听</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private class AnimEndListener extends AnimatorListenerAdapter &#123;</span><br><span class="line">	private View target;</span><br><span class="line"></span><br><span class="line">	public AnimEndListener(View target) &#123;</span><br><span class="line">		this.target = target;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">		super.onAnimationEnd(animation);</span><br><span class="line">		//因为不停的add 导致子view数量只增不减,所以在view动画结束后remove掉</span><br><span class="line">		removeView((target));</span><br><span class="line">		Log.v(TAG, &quot;removeView后子view数:&quot; + getChildCount());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们之前代码其实已经实现点赞效果，但每次点击都在创建新的爱心的ImageView并且添加到父布局中，所以<strong>增加了一个监听，目的是为了在动画结束后，把爱心移除，不然，子view只增不减！</strong></p>
-<hr>
-<h3 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h3><p>总结没想好说什么，由于时间仓促，不免有bug或不足的地方，大家发现可以告诉我，有好的建议也可以告诉我，我们一起进步哦！如果您喜欢我的文章，可以去<a href="https://github.com/shuaijia/LiveLike" target="_blank" rel="noopener">https://github.com/shuaijia/LiveLike</a>点个赞哦！^_^</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-	
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/03/Espresso—Android自动化测试框架/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1159,6 +1115,211 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/03/用三阶贝塞尔曲线实现直播中点赞效果/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/03/用三阶贝塞尔曲线实现直播中点赞效果/" itemprop="url">用三阶贝塞尔曲线实现直播中点赞效果</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T00:00:00+08:00">
+                2018-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>完整代码，请查看我的github：<a href="https://github.com/shuaijia/LiveLike" target="_blank" rel="noopener">https://github.com/shuaijia/LiveLike</a>，喜欢的话就给点个赞喽^_^</p>
+<p>视频直播想必大家都不谋生，从2015年左右开始，视频直播开始大量普及，市面上的大中型APP基本上都有直播功能，比如专做直播的斗鱼、花椒等。大家都可能看过别人直播甚至参与过直播，那么对精彩的内容总忍不住点赞、送礼物！</p>
+<p>那作为开发的我们，总是以技术的角度看待世界，看到酷炫的点赞效果，当然也免不了自己实现一下子。</p>
+<p>先看效果：<br><img src="http://img.blog.csdn.net/20171013164532553?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>根据效果先分析一波：</p>
+<p><img src="http://img.blog.csdn.net/20171013164837343?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>根据效果，确定解决思路和关键技术：</p>
+<p><img src="http://img.blog.csdn.net/20171013165107682?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<ul>
+<li><strong>自定义View当然少不了，这是基础</strong></li>
+<li><strong>多种爱心随机出现、路径也都不同，所以随机数也是必要的</strong></li>
+<li><strong>每个爱心的运动速度、变化快慢是不同的，所以用到了插值器</strong></li>
+<li><strong>爱心的运动轨迹是平滑的曲线，而且曲线都不一样，所以我们想到了使用贝塞尔函数</strong></li>
+<li><strong>应用贝塞尔函数计算运动中点的位置，就需要使用估值器来实现平滑的动画效果</strong></li>
+</ul>
+<p><strong>这些很重要！</strong></p>
+<p>有了实现思路，那么接下来我们根据分析的它的特点，一步步得来实现：</p>
+<hr>
+<h3 id="一、创建基础View，爱心出现在底部并居中"><a href="#一、创建基础View，爱心出现在底部并居中" class="headerlink" title="一、创建基础View，爱心出现在底部并居中"></a>一、创建基础View，爱心出现在底部并居中</h3><p>这样使用RelativeLayout最为合适，所以自定义View需继承RelativeLayout：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class FavorLayout extends RelativeLayout &#123;</span><br><span class="line"></span><br><span class="line">    private static final String TAG = &quot;FavorLayout&quot;;</span><br><span class="line"></span><br><span class="line">    // 实现随机效果</span><br><span class="line">    private Random random = new Random();</span><br><span class="line"></span><br><span class="line">    // 爱心高度</span><br><span class="line">    private int iHeight = 120;</span><br><span class="line">    // 爱心宽度</span><br><span class="line">    private int iWidth = 120;</span><br><span class="line">    // FavorLayout高度</span><br><span class="line">    private int mHeight;</span><br><span class="line">    // FavorLayout宽度</span><br><span class="line">    private int mWidth;</span><br><span class="line"></span><br><span class="line">    // 来控制子view的位置</span><br><span class="line">    private LayoutParams lp;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然了，构造也少不了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public FavorLayout(Context context) &#123;</span><br><span class="line">	super(context);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public FavorLayout(Context context, AttributeSet attrs) &#123;</span><br><span class="line">	super(context, attrs);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public FavorLayout(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">	super(context, attrs, defStyleAttr);</span><br><span class="line">	init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中init()方法进行一些初始化，接下来的过程中我们会慢慢讲解和一步步完善init方法。</p>
+<p>首先<strong>在init方法中设置子View的LayoutParams，使其能够实现底部居中。</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//底部 并且 水平居中</span><br><span class="line">lp = new LayoutParams(iWidth, iHeight);</span><br><span class="line">lp.addRule(CENTER_HORIZONTAL, TRUE); //这里的TRUE 要注意 不是true</span><br><span class="line">lp.addRule(ALIGN_PARENT_BOTTOM, TRUE);</span><br></pre></td></tr></table></figure>
+<p>注意：<br>控件的宽度高度应在onMeasure方法中获取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">	super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">	// 获取控件宽高（应在onMeasure方法中获取）</span><br><span class="line">	mWidth = getMeasuredWidth();</span><br><span class="line">	mHeight = getMeasuredHeight();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="二、爱心类型实现随机"><a href="#二、爱心类型实现随机" class="headerlink" title="二、爱心类型实现随机"></a>二、爱心类型实现随机</h3><p>在自定义的View中创建 爱心 Drawable对象和数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private Drawable aLove;</span><br><span class="line">private Drawable bLove;</span><br><span class="line">private Drawable cLove;</span><br><span class="line">private Drawable dLove;</span><br><span class="line">private Drawable eLove;</span><br><span class="line"></span><br><span class="line">private Drawable[] loves;</span><br></pre></td></tr></table></figure>
+<p>在init方法中，将爱心创建并存入数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//初始化显示的图片</span><br><span class="line">loves = new Drawable[5];</span><br><span class="line">aLove = getResources().getDrawable(R.mipmap.love_a);</span><br><span class="line">bLove = getResources().getDrawable(R.mipmap.love_b);</span><br><span class="line">cLove = getResources().getDrawable(R.mipmap.love_c);</span><br><span class="line">dLove = getResources().getDrawable(R.mipmap.love_d);</span><br><span class="line">eLove = getResources().getDrawable(R.mipmap.love_e);</span><br><span class="line"></span><br><span class="line">//赋值给loves</span><br><span class="line">loves[0] = aLove;</span><br><span class="line">loves[1] = bLove;</span><br><span class="line">loves[2] = cLove;</span><br><span class="line">loves[3] = dLove;</span><br><span class="line">loves[4] = eLove;</span><br></pre></td></tr></table></figure>
+<p>默认提供了五种不同颜色的爱心，当然，爱心数组可有开发者由外部设置，进行拓展。</p>
+<hr>
+<h3 id="三、爱心进入时候有一个缩放并渐变的动画"><a href="#三、爱心进入时候有一个缩放并渐变的动画" class="headerlink" title="三、爱心进入时候有一个缩放并渐变的动画"></a>三、爱心进入时候有一个缩放并渐变的动画</h3><p> 先看效果：<br> <img src="http://img.blog.csdn.net/20171013171139379?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"> </p>
+<p>说到Android动画，我们以前常用Animation，它通常情况下能满足我们的需求，但是它的功能比较弱，并不是很好用。好在3.0后,强大的属性动画的出现,让动画在Android中实现起来变得非常容易。如果你还不知道属性动画怎么使用，赶紧去了解一下吧！</p>
+<p>上代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置初始动画</span><br><span class="line"> * 渐变 并且横纵向放大</span><br><span class="line"> *</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private AnimatorSet getEnterAnimtor(final View target) &#123;</span><br><span class="line"></span><br><span class="line">	ObjectAnimator alpha = ObjectAnimator.ofFloat(target, View.ALPHA, 0.2f, 1f);</span><br><span class="line">	ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, View.SCALE_X, 0.2f, 1f);</span><br><span class="line">	ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, View.SCALE_Y, 0.2f, 1f);</span><br><span class="line">	AnimatorSet enter = new AnimatorSet();</span><br><span class="line">	enter.setDuration(500);</span><br><span class="line">	enter.setInterpolator(new LinearInterpolator());</span><br><span class="line">	enter.playTogether(alpha, scaleX, scaleY);</span><br><span class="line">	enter.setTarget(target);</span><br><span class="line">	return enter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>给传进来的target（就是爱心的ImageView）设置属性动画集，渐变的同时横纵向放大。</p>
+<p><strong>对外提供点赞的方法（其实是创建爱心ImageView并添加）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 点赞</span><br><span class="line"> * 对外暴露的方法</span><br><span class="line"> */</span><br><span class="line">public void addFavor() &#123;</span><br><span class="line">    ImageView imageView = new ImageView(getContext());</span><br><span class="line">    // 随机选一个</span><br><span class="line">    imageView.setImageDrawable(loves[random.nextInt(loves.length)]);</span><br><span class="line">    // 设置底部 水平居中</span><br><span class="line">    imageView.setLayoutParams(lp);</span><br><span class="line"></span><br><span class="line">    addView(imageView);</span><br><span class="line">    Log.e(TAG, &quot;addFavor: &quot; + &quot;add后子view数:&quot; + getChildCount());</span><br><span class="line"></span><br><span class="line">    Animator set = getAnimator(imageView);</span><br><span class="line">    set.addListener(new AnimEndListener(imageView));</span><br><span class="line">    set.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>点赞其实就是：在爱心数组中随机抽取一个创建ImageView，添加给付控件并设置渐变和放大动画。</p>
+<p>那么这样我们在按钮的点击事件中调用addFavor方法就可以实现如上图的爱心效果了。</p>
+<hr>
+<h3 id="四、使用贝塞尔函数实现曲线运动轨迹"><a href="#四、使用贝塞尔函数实现曲线运动轨迹" class="headerlink" title="四、使用贝塞尔函数实现曲线运动轨迹"></a>四、使用贝塞尔函数实现曲线运动轨迹</h3><p>我们怎么让爱心按照曲线移动?而且还有随机呢?</p>
+<p>接下来就是本文的主角贝塞尔曲线登场的时刻啦，这也是我实现这个效果学到的最重要的知识。不了解贝塞尔曲线的可以阅读我写的另一篇文章<a href="https://mp.weixin.qq.com/s?__biz=MzI3ODg5NTkwMA==&amp;tempkey=OTI2X2JWV0ZvbHFrcFpHR0J5VVhyV3B1cUNrVzJDODhZR0piVFhzUnd4ZzVYX0Z1YVAtNkhIbmw5VXc2bVpPUU5iNlhfTExVVEVfWnhFR1dqZllXQ2dVdTFVWXpaZ1prR2FWX0dTcnBQN2tRZ3ZCcFZlN0hXcUE3RWxYbU1vWGhBdEpDakhLRXQtaFBDZGRNLXg5cFltUzE5X0lCN2ZvaFRpMkFVNEhqc2d%2bfg==&amp;chksm=6b514de15c26c4f71d5178cefbe15a738b58d50a1d6243db47f5983ed88d8ba2ed4246278f0f#rd" target="_blank" rel="noopener">开发中的动效设计与实现 —— 贝塞尔曲线动画的插值法</a></p>
+<p><strong>简单来说：就是给定一个起点，一个终点，一个及一个以上的控制点，计算出一个曲线.</strong></p>
+<p>简单了解贝塞尔曲线后，发现 <strong>三次方贝塞尔曲线</strong> 符合我们的要求。</p>
+<p>公式:<br><img src="http://img.blog.csdn.net/20171013172604979?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>公式中需要四个P、P0是我们的起点，P3是终点，P1、P2是曲线的两个控制点。而t是一个因子，取值范围是0-1，熟悉动画的同学应该就明白，0-1，对动画的作用有多么重大。</p>
+<p>因为需要自己实现贝塞尔，所以想到了属性动画中的<strong>TypeEvaluator</strong>，它就是我们需要的。</p>
+<p>上代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 动画估值器，以实现平滑动画</span><br><span class="line"> * Created by jia on 2017/10/13.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class BezierEvaluator implements TypeEvaluator&lt;PointF&gt; &#123;</span><br><span class="line"></span><br><span class="line">    // 两个控制点</span><br><span class="line">    private PointF pointF1;</span><br><span class="line">    private PointF pointF2;</span><br><span class="line"></span><br><span class="line">    public BezierEvaluator(PointF pointF1,PointF pointF2)&#123;</span><br><span class="line">        this.pointF1 = pointF1;</span><br><span class="line">        this.pointF2 = pointF2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public PointF evaluate(float time, PointF startValue, PointF endValue) &#123;</span><br><span class="line">        float timeLeft = 1.0f - time;</span><br><span class="line"></span><br><span class="line">        //结果</span><br><span class="line">        PointF point = new PointF();</span><br><span class="line"></span><br><span class="line">        PointF point0 = (PointF)startValue;//起点</span><br><span class="line">        PointF point3 = (PointF)endValue;//终点</span><br><span class="line"></span><br><span class="line">        // 贝塞尔公式</span><br><span class="line">        point.x = timeLeft * timeLeft * timeLeft * (point0.x)</span><br><span class="line">                + 3 * timeLeft * timeLeft * time * (pointF1.x)</span><br><span class="line">                + 3 * timeLeft * time * time * (pointF2.x)</span><br><span class="line">                + time * time * time * (point3.x);</span><br><span class="line"></span><br><span class="line">        point.y = timeLeft * timeLeft * timeLeft * (point0.y)</span><br><span class="line">                + 3 * timeLeft * timeLeft * time * (pointF1.y)</span><br><span class="line">                + 3 * timeLeft * time * time * (pointF2.y)</span><br><span class="line">                + time * time * time * (point3.y);</span><br><span class="line"></span><br><span class="line">        return point;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先认识一下两个类：</p>
+<ul>
+<li>TypeEvaluator：在获取动画对象时只需要传入起始和结束值系统就会自动完成值的平滑过渡,这个平滑过渡的完成就是靠TypeEvaluator这个类</li>
+<li>PointF：点类，与Point一样，区别是其x和y值是float类型</li>
+</ul>
+<p><strong>由于我们view的移动需要控制x y 所以就传入PointF 作为参数。</strong></p>
+<p><strong>核心就是在动画变化过程中，实时根据贝塞尔三阶方程计算点的位置并返回。</strong></p>
+<p>到这一步，只要我们传入两个PonitF就能得到一个贝塞尔曲线了。</p>
+<p>接下来我们在FavorLayout中定义获取一个贝塞尔动画的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取一条路径的两个控制点</span><br><span class="line"> * @param scale</span><br><span class="line"> */</span><br><span class="line">private PointF getPointF(int scale) &#123;</span><br><span class="line"></span><br><span class="line">    PointF pointF = new PointF();</span><br><span class="line">    //减去100 是为了控制 x轴活动范围</span><br><span class="line">    pointF.x = random.nextInt((mWidth - 100));</span><br><span class="line">    //再Y轴上 为了确保第二个控制点 在第一个点之上,我把Y分成了上下两半</span><br><span class="line">    pointF.y = random.nextInt((mHeight - 100)) / scale;</span><br><span class="line">    return pointF;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据贝塞尔曲线方程可知：两个控制点才是真正控制曲线路径的关键！为了使爱心的运动轨迹不同，所以我们<strong>随机生成两个控制点，就可以使得曲线轨迹随机</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取贝塞尔曲线动画</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private ValueAnimator getBezierValueAnimator(View target) &#123;</span><br><span class="line"></span><br><span class="line">    //初始化一个BezierEvaluator</span><br><span class="line">    BezierEvaluator evaluator = new BezierEvaluator(getPointF(2), getPointF(1));</span><br><span class="line"></span><br><span class="line">    // 起点固定，终点随机</span><br><span class="line">    ValueAnimator animator = ValueAnimator.ofObject(evaluator, new PointF((mWidth - iWidth) / 2, mHeight - iHeight), new PointF(random.nextInt(getWidth()), 0));</span><br><span class="line">    animator.addUpdateListener(new BezierListener(target));</span><br><span class="line">    animator.setTarget(target);</span><br><span class="line">    animator.setDuration(3000);</span><br><span class="line">    return animator;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可能你已经发现，我给曲线动画设置了一个监听BezierListener</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 动画监听，这里控制位置，真正实现动画</span><br><span class="line"> * Created by jia on 2017/10/13.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">public class BezierListener implements ValueAnimator.AnimatorUpdateListener &#123;</span><br><span class="line"></span><br><span class="line">    private View target;</span><br><span class="line"></span><br><span class="line">    public BezierListener(View target) &#123;</span><br><span class="line">        this.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">        //这里获取到贝塞尔曲线计算出来的的x y值 赋值给view 这样就能让爱心随着曲线走啦</span><br><span class="line">        PointF pointF = (PointF) animation.getAnimatedValue();</span><br><span class="line">        target.setX(pointF.x);</span><br><span class="line">        target.setY(pointF.y);</span><br><span class="line">        // 这里偷个懒,顺便做一个alpha动画,这样alpha渐变也完成啦</span><br><span class="line">        target.setAlpha(1-animation.getAnimatedFraction());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>只有在回调里使用了计算的值，才能真正做到曲线运动</strong>，否则没有效果哦。</p>
+<p>我们在位置更新时给爱心的ImageView设置x、y值，使其按计算的贝塞尔路径运动起来。</p>
+<p>并且同时设置了逐渐变淡动画，也就是在运动过程中逐渐消失的效果。</p>
+<p>修改一下addFavor方法：将动画更换为 贝塞尔动画</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void addFavor() &#123;</span><br><span class="line"></span><br><span class="line">       ImageView imageView = new ImageView(getContext());</span><br><span class="line">       //随机选一个</span><br><span class="line">       imageView.setImageDrawable(drawables[random.nextInt(3)]);</span><br><span class="line">       imageView.setLayoutParams(lp);</span><br><span class="line">       addView(imageView);</span><br><span class="line">       Log.v(TAG, &quot;add后子view数:&quot;+getChildCount());</span><br><span class="line">       getBezierValueAnimator(imageView).start();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>看下效果：</p>
+<p><img src="http://img.blog.csdn.net/20171013174108549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<h3 id="五、收尾，效果合成"><a href="#五、收尾，效果合成" class="headerlink" title="五、收尾，效果合成"></a>五、收尾，效果合成</h3><h4 id="1、实现变速"><a href="#1、实现变速" class="headerlink" title="1、实现变速"></a><strong>1、实现变速</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 为了实现 变速效果 挑选了几种插补器</span><br><span class="line">private Interpolator line = new LinearInterpolator();//线性</span><br><span class="line">private Interpolator acc = new AccelerateInterpolator();//加速</span><br><span class="line">private Interpolator dce = new DecelerateInterpolator();//减速</span><br><span class="line">private Interpolator accdec = new AccelerateDecelerateInterpolator();//先加速后减速</span><br><span class="line"></span><br><span class="line">// 在init中初始化</span><br><span class="line">private Interpolator[] interpolators;</span><br></pre></td></tr></table></figure>
+<p>在init方法中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 初始化插值器</span><br><span class="line">interpolators = new Interpolator[4];</span><br><span class="line">interpolators[0] = line;</span><br><span class="line">interpolators[1] = acc;</span><br><span class="line">interpolators[2] = dce;</span><br><span class="line">interpolators[3] = accdec;</span><br></pre></td></tr></table></figure>
+<p>随机选用插值器，使得爱心运动有变化。</p>
+<h4 id="2、动画合并"><a href="#2、动画合并" class="headerlink" title="2、动画合并"></a><strong>2、动画合并</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 设置动画</span><br><span class="line"> *</span><br><span class="line"> * @param target</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private Animator getAnimator(View target) &#123;</span><br><span class="line">    AnimatorSet set = getEnterAnimtor(target);</span><br><span class="line"></span><br><span class="line">    ValueAnimator bezierValueAnimator = getBezierValueAnimator(target);</span><br><span class="line"></span><br><span class="line">    AnimatorSet finalSet = new AnimatorSet();</span><br><span class="line">    finalSet.playSequentially(set);</span><br><span class="line">    finalSet.playSequentially(set, bezierValueAnimator);</span><br><span class="line">    finalSet.setInterpolator(interpolators[random.nextInt(4)]);//实现随机变速</span><br><span class="line">    finalSet.setTarget(target);</span><br><span class="line">    return finalSet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、修改点赞方法"><a href="#3、修改点赞方法" class="headerlink" title="3、修改点赞方法"></a><strong>3、修改点赞方法</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 点赞</span><br><span class="line"> * 对外暴露的方法</span><br><span class="line"> */</span><br><span class="line">public void addFavor() &#123;</span><br><span class="line">    ImageView imageView = new ImageView(getContext());</span><br><span class="line">    // 随机选一个</span><br><span class="line">    imageView.setImageDrawable(loves[random.nextInt(loves.length)]);</span><br><span class="line">    // 设置底部 水平居中</span><br><span class="line">    imageView.setLayoutParams(lp);</span><br><span class="line"></span><br><span class="line">    addView(imageView);</span><br><span class="line">    Log.e(TAG, &quot;addFavor: &quot; + &quot;add后子view数:&quot; + getChildCount());</span><br><span class="line"></span><br><span class="line">    Animator set = getAnimator(imageView);</span><br><span class="line">    set.addListener(new AnimEndListener(imageView));</span><br><span class="line">    set.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>聪明的伙伴可能又看出来了，我给动画集设置了结束监听，又是为什么呢？</p>
+<h4 id="4、设置消失监听"><a href="#4、设置消失监听" class="headerlink" title="4、设置消失监听"></a><strong>4、设置消失监听</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private class AnimEndListener extends AnimatorListenerAdapter &#123;</span><br><span class="line">	private View target;</span><br><span class="line"></span><br><span class="line">	public AnimEndListener(View target) &#123;</span><br><span class="line">		this.target = target;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">		super.onAnimationEnd(animation);</span><br><span class="line">		//因为不停的add 导致子view数量只增不减,所以在view动画结束后remove掉</span><br><span class="line">		removeView((target));</span><br><span class="line">		Log.v(TAG, &quot;removeView后子view数:&quot; + getChildCount());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们之前代码其实已经实现点赞效果，但每次点击都在创建新的爱心的ImageView并且添加到父布局中，所以<strong>增加了一个监听，目的是为了在动画结束后，把爱心移除，不然，子view只增不减！</strong></p>
+<hr>
+<h3 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h3><p>总结没想好说什么，由于时间仓促，不免有bug或不足的地方，大家发现可以告诉我，有好的建议也可以告诉我，我们一起进步哦！如果您喜欢我的文章，可以去<a href="https://github.com/shuaijia/LiveLike" target="_blank" rel="noopener">https://github.com/shuaijia/LiveLike</a>点个赞哦！^_^</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1209,7 +1370,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
@@ -1222,7 +1383,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">Tags</span>
                 
               </div>

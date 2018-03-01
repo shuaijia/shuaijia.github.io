@@ -232,6 +232,196 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/03/01/数据结构学习笔记——算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/01/数据结构学习笔记——算法/" itemprop="url">数据结构学习笔记——算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-01T00:00:00+08:00">
+                2018-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p> 算法：<strong>算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个步骤。</strong></p>
+</blockquote>
+<h3 id="算法定义"><a href="#算法定义" class="headerlink" title="算法定义"></a>算法定义</h3><p>指令：能被人或者计算机装置执行。</p>
+<p>算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表达一个或者多个步骤。</p>
+<p>算法的核心在于<strong>有限的指令序列</strong>。</p>
+<h3 id="算法的特性"><a href="#算法的特性" class="headerlink" title="算法的特性"></a>算法的特性</h3><h4 id="1、输入输出"><a href="#1、输入输出" class="headerlink" title="1、输入输出"></a>1、输入输出</h4><p>算法具有零个或者多个输入。</p>
+<p><strong>算法至少要有一个或多个输出。</strong></p>
+<h4 id="2、有穷性"><a href="#2、有穷性" class="headerlink" title="2、有穷性"></a>2、有穷性</h4><p>指算法在执行有限的步骤之后，自动结束而不会出现无限循环，并且每一个步骤在可接受的时间内完成。</p>
+<p>关键在与<strong>步骤有限</strong>。</p>
+<h4 id="3、确定性"><a href="#3、确定性" class="headerlink" title="3、确定性"></a>3、确定性</h4><p>算法的每一个步骤都具有确定的含义，不会出现二义性。</p>
+<h4 id="4、可行性"><a href="#4、可行性" class="headerlink" title="4、可行性"></a>4、可行性</h4><p>算法的每一步都必须是可行的，也就是说，每一步都能够通过执行有限的次数完成。</p>
+<p>意味着算法可以转化为程序上机运行，并得到正确结果。</p>
+<h3 id="算法设计要求"><a href="#算法设计要求" class="headerlink" title="算法设计要求"></a>算法设计要求</h3><h4 id="1、正确性"><a href="#1、正确性" class="headerlink" title="1、正确性"></a>1、正确性</h4><p>算法至少应该具有输入、输出和加工处理无歧义性、能正确反映问题需求、能够得到正确答案。</p>
+<p>正确大致分为以下四个层次：</p>
+<ul>
+<li>算法程序没有语法错误；</li>
+<li>算法程序对于合法的输入数据能够产生满足要求的输出结果；</li>
+<li>算法程序对于非法输入数据能够得出满足规格说明的结果；</li>
+<li>算法程序对于精心选择、甚至刁难的测试数据都有满足要求的输出结果。</li>
+</ul>
+<h4 id="2、可读性"><a href="#2、可读性" class="headerlink" title="2、可读性"></a>2、可读性</h4><p>算法设计的另一目的是为了便于阅读、理解和交流。</p>
+<h4 id="3、健壮性"><a href="#3、健壮性" class="headerlink" title="3、健壮性"></a>3、健壮性</h4><p>当输入数据不合法的时候，算法也能做出相关处理，而不是产生异常或莫名其妙的结果。</p>
+<h4 id="4、时间效率高和存储量低"><a href="#4、时间效率高和存储量低" class="headerlink" title="4、时间效率高和存储量低"></a>4、时间效率高和存储量低</h4><p>时间效率指的是算法的执行时间，执行时间越短，算法效率越高。</p>
+<p>设计算法应该尽量满足时间效率高和存储量低的需求。</p>
+<h3 id="算法效率的度量方法"><a href="#算法效率的度量方法" class="headerlink" title="算法效率的度量方法"></a>算法效率的度量方法</h3><h4 id="1、事后统计方法"><a href="#1、事后统计方法" class="headerlink" title="1、事后统计方法"></a>1、事后统计方法</h4><p>缺点：</p>
+<ul>
+<li>先编好，再比较</li>
+<li>硬件条件影响</li>
+<li>测试数据设计困难</li>
+</ul>
+<h4 id="2、事前分析方法"><a href="#2、事前分析方法" class="headerlink" title="2、事前分析方法"></a>2、事前分析方法</h4><p>事前分析估算方法：在计算机程序编制前，依据统计方法对算法进行估算。</p>
+<p>一个程序运行时间主要取决于以下几个因素：</p>
+<ul>
+<li>算法采用的策略和方法；</li>
+<li>编译产生的代码质量；</li>
+<li>问题的输入规模；</li>
+<li>机器执行指令的速度。</li>
+</ul>
+<p>抛开外部原因，影响算法执行效率主要依赖于 <strong>算法的好坏</strong> 和 <strong>问题的输入规模</strong>；</p>
+<p>测定运行时间最可靠的方法是计算对运行时间有消耗的基本操作的执行次数。在分析算法执行效率时，我们主要关注于循环体，将循环体看作一个整体，忽略头尾循环判断的开销，算法主要就是1次和n次的差距。算法好坏显而易见。</p>
+<p>算法运行时间：<strong>以基本操作的执行次数与输入规模关联起来，即基本操作的数量必须表示成输入规模的函数</strong>。</p>
+<h3 id="函数渐进增长"><a href="#函数渐进增长" class="headerlink" title="函数渐进增长"></a>函数渐进增长</h3><p><strong>给定两个函数 f(n) 和 g(n) ，如果存在一个整数N，使得对于所有的 n&gt;N，f(n) 总是比 g(n) 大，那么，我们说  f(n) 的增长渐进快于 g(n) 。</strong></p>
+<p>在算法时间和问题规模的函数中，随着n的增大，不论+3还是+100，这些项其实不影响最终的算法变化，所以我们可以忽略这些<strong>加法常数</strong>。</p>
+<p>同时，与最高次项相乘的常数并不重要。</p>
+<p>最高次项的指数越大，随着n的增长，结果也会变得增长得特别快。</p>
+<p>综上，我们可以得出一个结论：</p>
+<p><strong>判断算法效率时，函数中的常数项和其他次要项常常可以忽略，而只关心最高阶项得阶数。</strong></p>
+<h3 id="算法时间复杂度"><a href="#算法时间复杂度" class="headerlink" title="算法时间复杂度"></a>算法时间复杂度</h3><h4 id="1、定义"><a href="#1、定义" class="headerlink" title="1、定义"></a>1、定义</h4><p><strong>在进行算法分析时，语句总的执行次数 T(n) 是关于问题规模 n 的函数，进而分析 T(n) 随 n 的变化情况并确定 T(n) 的数量级。算法的时间复杂度，也就是算法的时间量度，记作 T(n) = O( f(n) ) 。它表示随问题规模 n 的增大，算法执行时间的增长率和 f(n) 的增长率相同，称作算法的渐近时间复杂度，简称为时间复杂度。其中 f(n) 是问题规模 n 的某个函数。</strong></p>
+<p>用大写 O( ) 来体现算法时间复杂度的记法，叫做<strong>大O记法</strong>。</p>
+<p>我们认为：<strong>随着 n 的增长， T(n) 增长最慢的算法为最优算法。</strong> </p>
+<h4 id="2、大O阶推导"><a href="#2、大O阶推导" class="headerlink" title="2、大O阶推导"></a>2、大O阶推导</h4><ul>
+<li><strong>1、用常数1取代运行时间中的所有加法常熟；</strong></li>
+<li><strong>2、在修改后的运行次数函数中，只保留最高阶项；</strong></li>
+<li><strong>3、如果最高阶项存在且不是1，则去除与这个项相乘的常数。得到的结果就是大O阶。</strong></li>
+</ul>
+<h4 id="3、常数阶"><a href="#3、常数阶" class="headerlink" title="3、常数阶"></a>3、常数阶</h4><p>O(1)</p>
+<p>与问题大小n无关，执行时间恒定的算法，称之为O(1)时间复杂度，又叫常数阶。</p>
+<p>单纯的分支结构（不包含在循环结构中），其时间复杂度也是O(1) 。</p>
+<h4 id="4、线性阶"><a href="#4、线性阶" class="headerlink" title="4、线性阶"></a>4、线性阶</h4><p>分析算法的复杂度，关键在于分析循环结构的运行情况。</p>
+<p>O(n)</p>
+<p>一般是单纯地、简单地循环结构。如 f(n) =3n+6 。</p>
+<h4 id="5、对数阶"><a href="#5、对数阶" class="headerlink" title="5、对数阶"></a>5、对数阶</h4><p>O(log n)</p>
+<p>一般是循环过程中，循环判断条件呈指数变化。</p>
+<h4 id="6、平方阶"><a href="#6、平方阶" class="headerlink" title="6、平方阶"></a>6、平方阶</h4><p>O(n²)</p>
+<p>嵌套循环中，内层循环条件初始值为外层条件当前值。</p>
+<h3 id="常见的时间复杂度"><a href="#常见的时间复杂度" class="headerlink" title="常见的时间复杂度"></a>常见的时间复杂度</h3><p><img src="http://img.blog.csdn.net/20180228234314608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>它们所消耗的时间从小到大依次是：</p>
+<p><img src="http://img.blog.csdn.net/20180228234348652?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>更多精彩内容，关注我的微信公众号——<strong>Android机动车</strong></p>
+<p><img src="http://img.blog.csdn.net/20180228234520934?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/02/28/数据结构学习笔记——总述/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1951,167 +2141,6 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/01/11/手撸Router——解决跨模块下的页面跳转/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jia Shuai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Android机动车">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/11/手撸Router——解决跨模块下的页面跳转/" itemprop="url">手撸Router——解决跨模块下的页面跳转</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-11T00:00:00+08:00">
-                2018-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>人之所以能，是相信能。</p>
-</blockquote>
-<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>开始模块化开发项目之后，一个很重要的问题就是页面见的跳转问题。</p>
-<p>关于模块化发开，可详见我的另一片文章<a href="http://blog.csdn.net/jiashuai94/article/details/78020940" target="_blank" rel="noopener">Android模块化开发探索</a>。</p>
-<p>正是由于将项目模块化拆分，各模块之间没有任何依赖关系，也互相不可见，那么从A模块的a界面跳转到B模块的b界面该怎么办呢？</p>
-<h2 id="二、跨模块跳转的方法"><a href="#二、跨模块跳转的方法" class="headerlink" title="二、跨模块跳转的方法"></a>二、跨模块跳转的方法</h2><p>这里我们会先介绍这几种常见的跳转方法：</p>
-<ol>
-<li>显示跳转</li>
-<li>隐示跳转</li>
-<li>Scheme协议跳转</li>
-<li>Router路由表方案</li>
-</ol>
-<h3 id="2-1-显示跳转"><a href="#2-1-显示跳转" class="headerlink" title="2.1 显示跳转"></a>2.1 显示跳转</h3><p>显示跳转即我们最最常用的跳转方法：使用Intent，传入当前Activity上下文，和目标Activity的class对象即可，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClass(mContext, GuideActivity.class);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<p>显然，这种方法只能是目标Activity可见（Activity在同一个Module下）的时候才可以这样调用。不适合跨模块间的跳转。</p>
-<h3 id="2-2-隐示跳转"><a href="#2-2-隐示跳转" class="headerlink" title="2.2 隐示跳转"></a>2.2 隐示跳转</h3><p>我们这里说的隐示跳转，intent不设置class，而是设置Action或者Category。</p>
-<p>例如：</p>
-<p>在清单文件中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--网页展示界面--&gt;</span><br><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;com.whaty.base.BaseWebViewActivity&quot;</span><br><span class="line">    android:hardwareAccelerated=&quot;true&quot;&gt;</span><br><span class="line">        &lt;intent-filter&gt;</span><br><span class="line">            &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">            &lt;action android:name=&quot;com.whaty.base.BaseWebViewActivity&quot; /&gt;</span><br><span class="line">        &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
-<p>跳转时：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//创建一个隐式的 Intent 对象：Action 动作  </span><br><span class="line">Intent intent = new Intent();  </span><br><span class="line">//设置 Intent 的动作为清单中指定的action  </span><br><span class="line">intent.setAction(&quot;com.whaty.base.BaseWebViewActivity&quot;);  </span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<h3 id="2-3-scheme跳转"><a href="#2-3-scheme跳转" class="headerlink" title="2.3 scheme跳转"></a>2.3 scheme跳转</h3><p>如果我们为 B 页面定义一个 URI - wsc://home/bbb，然后把共享的 messageModel 拍平序列化成 Json 串，那么 A 只需要拼装一个符合 B 页面 scheme 的跳转协议就可以了。<br>wsc://home/bbb?message={ “name”:”John”, “age”:31, “city”:”New York” } </p>
-<p>在清单文件中，配置data属性，设置其host、path、scheme等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.ui.BbbActivity&quot;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;data</span><br><span class="line">            android:host=&quot;bbb&quot;</span><br><span class="line">            android:path=&quot;/home&quot;</span><br><span class="line">            android:scheme=&quot;wsc&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure></p>
-<p>跳转时：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">final Uri uri = new Uri.Builder().authority(&quot;wsc&quot;).path(&quot;home/bbb&quot;).appendQueryParameter(&quot;message&quot;, new Gson().toJson(messageModel)).build();</span><br><span class="line">final Intent intent = new Intent(Intent.ACTION_VIEW);</span><br><span class="line">intent.setData(uri);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<p>以上的方法，都不是我们想要的，接下来开始介绍我们的Router方案。</p>
-<h2 id="三、为什么要用Router"><a href="#三、为什么要用Router" class="headerlink" title="三、为什么要用Router"></a>三、为什么要用Router</h2><p><strong>Google提供了显式和隐式两种原生路由方案。但在模块化开发中，显式Intent存在类直接依赖的问题，造成模块间严重耦合。隐式Intent则需要在Manifest中配置大量路径，导致难以拓展（如进行跳转拦截）。为了解决以上问题，我们需要采用一套更为灵活的Router方案。</strong></p>
-<h2 id="四、实现思路"><a href="#四、实现思路" class="headerlink" title="四、实现思路"></a>四、实现思路</h2><p>思路是这样的：</p>
-<p>使用注解，为每个目标Activity标注别名。在应用启动时，对所有类进行扫名，将注解过的Activity存于路由表中。</p>
-<p>跳转时，在路由表中通过别名获取目标Activity的class对象，使用Intent实现跳转。</p>
-<p><img src="http://img.blog.csdn.net/20180110153812614?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<h2 id="五、代码实现"><a href="#五、代码实现" class="headerlink" title="五、代码实现"></a>五、代码实现</h2><h3 id="5-1-自定义注解"><a href="#5-1-自定义注解" class="headerlink" title="5.1 自定义注解"></a>5.1 自定义注解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Description: 路由跳转界面  注解</span><br><span class="line"> * Created by jia on 2018/1/10.</span><br><span class="line"> * 人之所以能，是相信能</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.TYPE) //注解作用于类型（类，接口，注解，枚举）</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME) //运行时保留，运行中可以处理</span><br><span class="line">@Documented // 生成javadoc文件</span><br><span class="line">public @interface Action &#123;</span><br><span class="line"></span><br><span class="line">    String DEFAULT = &quot;js&quot;;</span><br><span class="line"></span><br><span class="line">    String value() default DEFAULT;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关于自定义注解的详细介绍，请阅读我的文章<a href="http://blog.csdn.net/jiashuai94/article/details/79013000" target="_blank" rel="noopener">java进阶之自定义注解</a>。这里不再多说。</p>
-<h3 id="5-2-注解Activity"><a href="#5-2-注解Activity" class="headerlink" title="5.2 注解Activity"></a>5.2 注解Activity</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Action(&quot;MainActivity&quot;)</span><br><span class="line">public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener &#123;</span><br><span class="line"></span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在创建Activity时，用刚刚自定义的注解进行注解，为其注释别名。</p>
-<h3 id="5-3-启动时扫描"><a href="#5-3-启动时扫描" class="headerlink" title="5.3 启动时扫描"></a>5.3 启动时扫描</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private void getAllActivities(Context ctx)&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        //通过资源路径获得DexFile</span><br><span class="line">        DexFile e = new DexFile(ctx.getPackageResourcePath());</span><br><span class="line">        Enumeration entries = e.entries();</span><br><span class="line">        //遍历所有元素</span><br><span class="line">        while(entries.hasMoreElements()) &#123;</span><br><span class="line">            String entryName = (String)entries.nextElement();</span><br><span class="line">            //匹配Activity包名与类名</span><br><span class="line">            if(entryName.contains(&quot;activity&quot;) &amp;&amp; entryName.contains(&quot;Activity&quot;)) &#123;</span><br><span class="line">                //通过反射获得Activity类</span><br><span class="line">                Class entryClass = Class.forName(entryName);</span><br><span class="line">                if(entryClass.isAnnotationPresent(Action.class)) &#123;</span><br><span class="line">                    Action action = (Action)entryClass.getAnnotation(Action.class);</span><br><span class="line">                    this.map.put(action.value(), entryClass);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在应用启动时，Application中对包下的所有类进行扫描，先找到名字中到activity的（定义到activity包下），并将带有注解标注的Activity，存入map中。</p>
-<h3 id="5-4-跳转"><a href="#5-4-跳转" class="headerlink" title="5.4 跳转"></a>5.4 跳转</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 页面跳转</span><br><span class="line"> * @param activity</span><br><span class="line"> * @param alias</span><br><span class="line"> */</span><br><span class="line">public void jumpActivity(Activity activity, String alias) throws ClassNotFoundException&#123;</span><br><span class="line">    if(map.containsKey(alias)) &#123;</span><br><span class="line">        Intent intent = new Intent(activity, map.get(alias));</span><br><span class="line">        activity.startActivity(intent);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        throw new ClassNotFoundException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>跳转的时候传入目标Activity的别名即可（这里的别名就是注解的别名）。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这种方式，解决了跳转Activity所产生的的模块依赖问题，相较于原生方案，拓展性更强。但这种方案只是阶段性的，还存在一些问题。首先，加载过程中，频繁使用到反射，会产生性能问题。其次，对于每个Activity的别名，需要进行统一维护，增加了协作成本。还有待优化。</p>
-<p>当然，市面上有很多流行的Router方案（如阿里的ARouter），这里只是介绍了一个思路，有好的建议欢迎交流，一起进步。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-	
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2162,7 +2191,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
@@ -2175,7 +2204,7 @@ addCallAdapterFactory(RxJavaCallAdapterFactory.create())
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">Tags</span>
                 
               </div>

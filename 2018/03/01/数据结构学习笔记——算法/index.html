@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据结构," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="算法：算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个步骤。  算法定义指令：能被人或者计算机装置执行。 算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表达一个或者多个步骤。 算法的核心在于有限的指令序列。 算法的特性1、输入输出算法具有零个或者多个输入。 算法至少要有一个或多个输出。 2、有穷性指算法在执行有限的步骤">
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构学习笔记——算法">
+<meta property="og:url" content="http://shuaijia.github.io/2018/03/01/数据结构学习笔记——算法/index.html">
+<meta property="og:site_name" content="Android机动车">
+<meta property="og:description" content="算法：算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个步骤。  算法定义指令：能被人或者计算机装置执行。 算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表达一个或者多个步骤。 算法的核心在于有限的指令序列。 算法的特性1、输入输出算法具有零个或者多个输入。 算法至少要有一个或多个输出。 2、有穷性指算法在执行有限的步骤">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.blog.csdn.net/20180228234314608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="http://img.blog.csdn.net/20180228234348652?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="http://img.blog.csdn.net/20180228234520934?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:updated_time" content="2018-03-01T01:23:27.435Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构学习笔记——算法">
+<meta name="twitter:description" content="算法：算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个步骤。  算法定义指令：能被人或者计算机装置执行。 算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表达一个或者多个步骤。 算法的核心在于有限的指令序列。 算法的特性1、输入输出算法具有零个或者多个输入。 算法至少要有一个或多个输出。 2、有穷性指算法在执行有限的步骤">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20180228234314608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shuaijia.github.io/2018/03/01/数据结构学习笔记——算法/"/>
+
+
+
+
+
+  <title>数据结构学习笔记——算法 | Android机动车</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/shuaijia"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Android机动车</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人之所以能，是相信能</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shuaijia.github.io/2018/03/01/数据结构学习笔记——算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jia Shuai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Android机动车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构学习笔记——算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-01T00:00:00+08:00">
+                2018-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p> 算法：<strong>算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个步骤。</strong></p>
+</blockquote>
+<h3 id="算法定义"><a href="#算法定义" class="headerlink" title="算法定义"></a>算法定义</h3><p>指令：能被人或者计算机装置执行。</p>
+<p>算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表达一个或者多个步骤。</p>
+<p>算法的核心在于<strong>有限的指令序列</strong>。</p>
+<h3 id="算法的特性"><a href="#算法的特性" class="headerlink" title="算法的特性"></a>算法的特性</h3><h4 id="1、输入输出"><a href="#1、输入输出" class="headerlink" title="1、输入输出"></a>1、输入输出</h4><p>算法具有零个或者多个输入。</p>
+<p><strong>算法至少要有一个或多个输出。</strong></p>
+<h4 id="2、有穷性"><a href="#2、有穷性" class="headerlink" title="2、有穷性"></a>2、有穷性</h4><p>指算法在执行有限的步骤之后，自动结束而不会出现无限循环，并且每一个步骤在可接受的时间内完成。</p>
+<p>关键在与<strong>步骤有限</strong>。</p>
+<h4 id="3、确定性"><a href="#3、确定性" class="headerlink" title="3、确定性"></a>3、确定性</h4><p>算法的每一个步骤都具有确定的含义，不会出现二义性。</p>
+<h4 id="4、可行性"><a href="#4、可行性" class="headerlink" title="4、可行性"></a>4、可行性</h4><p>算法的每一步都必须是可行的，也就是说，每一步都能够通过执行有限的次数完成。</p>
+<p>意味着算法可以转化为程序上机运行，并得到正确结果。</p>
+<h3 id="算法设计要求"><a href="#算法设计要求" class="headerlink" title="算法设计要求"></a>算法设计要求</h3><h4 id="1、正确性"><a href="#1、正确性" class="headerlink" title="1、正确性"></a>1、正确性</h4><p>算法至少应该具有输入、输出和加工处理无歧义性、能正确反映问题需求、能够得到正确答案。</p>
+<p>正确大致分为以下四个层次：</p>
+<ul>
+<li>算法程序没有语法错误；</li>
+<li>算法程序对于合法的输入数据能够产生满足要求的输出结果；</li>
+<li>算法程序对于非法输入数据能够得出满足规格说明的结果；</li>
+<li>算法程序对于精心选择、甚至刁难的测试数据都有满足要求的输出结果。</li>
+</ul>
+<h4 id="2、可读性"><a href="#2、可读性" class="headerlink" title="2、可读性"></a>2、可读性</h4><p>算法设计的另一目的是为了便于阅读、理解和交流。</p>
+<h4 id="3、健壮性"><a href="#3、健壮性" class="headerlink" title="3、健壮性"></a>3、健壮性</h4><p>当输入数据不合法的时候，算法也能做出相关处理，而不是产生异常或莫名其妙的结果。</p>
+<h4 id="4、时间效率高和存储量低"><a href="#4、时间效率高和存储量低" class="headerlink" title="4、时间效率高和存储量低"></a>4、时间效率高和存储量低</h4><p>时间效率指的是算法的执行时间，执行时间越短，算法效率越高。</p>
+<p>设计算法应该尽量满足时间效率高和存储量低的需求。</p>
+<h3 id="算法效率的度量方法"><a href="#算法效率的度量方法" class="headerlink" title="算法效率的度量方法"></a>算法效率的度量方法</h3><h4 id="1、事后统计方法"><a href="#1、事后统计方法" class="headerlink" title="1、事后统计方法"></a>1、事后统计方法</h4><p>缺点：</p>
+<ul>
+<li>先编好，再比较</li>
+<li>硬件条件影响</li>
+<li>测试数据设计困难</li>
+</ul>
+<h4 id="2、事前分析方法"><a href="#2、事前分析方法" class="headerlink" title="2、事前分析方法"></a>2、事前分析方法</h4><p>事前分析估算方法：在计算机程序编制前，依据统计方法对算法进行估算。</p>
+<p>一个程序运行时间主要取决于以下几个因素：</p>
+<ul>
+<li>算法采用的策略和方法；</li>
+<li>编译产生的代码质量；</li>
+<li>问题的输入规模；</li>
+<li>机器执行指令的速度。</li>
+</ul>
+<p>抛开外部原因，影响算法执行效率主要依赖于 <strong>算法的好坏</strong> 和 <strong>问题的输入规模</strong>；</p>
+<p>测定运行时间最可靠的方法是计算对运行时间有消耗的基本操作的执行次数。在分析算法执行效率时，我们主要关注于循环体，将循环体看作一个整体，忽略头尾循环判断的开销，算法主要就是1次和n次的差距。算法好坏显而易见。</p>
+<p>算法运行时间：<strong>以基本操作的执行次数与输入规模关联起来，即基本操作的数量必须表示成输入规模的函数</strong>。</p>
+<h3 id="函数渐进增长"><a href="#函数渐进增长" class="headerlink" title="函数渐进增长"></a>函数渐进增长</h3><p><strong>给定两个函数 f(n) 和 g(n) ，如果存在一个整数N，使得对于所有的 n&gt;N，f(n) 总是比 g(n) 大，那么，我们说  f(n) 的增长渐进快于 g(n) 。</strong></p>
+<p>在算法时间和问题规模的函数中，随着n的增大，不论+3还是+100，这些项其实不影响最终的算法变化，所以我们可以忽略这些<strong>加法常数</strong>。</p>
+<p>同时，与最高次项相乘的常数并不重要。</p>
+<p>最高次项的指数越大，随着n的增长，结果也会变得增长得特别快。</p>
+<p>综上，我们可以得出一个结论：</p>
+<p><strong>判断算法效率时，函数中的常数项和其他次要项常常可以忽略，而只关心最高阶项得阶数。</strong></p>
+<h3 id="算法时间复杂度"><a href="#算法时间复杂度" class="headerlink" title="算法时间复杂度"></a>算法时间复杂度</h3><h4 id="1、定义"><a href="#1、定义" class="headerlink" title="1、定义"></a>1、定义</h4><p><strong>在进行算法分析时，语句总的执行次数 T(n) 是关于问题规模 n 的函数，进而分析 T(n) 随 n 的变化情况并确定 T(n) 的数量级。算法的时间复杂度，也就是算法的时间量度，记作 T(n) = O( f(n) ) 。它表示随问题规模 n 的增大，算法执行时间的增长率和 f(n) 的增长率相同，称作算法的渐近时间复杂度，简称为时间复杂度。其中 f(n) 是问题规模 n 的某个函数。</strong></p>
+<p>用大写 O( ) 来体现算法时间复杂度的记法，叫做<strong>大O记法</strong>。</p>
+<p>我们认为：<strong>随着 n 的增长， T(n) 增长最慢的算法为最优算法。</strong> </p>
+<h4 id="2、大O阶推导"><a href="#2、大O阶推导" class="headerlink" title="2、大O阶推导"></a>2、大O阶推导</h4><ul>
+<li><strong>1、用常数1取代运行时间中的所有加法常熟；</strong></li>
+<li><strong>2、在修改后的运行次数函数中，只保留最高阶项；</strong></li>
+<li><strong>3、如果最高阶项存在且不是1，则去除与这个项相乘的常数。得到的结果就是大O阶。</strong></li>
+</ul>
+<h4 id="3、常数阶"><a href="#3、常数阶" class="headerlink" title="3、常数阶"></a>3、常数阶</h4><p>O(1)</p>
+<p>与问题大小n无关，执行时间恒定的算法，称之为O(1)时间复杂度，又叫常数阶。</p>
+<p>单纯的分支结构（不包含在循环结构中），其时间复杂度也是O(1) 。</p>
+<h4 id="4、线性阶"><a href="#4、线性阶" class="headerlink" title="4、线性阶"></a>4、线性阶</h4><p>分析算法的复杂度，关键在于分析循环结构的运行情况。</p>
+<p>O(n)</p>
+<p>一般是单纯地、简单地循环结构。如 f(n) =3n+6 。</p>
+<h4 id="5、对数阶"><a href="#5、对数阶" class="headerlink" title="5、对数阶"></a>5、对数阶</h4><p>O(log n)</p>
+<p>一般是循环过程中，循环判断条件呈指数变化。</p>
+<h4 id="6、平方阶"><a href="#6、平方阶" class="headerlink" title="6、平方阶"></a>6、平方阶</h4><p>O(n²)</p>
+<p>嵌套循环中，内层循环条件初始值为外层条件当前值。</p>
+<h3 id="常见的时间复杂度"><a href="#常见的时间复杂度" class="headerlink" title="常见的时间复杂度"></a>常见的时间复杂度</h3><p><img src="http://img.blog.csdn.net/20180228234314608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>它们所消耗的时间从小到大依次是：</p>
+<p><img src="http://img.blog.csdn.net/20180228234348652?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>更多精彩内容，关注我的微信公众号——<strong>Android机动车</strong></p>
+<p><img src="http://img.blog.csdn.net/20180228234520934?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamlhc2h1YWk5NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/upload/wxqr.jpg" alt="Jia Shuai wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您关注的我的微信公众号Android机动车</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章有用，就赏一杯咖啡钱，谢谢^_^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/upload/wxpay.jpg" alt="Jia Shuai WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+	
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/28/数据结构学习笔记——总述/" rel="next" title="数据结构学习笔记——总述">
+                <i class="fa fa-chevron-left"></i> 数据结构学习笔记——总述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jia Shuai</p>
+              <p class="site-description motion-element" itemprop="description">贾帅的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">Tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shuaijia" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/jiashuai94" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法定义"><span class="nav-number">1.</span> <span class="nav-text">算法定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法的特性"><span class="nav-number">2.</span> <span class="nav-text">算法的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、输入输出"><span class="nav-number">2.1.</span> <span class="nav-text">1、输入输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、有穷性"><span class="nav-number">2.2.</span> <span class="nav-text">2、有穷性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、确定性"><span class="nav-number">2.3.</span> <span class="nav-text">3、确定性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、可行性"><span class="nav-number">2.4.</span> <span class="nav-text">4、可行性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法设计要求"><span class="nav-number">3.</span> <span class="nav-text">算法设计要求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、正确性"><span class="nav-number">3.1.</span> <span class="nav-text">1、正确性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、可读性"><span class="nav-number">3.2.</span> <span class="nav-text">2、可读性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、健壮性"><span class="nav-number">3.3.</span> <span class="nav-text">3、健壮性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、时间效率高和存储量低"><span class="nav-number">3.4.</span> <span class="nav-text">4、时间效率高和存储量低</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法效率的度量方法"><span class="nav-number">4.</span> <span class="nav-text">算法效率的度量方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、事后统计方法"><span class="nav-number">4.1.</span> <span class="nav-text">1、事后统计方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、事前分析方法"><span class="nav-number">4.2.</span> <span class="nav-text">2、事前分析方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数渐进增长"><span class="nav-number">5.</span> <span class="nav-text">函数渐进增长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法时间复杂度"><span class="nav-number">6.</span> <span class="nav-text">算法时间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、定义"><span class="nav-number">6.1.</span> <span class="nav-text">1、定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、大O阶推导"><span class="nav-number">6.2.</span> <span class="nav-text">2、大O阶推导</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、常数阶"><span class="nav-number">6.3.</span> <span class="nav-text">3、常数阶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、线性阶"><span class="nav-number">6.4.</span> <span class="nav-text">4、线性阶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、对数阶"><span class="nav-number">6.5.</span> <span class="nav-text">5、对数阶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、平方阶"><span class="nav-number">6.6.</span> <span class="nav-text">6、平方阶</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的时间复杂度"><span class="nav-number">7.</span> <span class="nav-text">常见的时间复杂度</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jia Shuai</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
